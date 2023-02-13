@@ -2,18 +2,17 @@ package rtdb
 
 
 import (
-"math"
-"sort"
-"sync"
-"sync/atomic"
+	"RealtimeDB/gorilla"
+	"github.com/chenjiandongx/mandodb/pkg/sortedlist"
 
-"github.com/dgryski/go-tsz"
-
-"github.com/chenjiandongx/mandodb/pkg/sortedlist"
+	"math"
+	"sort"
+	"sync"
+	"sync/atomic"
 )
 
 type TszStore struct {
-	block *tsz.Series
+	block *gorilla.Series
 	lock  sync.Mutex
 	maxTs int64
 	count int64
@@ -30,10 +29,10 @@ func (store *TszStore) Append(point *Point) *Point {
 
 	// 懒加载的方式初始化
 	if store.count <= 0 {
-		store.block = tsz.New(uint32(point.TimeStamp))
+		store.block = gorilla.New(uint64(point.TimeStamp))
 	}
 
-	store.block.Push(uint32(point.TimeStamp), point.Value)
+	store.block.Push(uint64(point.TimeStamp), point.Value)
 	store.maxTs = point.TimeStamp
 
 	store.count++
@@ -46,11 +45,11 @@ func (store *TszStore) Get(start, end int64) []Point {
 	it := store.block.Iter()
 	for it.Next() {
 		ts, val := it.Values()
-		if ts > uint32(end) {
+		if ts > uint64(end) {
 			break
 		}
 
-		if ts >= uint32(start) {
+		if ts >= uint64(start) {
 			points = append(points, Point{TimeStamp: int64(ts), Value: val})
 		}
 	}

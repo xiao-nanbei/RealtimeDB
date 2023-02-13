@@ -36,7 +36,7 @@ func genPoints(ts int64, node, dc int) []*rtdb.Row {
 }
 
 func TestRTDB_QueryRange(t *testing.T) {
-	tmpdir := "/tmp/tsdb1"
+	tmpdir := "/tmp/rtdb6"
 
 	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir), rtdb.WithLoggerConfig(&logger.Options{
 		Stdout:      true,
@@ -90,14 +90,14 @@ func TestRTDB_QueryRange(t *testing.T) {
 	assert.Equal(t, len(ret[0].Points), 2)
 }
 
-func TestTSDB_QuerySeries(t *testing.T) {
-	tmpdir := "/tmp/tsdb2"
+func TestRTDB_QuerySeries(t *testing.T) {
+	tmpdir := "/tmp/rtdb6"
 
 	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir))
 	defer store.Close()
 	defer os.RemoveAll(tmpdir)
 
-	var start int64 = 1600000000
+	var start int64 = 1600000000000
 
 	var now = start
 	for i := 0; i < 720; i++ {
@@ -121,14 +121,14 @@ func TestTSDB_QuerySeries(t *testing.T) {
 	assert.Equal(t, len(ret), 3)
 }
 
-func TestTSDB_QueryTagValues(t *testing.T) {
-	tmpdir := "/tmp/tsdb3"
+func TestRTDB_QueryTagValues(t *testing.T) {
+	tmpdir := "/tmp/rtdb8"
 
 	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir))
 	defer store.Close()
 	defer os.RemoveAll(tmpdir)
 
-	var start int64 = 1600000000
+	var start int64 = 1600000000000
 
 	var now = start
 	for i := 0; i < 720; i++ {
