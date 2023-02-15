@@ -1,4 +1,4 @@
-package gorilla
+package simple8b
 
 import (
 	"bytes"

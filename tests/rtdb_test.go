@@ -36,7 +36,7 @@ func genPoints(ts int64, node, dc int) []*rtdb.Row {
 }
 
 func TestRTDB_QueryRange(t *testing.T) {
-	tmpdir := "/tmp/rtdb6"
+	tmpdir := "/tmp/rtdb100"
 
 	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir), rtdb.WithLoggerConfig(&logger.Options{
 		Stdout:      true,
@@ -46,7 +46,7 @@ func TestRTDB_QueryRange(t *testing.T) {
 	defer store.Close()
 	defer os.RemoveAll(tmpdir)
 
-	var start int64 = 1600000000
+	var start int64 = 1600000000000
 
 	var now = start
 	for i := 0; i < 720; i++ {
