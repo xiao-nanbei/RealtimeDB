@@ -41,6 +41,8 @@ func WithMetaBytesCompressorType(t BytesCompressorType) Option {
 			c.BytesCompressor = NewZstdBytesCompressor()
 		case SnappyBytesCompressor:
 			c.BytesCompressor = NewSnappyBytesCompressor()
+		case Simple8bBytesCompressor:
+			c.BytesCompressor = NewSimple8bBytesCompressor()
 		default: // noop
 			c.BytesCompressor = NewNoopBytesCompressor()
 		}

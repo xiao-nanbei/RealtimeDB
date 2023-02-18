@@ -9,7 +9,7 @@ require (
 	github.com/chenjiandongx/mandodb v0.0.0-20210808152519-678b976e6bbf
 	github.com/dgryski/go-tsz v0.0.0-20180227144327-03b7d791f4fe
 	github.com/golang/snappy v0.0.4
-	github.com/influxdata/influxdb v1.11.0
+	github.com/jwilder/encoding v0.0.0-20170811194829-b4e1701a28ef
 	github.com/klauspost/compress v1.15.15
 	github.com/satori/go.uuid v1.2.0
 	github.com/stretchr/testify v1.8.0

@@ -10,7 +10,7 @@ import (
 
 var GlobalOpts = &RtdbOptions{
 	MetaSerializer:    NewBinaryMetaSerializer(),
-	BytesCompressor:   NewNoopBytesCompressor(),
+	BytesCompressor:   NewSimple8bBytesCompressor(),
 	SegmentDuration:   2 * time.Hour,
 	Retention:         7 * 24 * time.Hour, // 7d
 	WriteTimeout:      30 * time.Second,

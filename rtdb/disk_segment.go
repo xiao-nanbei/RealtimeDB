@@ -1,15 +1,13 @@
 package rtdb
 
 import (
+	"RealtimeDB/gorilla"
 	"bytes"
+	"github.com/chenjiandongx/logger"
 	"os"
 	"path"
 	"sync"
 	"time"
-
-	"github.com/chenjiandongx/logger"
-	"github.com/dgryski/go-tsz"
-
 	"github.com/chenjiandongx/mandodb/pkg/mmap"
 )
 
@@ -190,7 +188,7 @@ func (ds *diskSegment) QueryRange(tms TagMatcherSet, start, end int64) ([]Metric
 			return nil, err
 		}
 
-		iter, err := tsz.NewIterator(dataBytes)
+		iter, err := gorilla.NewIterator(dataBytes)
 		if err != nil {
 			return nil, err
 		}
@@ -198,11 +196,11 @@ func (ds *diskSegment) QueryRange(tms TagMatcherSet, start, end int64) ([]Metric
 		points := make([]Point, 0)
 		for iter.Next() {
 			ts, val := iter.Values()
-			if ts > uint32(end) {
+			if ts > uint64(end) {
 				break
 			}
 
-			if ts >= uint32(start) && ts <= uint32(end) {
+			if ts >= uint64(start) && ts <= uint64(end) {
 				points = append(points, Point{TimeStamp: int64(ts), Value: val})
 			}
 		}

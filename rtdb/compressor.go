@@ -1,7 +1,9 @@
 package rtdb
 
 import (
+	"encoding/binary"
 	"github.com/golang/snappy"
+	"github.com/jwilder/encoding/simple8b"
 	"github.com/klauspost/compress/zstd"
 )
 
@@ -17,6 +19,8 @@ const (
 
 	// SnappyBytesCompressor 使用 Snappy 算法压缩
 	SnappyBytesCompressor
+	// 使用simple8b算法压缩
+	Simple8bBytesCompressor
 )
 
 // BytesCompressor 数据压缩器抽象接口
@@ -77,4 +81,46 @@ func (c *snappyBytesCompressor) Compress(src []byte) []byte {
 
 func (c *snappyBytesCompressor) Decompress(src []byte) ([]byte, error) {
 	return snappy.Decode(nil, src)
+}
+
+type simple8bBytesCompressor struct {}
+
+func NewSimple8bBytesCompressor() BytesCompressor {
+	return &simple8bBytesCompressor{}
+}
+func (c *simple8bBytesCompressor) Compress(src []byte) []byte {
+	srcUint64:=make([]uint64,0)
+	for i:=0;i<len(src)/8;i++{
+		srcUint64=append(srcUint64,binary.LittleEndian.Uint64(src[i*8:(i+1)*8]))
+	}
+	all, err := simple8b.EncodeAll(srcUint64)
+	if err != nil {
+		return nil
+	}
+	var res = make([]byte, 0)
+	for i:=0;i<len(all);i++{
+		var buf = make([]byte, 8)
+		binary.LittleEndian.PutUint64(buf,all[i])
+		res=append(res,buf...)
+	}
+	return res
+}
+
+func (c *simple8bBytesCompressor) Decompress(src []byte) ([]byte, error) {
+	srcUint64:=make([]uint64,0)
+	for i:=0;i<len(src)/8;i++{
+		srcUint64=append(srcUint64,binary.LittleEndian.Uint64(src[i*8:(i+1)*8]))
+	}
+	dst:=make([]uint64,0)
+	_, err := simple8b.DecodeAll(dst,srcUint64)
+	if err != nil {
+		return nil, err
+	}
+	var res = make([]byte, 0)
+	for i:=0;i<len(dst);i++{
+		var buf = make([]byte, 8)
+		binary.LittleEndian.PutUint64(buf,dst[i])
+		res=append(res,buf...)
+	}
+	return res,nil
 }
