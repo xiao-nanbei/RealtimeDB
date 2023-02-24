@@ -18,7 +18,7 @@ type Segment interface {
 	InsertRows(row []*Row)
 	QueryRange(tms TagMatcherSet, start, end int64) ([]MetricRet, error)
 	QuerySeries(tms TagMatcherSet) ([]TagSet, error)
-	QueryTagValues(label string) []string
+	QueryTagValues(tag string) []string
 	MinTs() int64
 	MaxTs() int64
 	Frozen() bool

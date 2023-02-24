@@ -64,8 +64,7 @@ func (ms *MemorySegment) Frozen() bool {
 	if GlobalOpts.OnlyMemoryMode {
 		return false
 	}
-
-	return ms.MaxTs()-ms.MinTs() > int64(GlobalOpts.SegmentDuration.Seconds())
+	return ms.MaxTs()-ms.MinTs() > GlobalOpts.SegmentDuration.Milliseconds()
 }
 
 func (ms *MemorySegment) Type() SegmentType {
@@ -267,9 +266,9 @@ func mkdir(d string) {
 	}
 
 	if err := os.MkdirAll(d, os.ModePerm); err != nil {
-		/*
+
 			panic(fmt.Sprintf("BUG: failed to create dir: %s", d))
-		*/
+
 
 	}
 }

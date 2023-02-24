@@ -97,15 +97,14 @@ func (rtdb *RTDB) InsertRows(rows []*Row) error {
 		PutTimer(timer)
 		return errors.New("failed to insert rows to database, write overloaded")
 	}
-
 	return nil
 }
+
 func (rtdb *RTDB) ingestRows(ctx context.Context) {
 	for {
 		select {
 		case <-ctx.Done():
 			return
-
 		case rs := <-rtdb.q:
 			head, err := rtdb.GetHeadPartition()
 			if err != nil {
@@ -151,7 +150,6 @@ func (rtdb *RTDB) GetHeadPartition() (Segment, error) {
 
 		rtdb.segs.Head = NewMemorySegment()
 	}
-
 	return rtdb.segs.Head, nil
 }
 
@@ -213,7 +211,6 @@ func (rtdb *RTDB) QuerySeries(tms TagMatcherSet, start, end int64) ([]map[string
 		if err != nil {
 			return nil, err
 		}
-
 		tmp = append(tmp, data...)
 	}
 
@@ -234,11 +231,12 @@ func (rtdb *RTDB) mergeQuerySeriesResult(ret ...TagSet) []map[string]string {
 	return items
 }
 
-func (rtdb *RTDB) QueryTagValues(label string, start, end int64) []string {
+func (rtdb *RTDB) QueryTagValues(tag string, start, end int64) []string {
 	tmp := make(map[string]struct{})
+
 	for _, segment := range rtdb.segs.Get(start, end) {
 		segment = segment.Load()
-		values := segment.QueryTagValues(label)
+		values := segment.QueryTagValues(tag)
 		for i := 0; i < len(values); i++ {
 			tmp[values[i]] = struct{}{}
 		}
@@ -273,12 +271,12 @@ func (rtdb *RTDB) removeExpires() {
 		case <-rtdb.ctx.Done():
 			return
 		case <-tick:
-			now := time.Now().Unix()
+			now := time.Now().UnixMilli()
 
 			var removed []Segment
 			it := rtdb.segs.Lst.All()
 			for it.Next() {
-				if now-it.Value().(Segment).MaxTs() > int64(GlobalOpts.Retention.Seconds()) {
+				if now-it.Value().(Segment).MaxTs() > int64(GlobalOpts.Retention.Milliseconds()) {
 					removed = append(removed, it.Value().(Segment))
 				}
 			}

@@ -1,54 +1,25 @@
 package tests
+
 import (
-	"RealtimeDB/rtdb"
-	"fmt"
-	"github.com/satori/go.uuid"
-	"math/rand"
+	"RealtimeDB/openapi"
 	"testing"
-	"time"
 )
-
-// 模拟一些监控指标
-var m = []string{
-	"cpu.busy",
-}
-
-// 增加 Tag 数量
-var tags1, tags2, tags3 []string
-
-func init() {
-	for i := 0; i < len(m); i++ {
-		tags1 = append(tags1, uuid.NewV4().String())
-		tags2 = append(tags2, uuid.NewV4().String())
-		tags3 = append(tags3, uuid.NewV4().String())
+func Test_WRITE(t *testing.T) {
+	openapi.Config("./testdata")
+	dataAll:=make([][]float64,0)
+	for i:=0;i<1000;i++{
+		datas:=make([]float64,8)
+		for j:=0;j<len(datas);j++{
+			datas[j]=float64(i)
+		}
+		dataAll=append(dataAll,datas)
 	}
-}
-
-func Points(ts int64) []*rtdb.Row {
-	points := make([]*rtdb.Row, 0)//init point
-	for idx, metric := range m {
-		points = append(points, &rtdb.Row{
-			Metric: metric,
-			Tags: []rtdb.Tag{
-				{Name: "foo", Value: tags1[idx]},
-				{Name: "bar", Value: tags2[idx]},
-				{Name: "zoo", Value: tags3[idx]},
-			},
-			Point: rtdb.Point{TimeStamp: ts, Value: float64(rand.Int31n(60))},
-		})
+	for i:=0;i<1000;i++{
+		err := openapi.Write(dataAll[i], "host1", "core1", "process1")
+		if err != nil {
+			return
+		}
 	}
 
-	return points
-}
-
-func Test_WRITE_READ(t *testing.T) {
-	store := rtdb.OpenRTDB()
-	defer store.Close()
-	for i := 0; i < 36000; i++ {
-		_ = store.InsertRows(Points(time.Now().UnixMilli()))
-	}
-	fmt.Println("finished")
-
-	select {}
 }
 

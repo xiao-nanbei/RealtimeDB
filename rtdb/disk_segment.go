@@ -4,11 +4,11 @@ import (
 	"RealtimeDB/gorilla"
 	"bytes"
 	"github.com/chenjiandongx/logger"
+	"github.com/chenjiandongx/mandodb/pkg/mmap"
 	"os"
 	"path"
 	"sync"
 	"time"
-	"github.com/chenjiandongx/mandodb/pkg/mmap"
 )
 
 // diskSegment 持久化 segment 磁盘数据使用 mmap 的方式按需加载
@@ -111,6 +111,7 @@ func (ds *diskSegment) Load() Segment {
 
 	tocRr := &tocReader{reader: reader}
 	dataSize, metaSize, err := tocRr.Read()
+	logger.Infof("%s size is %d\n", ds.dataFilename, dataSize+metaSize)
 	if err != nil {
 		logger.Errorf("failed to read %s toc: %v", ds.dataFilename, err)
 		return ds
@@ -145,16 +146,18 @@ func (ds *diskSegment) Load() Segment {
 }
 
 func (ds *diskSegment) InsertRows(_ []*Row) {
-	/*
+
 		panic("BUG: disk segments are not mutable")
-	*/
+
 }
 
 func (ds *diskSegment) QueryTagValues(tag string) []string {
+
 	return ds.tagVs.Get(tag)
 }
 
 func (ds *diskSegment) QuerySeries(tms TagMatcherSet) ([]TagSet, error) {
+
 	sids := ds.indexMap.MatchSids(ds.tagVs, tms)
 	ret := make([]TagSet, 0)
 
@@ -205,8 +208,8 @@ func (ds *diskSegment) QueryRange(tms TagMatcherSet, start, end int64) ([]Metric
 			}
 		}
 
-		lbs := ds.indexMap.MatchTags(ds.series[sid].Tags...)
-		ret = append(ret, MetricRet{Points: points, Tags: lbs})
+		tags := ds.indexMap.MatchTags(ds.series[sid].Tags...)
+		ret = append(ret, MetricRet{Points: points, Tags: tags})
 	}
 
 	return ret, nil

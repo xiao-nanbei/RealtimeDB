@@ -1,6 +1,6 @@
 package tests
 
-import (
+import  (
 	"RealtimeDB/rtdb"
 	"github.com/chenjiandongx/logger"
 	"github.com/stretchr/testify/assert"
@@ -36,7 +36,7 @@ func genPoints(ts int64, node, dc int) []*rtdb.Row {
 }
 
 func TestRTDB_QueryRange(t *testing.T) {
-	tmpdir := "/tmp/rtdb8888888"
+	tmpdir := "./testdata"
 
 	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir), rtdb.WithLoggerConfig(&logger.Options{
 		Stdout:      true,
@@ -91,7 +91,7 @@ func TestRTDB_QueryRange(t *testing.T) {
 }
 
 func TestRTDB_QuerySeries(t *testing.T) {
-	tmpdir := "/tmp/rtdb6"
+	tmpdir := "./testdata"
 
 	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir))
 	defer store.Close()
@@ -116,13 +116,13 @@ func TestRTDB_QuerySeries(t *testing.T) {
 		{Name: "__name__", Value: "disk.*", IsRegx: true},
 		{Name: "node", Value: "vm1"},
 		{Name: "dc", Value: "0"},
-	}, start, start+120)
+	}, start,start+120)
 	assert.NoError(t, err)
 	assert.Equal(t, len(ret), 3)
 }
 
 func TestRTDB_QueryTagValues(t *testing.T) {
-	tmpdir := "/tmp/rtdb8"
+	tmpdir := "./testdata"
 
 	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir))
 	defer store.Close()

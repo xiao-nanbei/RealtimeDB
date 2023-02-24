@@ -1,36 +1,36 @@
-package tests
+package main
+
 import (
 	"RealtimeDB/rtdb"
 	"fmt"
 	"github.com/satori/go.uuid"
 	"math/rand"
 	"strconv"
-	"testing"
 	"time"
 )
 
 // 模拟一些监控指标
-var Metrics = []string{
+var metrics = []string{
 	"cpu.busy", "cpu.load1", "cpu.load5", "cpu.load15", "cpu.iowait",
 	"disk.write.ops", "disk.read.ops", "disk.used",
 	"net.in.bytes", "net.out.bytes", "net.in.packages", "net.out.packages",
 	"mem.used", "mem.idle", "mem.used.bytes", "mem.total.bytes",
 }
 
-// 增加 Tag 数量
+// 增加 Label 数量
 var uid1, uid2, uid3 []string
 
 func init() {
-	for i := 0; i < len(Metrics); i++ {
+	for i := 0; i < len(metrics); i++ {
 		uid1 = append(uid1, uuid.NewV4().String())
 		uid2 = append(uid2, uuid.NewV4().String())
 		uid3 = append(uid3, uuid.NewV4().String())
 	}
 }
 
-func GenPoints(ts int64, node, dc int) []*rtdb.Row {
+func genPoints(ts int64, node, dc int) []*rtdb.Row {
 	points := make([]*rtdb.Row, 0)
-	for idx, metric := range Metrics {
+	for idx, metric := range metrics {
 		points = append(points, &rtdb.Row{
 			Metric: metric,
 			Tags: []rtdb.Tag{
@@ -47,22 +47,22 @@ func GenPoints(ts int64, node, dc int) []*rtdb.Row {
 	return points
 }
 
-func Test_STORE(t *testing.T) {
+func main() {
 	store := rtdb.OpenRTDB()
 	defer store.Close()
 
-	now := time.Now().Unix() - 36000 // 10h ago
-
+	now := time.Now().UnixMilli() - 36000 // 10h ago
+	fmt.Println(time.Now())
 	for i := 0; i < 720; i++ {
 		for n := 0; n < 5; n++ {
 			for j := 0; j < 1024; j++ {
-				_ = store.InsertRows(GenPoints(now, n, j))
+				_ = store.InsertRows(genPoints(now, n, j))
 			}
 		}
 
-		now += 60 //1min
+		now += 60 //0.006S
 	}
-
+	fmt.Println(time.Now())
 	fmt.Println("finished")
 
 	select {}
