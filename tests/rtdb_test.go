@@ -92,7 +92,6 @@ func TestRTDB_QueryRange(t *testing.T) {
 
 func TestRTDB_QuerySeries(t *testing.T) {
 	tmpdir := "./testdata"
-
 	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir))
 	defer store.Close()
 	defer os.RemoveAll(tmpdir)

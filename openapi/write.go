@@ -2,22 +2,22 @@ package openapi
 
 import (
 	"RealtimeDB/rtdb"
-	"strconv"
 	"time"
 )
 
-func Write(datas []float64,host string,core string,process string)error{
+func Write(datas []float64,strings []string)error{
+	Config("./testdata")
+	now:=time.Now().UnixMilli()
 	points := make([]*rtdb.Row, 0)
-	for number,data:=range datas{
+	tags:=make([]rtdb.Tag,0)
+	for i:=2;i<len(strings)-1;i+=2{
+		tags=append(tags,rtdb.Tag{Name: strings[i], Value: strings[i+1]})
+	}
+	for _,data:=range datas{
 		points = append(points, &rtdb.Row{
-			Metric: "ADDATA",
-			Tags: []rtdb.Tag{
-				{Name: "host", Value: host},
-				{Name: "core", Value: core},
-				{Name: "process", Value: process},
-				{Name: "ad", Value: "ad" + strconv.Itoa(number)},
-			},
-			Point: rtdb.Point{TimeStamp: time.Now().UnixMilli(), Value: data},
+			Metric: strings[1],
+			Tags: tags,
+			Point: rtdb.Point{TimeStamp: now, Value: data},
 		})
 	}
 	err := Store.InsertRows(points)

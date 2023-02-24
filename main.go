@@ -1,69 +1,51 @@
 package main
 
 import (
+	"RealtimeDB/openapi"
+	"RealtimeDB/rpc"
 	"RealtimeDB/rtdb"
+	"context"
 	"fmt"
-	"github.com/satori/go.uuid"
-	"math/rand"
-	"strconv"
-	"time"
+	"google.golang.org/grpc"
+	"net"
+	"os"
+	"strings"
 )
 
-// 模拟一些监控指标
-var metrics = []string{
-	"cpu.busy", "cpu.load1", "cpu.load5", "cpu.load15", "cpu.iowait",
-	"disk.write.ops", "disk.read.ops", "disk.used",
-	"net.in.bytes", "net.out.bytes", "net.in.packages", "net.out.packages",
-	"mem.used", "mem.idle", "mem.used.bytes", "mem.total.bytes",
+type server struct {
+	rpc.UnimplementedGreeterServer
 }
-
-// 增加 Label 数量
-var uid1, uid2, uid3 []string
-
-func init() {
-	for i := 0; i < len(metrics); i++ {
-		uid1 = append(uid1, uuid.NewV4().String())
-		uid2 = append(uid2, uuid.NewV4().String())
-		uid3 = append(uid3, uuid.NewV4().String())
+func (s *server) WritePoints(ctx context.Context, in *rpc.WritePointsRequest) (*rpc.WritePointsResponse, error){
+	metirc_tags:=strings.Split(in.MetricTags," ")
+	res:=make([]string,0)
+	for _,metirc_tag:=range metirc_tags{
+		res=append(res,strings.Split(metirc_tag,":")...)
+	}
+	err:=openapi.Write([]float64{in.Data},res)
+	if err!=nil{
+		return &rpc.WritePointsResponse{Reply: "error"}, nil
+	}else{
+		return &rpc.WritePointsResponse{Reply: "success"}, nil
 	}
 }
-
-func genPoints(ts int64, node, dc int) []*rtdb.Row {
-	points := make([]*rtdb.Row, 0)
-	for idx, metric := range metrics {
-		points = append(points, &rtdb.Row{
-			Metric: metric,
-			Tags: []rtdb.Tag{
-				{Name: "node", Value: "vm" + strconv.Itoa(node)},
-				{Name: "dc", Value: strconv.Itoa(dc)},
-				{Name: "foo", Value: uid1[idx]},
-				{Name: "bar", Value: uid2[idx]},
-				{Name: "zoo", Value: uid3[idx]},
-			},
-			Point: rtdb.Point{TimeStamp: ts, Value: float64(rand.Int31n(60))},
-		})
-	}
-
-	return points
-}
-
 func main() {
+	file, err := os.ReadFile("start.txt")
+	if err != nil {
+		return
+	}
+	fmt.Println(string(file))
 	store := rtdb.OpenRTDB()
 	defer store.Close()
-
-	now := time.Now().UnixMilli() - 36000 // 10h ago
-	fmt.Println(time.Now())
-	for i := 0; i < 720; i++ {
-		for n := 0; n < 5; n++ {
-			for j := 0; j < 1024; j++ {
-				_ = store.InsertRows(genPoints(now, n, j))
-			}
-		}
-
-		now += 60 //0.006S
+	lis, err := net.Listen("tcp", ":8086")
+	if err != nil {
+		fmt.Printf("failed to listen: %v", err)
+		return
 	}
-	fmt.Println(time.Now())
-	fmt.Println("finished")
-
-	select {}
+	s := grpc.NewServer()                  // 创建gRPC服务器
+	rpc.RegisterGreeterServer(s, &server{}) // 在gRPC服务端注册服务
+	err = s.Serve(lis)
+	if err != nil {
+		fmt.Printf("failed to serve: %v", err)
+		return
+	}
 }
