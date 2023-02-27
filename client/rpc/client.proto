@@ -1,0 +1,61 @@
+syntax = "proto3"; // 版本声明，使用Protocol Buffers v3版本
+
+option go_package = "./rpc";  // 指定生成的Go代码在你项目中的导入路径
+
+package rpc; // 包名
+
+
+// 定义服务
+service Greeter {
+    rpc WritePoints (WritePointsRequest) returns (WritePointsResponse) {}
+    rpc QuerySeries (QuerySeriesRequest) returns (QuerySeriesResponse) {}
+    rpc Config (ConfigRequest) returns (ConfigResponse) {}
+    rpc QueryRange (QueryRangeRequest) returns (QueryRangeResponse) {}
+    rpc QueryTagValues (QueryTagValuesRequest) returns (QueryTagValuesResponse) {}
+}
+
+// 请求消息
+message WritePointsRequest {
+    string row = 1;
+}
+
+// 响应消息
+message WritePointsResponse {
+    string reply = 2;
+}
+
+// 请求消息
+message QuerySeriesRequest {
+    string tags = 3;
+}
+
+// 响应消息
+message QuerySeriesResponse {
+    string reply = 4;
+}
+message ConfigRequest {
+    string path = 5;
+}
+message ConfigResponse {
+    string reply =6;
+}
+
+// 请求消息
+message QueryRangeRequest {
+    string metric_tags = 7;
+}
+
+// 响应消息
+message QueryRangeResponse {
+    string reply = 8;
+}
+
+// 请求消息
+message QueryTagValuesRequest {
+    string tag = 9;
+}
+
+// 响应消息
+message QueryTagValuesResponse {
+    string reply = 10;
+}

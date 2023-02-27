@@ -26,8 +26,7 @@ type WritePointsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	MetricTags string  `protobuf:"bytes,1,opt,name=metric_tags,json=metricTags,proto3" json:"metric_tags,omitempty"`
-	Data       float64 `protobuf:"fixed64,6,opt,name=data,proto3" json:"data,omitempty"`
+	Row string `protobuf:"bytes,1,opt,name=row,proto3" json:"row,omitempty"`
 }
 
 func (x *WritePointsRequest) Reset() {
@@ -62,18 +61,11 @@ func (*WritePointsRequest) Descriptor() ([]byte, []int) {
 	return file_rpc_server_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *WritePointsRequest) GetMetricTags() string {
+func (x *WritePointsRequest) GetRow() string {
 	if x != nil {
-		return x.MetricTags
+		return x.Row
 	}
 	return ""
-}
-
-func (x *WritePointsRequest) GetData() float64 {
-	if x != nil {
-		return x.Data
-	}
-	return 0
 }
 
 // 响应消息
@@ -82,7 +74,7 @@ type WritePointsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Reply string `protobuf:"bytes,1,opt,name=reply,proto3" json:"reply,omitempty"`
+	Reply string `protobuf:"bytes,2,opt,name=reply,proto3" json:"reply,omitempty"`
 }
 
 func (x *WritePointsResponse) Reset() {
@@ -124,27 +116,443 @@ func (x *WritePointsResponse) GetReply() string {
 	return ""
 }
 
+// 请求消息
+type QuerySeriesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Tags string `protobuf:"bytes,3,opt,name=tags,proto3" json:"tags,omitempty"`
+}
+
+func (x *QuerySeriesRequest) Reset() {
+	*x = QuerySeriesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_server_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QuerySeriesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuerySeriesRequest) ProtoMessage() {}
+
+func (x *QuerySeriesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_server_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QuerySeriesRequest.ProtoReflect.Descriptor instead.
+func (*QuerySeriesRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_server_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *QuerySeriesRequest) GetTags() string {
+	if x != nil {
+		return x.Tags
+	}
+	return ""
+}
+
+// 响应消息
+type QuerySeriesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Reply string `protobuf:"bytes,4,opt,name=reply,proto3" json:"reply,omitempty"`
+}
+
+func (x *QuerySeriesResponse) Reset() {
+	*x = QuerySeriesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_server_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QuerySeriesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QuerySeriesResponse) ProtoMessage() {}
+
+func (x *QuerySeriesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_server_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QuerySeriesResponse.ProtoReflect.Descriptor instead.
+func (*QuerySeriesResponse) Descriptor() ([]byte, []int) {
+	return file_rpc_server_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *QuerySeriesResponse) GetReply() string {
+	if x != nil {
+		return x.Reply
+	}
+	return ""
+}
+
+type ConfigRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Path string `protobuf:"bytes,5,opt,name=path,proto3" json:"path,omitempty"`
+}
+
+func (x *ConfigRequest) Reset() {
+	*x = ConfigRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_server_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfigRequest) ProtoMessage() {}
+
+func (x *ConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_server_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfigRequest.ProtoReflect.Descriptor instead.
+func (*ConfigRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_server_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ConfigRequest) GetPath() string {
+	if x != nil {
+		return x.Path
+	}
+	return ""
+}
+
+type ConfigResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Reply string `protobuf:"bytes,6,opt,name=reply,proto3" json:"reply,omitempty"`
+}
+
+func (x *ConfigResponse) Reset() {
+	*x = ConfigResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_server_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ConfigResponse) ProtoMessage() {}
+
+func (x *ConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_server_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ConfigResponse.ProtoReflect.Descriptor instead.
+func (*ConfigResponse) Descriptor() ([]byte, []int) {
+	return file_rpc_server_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ConfigResponse) GetReply() string {
+	if x != nil {
+		return x.Reply
+	}
+	return ""
+}
+
+// 请求消息
+type QueryRangeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	MetricTags string `protobuf:"bytes,7,opt,name=metric_tags,json=metricTags,proto3" json:"metric_tags,omitempty"`
+}
+
+func (x *QueryRangeRequest) Reset() {
+	*x = QueryRangeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_server_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryRangeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryRangeRequest) ProtoMessage() {}
+
+func (x *QueryRangeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_server_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryRangeRequest.ProtoReflect.Descriptor instead.
+func (*QueryRangeRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_server_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *QueryRangeRequest) GetMetricTags() string {
+	if x != nil {
+		return x.MetricTags
+	}
+	return ""
+}
+
+// 响应消息
+type QueryRangeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Reply string `protobuf:"bytes,8,opt,name=reply,proto3" json:"reply,omitempty"`
+}
+
+func (x *QueryRangeResponse) Reset() {
+	*x = QueryRangeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_server_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryRangeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryRangeResponse) ProtoMessage() {}
+
+func (x *QueryRangeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_server_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryRangeResponse.ProtoReflect.Descriptor instead.
+func (*QueryRangeResponse) Descriptor() ([]byte, []int) {
+	return file_rpc_server_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *QueryRangeResponse) GetReply() string {
+	if x != nil {
+		return x.Reply
+	}
+	return ""
+}
+
+// 请求消息
+type QueryTagValuesRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Tag string `protobuf:"bytes,9,opt,name=tag,proto3" json:"tag,omitempty"`
+}
+
+func (x *QueryTagValuesRequest) Reset() {
+	*x = QueryTagValuesRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_server_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryTagValuesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryTagValuesRequest) ProtoMessage() {}
+
+func (x *QueryTagValuesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_server_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryTagValuesRequest.ProtoReflect.Descriptor instead.
+func (*QueryTagValuesRequest) Descriptor() ([]byte, []int) {
+	return file_rpc_server_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *QueryTagValuesRequest) GetTag() string {
+	if x != nil {
+		return x.Tag
+	}
+	return ""
+}
+
+// 响应消息
+type QueryTagValuesResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Reply string `protobuf:"bytes,10,opt,name=reply,proto3" json:"reply,omitempty"`
+}
+
+func (x *QueryTagValuesResponse) Reset() {
+	*x = QueryTagValuesResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rpc_server_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryTagValuesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryTagValuesResponse) ProtoMessage() {}
+
+func (x *QueryTagValuesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_rpc_server_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use QueryTagValuesResponse.ProtoReflect.Descriptor instead.
+func (*QueryTagValuesResponse) Descriptor() ([]byte, []int) {
+	return file_rpc_server_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *QueryTagValuesResponse) GetReply() string {
+	if x != nil {
+		return x.Reply
+	}
+	return ""
+}
+
 var File_rpc_server_proto protoreflect.FileDescriptor
 
 var file_rpc_server_proto_rawDesc = []byte{
 	0x0a, 0x10, 0x72, 0x70, 0x63, 0x2f, 0x73, 0x65, 0x72, 0x76, 0x65, 0x72, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x12, 0x03, 0x72, 0x70, 0x63, 0x22, 0x49, 0x0a, 0x12, 0x57, 0x72, 0x69, 0x74, 0x65,
-	0x50, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a,
-	0x0b, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x5f, 0x74, 0x61, 0x67, 0x73, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0a, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x54, 0x61, 0x67, 0x73, 0x12, 0x12,
-	0x0a, 0x04, 0x64, 0x61, 0x74, 0x61, 0x18, 0x06, 0x20, 0x01, 0x28, 0x01, 0x52, 0x04, 0x64, 0x61,
-	0x74, 0x61, 0x22, 0x2b, 0x0a, 0x13, 0x57, 0x72, 0x69, 0x74, 0x65, 0x50, 0x6f, 0x69, 0x6e, 0x74,
-	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x72, 0x65, 0x70,
-	0x6c, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x32,
-	0x4d, 0x0a, 0x07, 0x47, 0x72, 0x65, 0x65, 0x74, 0x65, 0x72, 0x12, 0x42, 0x0a, 0x0b, 0x57, 0x72,
-	0x69, 0x74, 0x65, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x12, 0x17, 0x2e, 0x72, 0x70, 0x63, 0x2e,
-	0x57, 0x72, 0x69, 0x74, 0x65, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x18, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x57, 0x72, 0x69, 0x74, 0x65, 0x50, 0x6f,
-	0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x30,
-	0x5a, 0x2e, 0x2f, 0x68, 0x6f, 0x6d, 0x65, 0x2f, 0x64, 0x61, 0x74, 0x61, 0x62, 0x72, 0x61, 0x69,
-	0x6e, 0x73, 0x2f, 0x47, 0x6f, 0x6c, 0x61, 0x6e, 0x64, 0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74,
-	0x73, 0x2f, 0x52, 0x65, 0x61, 0x6c, 0x74, 0x69, 0x6d, 0x65, 0x44, 0x42, 0x2f, 0x72, 0x70, 0x63,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x6f, 0x12, 0x03, 0x72, 0x70, 0x63, 0x22, 0x26, 0x0a, 0x12, 0x57, 0x72, 0x69, 0x74, 0x65,
+	0x50, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a,
+	0x03, 0x72, 0x6f, 0x77, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x72, 0x6f, 0x77, 0x22,
+	0x2b, 0x0a, 0x13, 0x57, 0x72, 0x69, 0x74, 0x65, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x28, 0x0a, 0x12,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x74, 0x61, 0x67, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x04, 0x74, 0x61, 0x67, 0x73, 0x22, 0x2b, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53,
+	0x65, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a,
+	0x05, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x65,
+	0x70, 0x6c, 0x79, 0x22, 0x23, 0x0a, 0x0d, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x70, 0x61, 0x74, 0x68, 0x18, 0x05, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x04, 0x70, 0x61, 0x74, 0x68, 0x22, 0x26, 0x0a, 0x0e, 0x43, 0x6f, 0x6e, 0x66,
+	0x69, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x72, 0x65,
+	0x70, 0x6c, 0x79, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79,
+	0x22, 0x34, 0x0a, 0x11, 0x51, 0x75, 0x65, 0x72, 0x79, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f, 0x0a, 0x0b, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x5f,
+	0x74, 0x61, 0x67, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x6d, 0x65, 0x74, 0x72,
+	0x69, 0x63, 0x54, 0x61, 0x67, 0x73, 0x22, 0x2a, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x52,
+	0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05,
+	0x72, 0x65, 0x70, 0x6c, 0x79, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x65, 0x70,
+	0x6c, 0x79, 0x22, 0x29, 0x0a, 0x15, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x61, 0x67, 0x56, 0x61,
+	0x6c, 0x75, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x74,
+	0x61, 0x67, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x74, 0x61, 0x67, 0x22, 0x2e, 0x0a,
+	0x16, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x61, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79,
+	0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x72, 0x65, 0x70, 0x6c, 0x79, 0x32, 0xd4, 0x02,
+	0x0a, 0x07, 0x47, 0x72, 0x65, 0x65, 0x74, 0x65, 0x72, 0x12, 0x42, 0x0a, 0x0b, 0x57, 0x72, 0x69,
+	0x74, 0x65, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x12, 0x17, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x57,
+	0x72, 0x69, 0x74, 0x65, 0x50, 0x6f, 0x69, 0x6e, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x18, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x57, 0x72, 0x69, 0x74, 0x65, 0x50, 0x6f, 0x69,
+	0x6e, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x42, 0x0a,
+	0x0b, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x12, 0x17, 0x2e, 0x72,
+	0x70, 0x63, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x53, 0x65, 0x72, 0x69, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x12, 0x33, 0x0a, 0x06, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x12, 0x12, 0x2e, 0x72, 0x70,
+	0x63, 0x2e, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x13, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x3f, 0x0a, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x52,
+	0x61, 0x6e, 0x67, 0x65, 0x12, 0x16, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x52, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x17, 0x2e, 0x72,
+	0x70, 0x63, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4b, 0x0a, 0x0e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x54, 0x61, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x12, 0x1a, 0x2e, 0x72, 0x70, 0x63, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x61, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x72, 0x70, 0x63, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x54, 0x61, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x00, 0x42, 0x07, 0x5a, 0x05, 0x2e, 0x2f, 0x72, 0x70, 0x63, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -159,16 +567,32 @@ func file_rpc_server_proto_rawDescGZIP() []byte {
 	return file_rpc_server_proto_rawDescData
 }
 
-var file_rpc_server_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_rpc_server_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_rpc_server_proto_goTypes = []interface{}{
-	(*WritePointsRequest)(nil),  // 0: rpc.WritePointsRequest
-	(*WritePointsResponse)(nil), // 1: rpc.WritePointsResponse
+	(*WritePointsRequest)(nil),     // 0: rpc.WritePointsRequest
+	(*WritePointsResponse)(nil),    // 1: rpc.WritePointsResponse
+	(*QuerySeriesRequest)(nil),     // 2: rpc.QuerySeriesRequest
+	(*QuerySeriesResponse)(nil),    // 3: rpc.QuerySeriesResponse
+	(*ConfigRequest)(nil),          // 4: rpc.ConfigRequest
+	(*ConfigResponse)(nil),         // 5: rpc.ConfigResponse
+	(*QueryRangeRequest)(nil),      // 6: rpc.QueryRangeRequest
+	(*QueryRangeResponse)(nil),     // 7: rpc.QueryRangeResponse
+	(*QueryTagValuesRequest)(nil),  // 8: rpc.QueryTagValuesRequest
+	(*QueryTagValuesResponse)(nil), // 9: rpc.QueryTagValuesResponse
 }
 var file_rpc_server_proto_depIdxs = []int32{
 	0, // 0: rpc.Greeter.WritePoints:input_type -> rpc.WritePointsRequest
-	1, // 1: rpc.Greeter.WritePoints:output_type -> rpc.WritePointsResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: rpc.Greeter.QuerySeries:input_type -> rpc.QuerySeriesRequest
+	4, // 2: rpc.Greeter.Config:input_type -> rpc.ConfigRequest
+	6, // 3: rpc.Greeter.QueryRange:input_type -> rpc.QueryRangeRequest
+	8, // 4: rpc.Greeter.QueryTagValues:input_type -> rpc.QueryTagValuesRequest
+	1, // 5: rpc.Greeter.WritePoints:output_type -> rpc.WritePointsResponse
+	3, // 6: rpc.Greeter.QuerySeries:output_type -> rpc.QuerySeriesResponse
+	5, // 7: rpc.Greeter.Config:output_type -> rpc.ConfigResponse
+	7, // 8: rpc.Greeter.QueryRange:output_type -> rpc.QueryRangeResponse
+	9, // 9: rpc.Greeter.QueryTagValues:output_type -> rpc.QueryTagValuesResponse
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -204,6 +628,102 @@ func file_rpc_server_proto_init() {
 				return nil
 			}
 		}
+		file_rpc_server_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QuerySeriesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_server_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QuerySeriesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_server_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ConfigRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_server_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ConfigResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_server_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryRangeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_server_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryRangeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_server_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryTagValuesRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rpc_server_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryTagValuesResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -211,7 +731,7 @@ func file_rpc_server_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rpc_server_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
