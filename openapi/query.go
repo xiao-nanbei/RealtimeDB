@@ -5,9 +5,30 @@ import (
 	"RealtimeDB/rtdb"
 	"context"
 	"encoding/json"
+	"google.golang.org/grpc/peer"
 )
-
+func (s *Server) QueryNewPoint(ctx context.Context,in *rpc.QueryNewPointRequest)(*rpc.QueryNewPointResponse,error){
+	p, _ := peer.FromContext(ctx)
+	var slice map[string]interface{}
+	err := json.Unmarshal([]byte(in.Tag), &slice)
+	if err != nil {
+		return nil, err
+	}
+	metric:=slice["metric"].(string)
+	delete(slice,"metric")
+	var tags rtdb.TagMatcherSet
+	for k,v:=range slice{
+		tags=append(tags,rtdb.TagMatcher{Name: k,Value: v.(string)})
+	}
+	ret, err := Store[Aps[p.Addr.String()]].QueryNewPoint(metric,tags)
+	if err != nil {
+		return nil, err
+	}
+	retstring, _ := json.Marshal(ret)
+	return &rpc.QueryNewPointResponse{Reply: string(retstring)},nil
+}
 func (s *Server) QuerySeries(ctx context.Context, in *rpc.QuerySeriesRequest)(*rpc.QuerySeriesResponse, error){
+	p, _ := peer.FromContext(ctx)
 	var slice map[string]interface{}
 	err := json.Unmarshal([]byte(in.Tags), &slice)
 	if err != nil {
@@ -21,7 +42,7 @@ func (s *Server) QuerySeries(ctx context.Context, in *rpc.QuerySeriesRequest)(*r
 	for k,v:=range slice{
 		tags=append(tags,rtdb.TagMatcher{Name: k,Value: v.(string)})
 	}
-	ret, err := Store.QuerySeries(tags, start,end)
+	ret, err := Store[Aps[p.Addr.String()]].QuerySeries(tags, start,end)
 	if err != nil {
 		return nil, err
 	}
@@ -29,6 +50,7 @@ func (s *Server) QuerySeries(ctx context.Context, in *rpc.QuerySeriesRequest)(*r
 	return &rpc.QuerySeriesResponse{Reply: string(retstring)},nil
 }
 func (s *Server) QueryRange(ctx context.Context, in *rpc.QueryRangeRequest)(*rpc.QueryRangeResponse, error){
+	p, _ := peer.FromContext(ctx)
 	var slice map[string]interface{}
 	err := json.Unmarshal([]byte(in.MetricTags), &slice)
 	if err != nil {
@@ -45,7 +67,7 @@ func (s *Server) QueryRange(ctx context.Context, in *rpc.QueryRangeRequest)(*rpc
 		tags=append(tags,rtdb.TagMatcher{Name: k,Value: v.(string)})
 	}
 
-	ret, err := Store.QueryRange(metric,tags,start,end)
+	ret, err := Store[Aps[p.Addr.String()]].QueryRange(metric,tags,start,end)
 	if err != nil {
 		return nil, err
 	}
@@ -53,6 +75,7 @@ func (s *Server) QueryRange(ctx context.Context, in *rpc.QueryRangeRequest)(*rpc
 	return &rpc.QueryRangeResponse{Reply: string(retstring)},nil
 }
 func (s *Server) QueryTagValues(ctx context.Context, in *rpc.QueryTagValuesRequest)(*rpc.QueryTagValuesResponse, error){
+	p, _ := peer.FromContext(ctx)
 	var slice map[string]interface{}
 	err := json.Unmarshal([]byte(in.Tag), &slice)
 	if err != nil {
@@ -64,7 +87,7 @@ func (s *Server) QueryTagValues(ctx context.Context, in *rpc.QueryTagValuesReque
 	delete(slice,"start")
 	delete(slice,"end")
 	delete(slice,"tag")
-	ret := Store.QueryTagValues(tag, start,end)
+	ret := Store[Aps[p.Addr.String()]].QueryTagValues(tag, start,end)
 	retstring, _ := json.Marshal(ret)
 	return &rpc.QueryTagValuesResponse{Reply: string(retstring)},nil
 }

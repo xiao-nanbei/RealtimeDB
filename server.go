@@ -11,8 +11,12 @@ import (
 )
 var localhostPort string
 
-
 func main() {
+	defer func() {
+		for _,v:=range openapi.Store{
+			v.Close()
+		}
+	}()
 	file, err := os.ReadFile("start.txt")
 	if err != nil {
 		return
@@ -35,4 +39,5 @@ func main() {
 		fmt.Printf("failed to serve: %v", err)
 		return
 	}
+	s.GracefulStop()
 }

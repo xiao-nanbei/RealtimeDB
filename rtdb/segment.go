@@ -16,6 +16,7 @@ const (
 
 type Segment interface {
 	InsertRows(row []*Row)
+	GetNewPoint(tms TagMatcherSet) ([]Point, error)
 	QueryRange(tms TagMatcherSet, start, end int64) ([]MetricRet, error)
 	QuerySeries(tms TagMatcherSet) ([]TagSet, error)
 	QueryTagValues(tag string) []string
@@ -54,6 +55,9 @@ func (sl *SegmentList) Get(start, end int64) []Segment {
 	iter := sl.Lst.All()
 
 	for iter.Next() {
+		if iter.Value()==nil{
+			break
+		}
 		seg := iter.Value().(Segment)
 		if sl.Choose(seg, start, end) {
 			segs = append(segs, seg)

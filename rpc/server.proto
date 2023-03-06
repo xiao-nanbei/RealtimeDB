@@ -12,6 +12,7 @@ service Greeter {
     rpc Config (ConfigRequest) returns (ConfigResponse) {}
     rpc QueryRange (QueryRangeRequest) returns (QueryRangeResponse) {}
     rpc QueryTagValues (QueryTagValuesRequest) returns (QueryTagValuesResponse) {}
+    rpc QueryNewPoint (QueryNewPointRequest) returns (QueryNewPointResponse) {}
 }
 
 // 请求消息
@@ -32,6 +33,7 @@ message QuerySeriesResponse {
     string reply = 4;
 }
 message ConfigRequest {
+    string name = 11;
     string path = 5;
 }
 message ConfigResponse {
@@ -58,3 +60,13 @@ message QueryTagValuesRequest {
 message QueryTagValuesResponse {
     string reply = 10;
 }
+// 请求消息
+message QueryNewPointRequest {
+    string tag = 9;
+}
+
+// 响应消息
+message QueryNewPointResponse {
+    string reply = 10;
+}
+

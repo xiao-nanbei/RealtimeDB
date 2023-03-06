@@ -63,6 +63,10 @@ func (s *Series) Finish() {
 	s.Unlock()
 }
 
+func (s *Series) GetNewT()(uint64,float64){
+	return s.t,s.val
+}
+
 // Push a timestamp and value to the series
 func (s *Series) Push(t uint64, v float64) {
 	s.Lock()

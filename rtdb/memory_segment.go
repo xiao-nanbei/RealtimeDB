@@ -3,6 +3,7 @@ package rtdb
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math"
 	"os"
 	"path"
@@ -137,6 +138,18 @@ func (ms *MemorySegment) QuerySeries(tms TagMatcherSet) ([]TagSet, error) {
 	return ret, nil
 }
 
+func (ms *MemorySegment) GetNewPoint(tms TagMatcherSet) ([]Point, error){
+	matchSids := ms.IndexMap.MatchSids(ms.TagVs, tms)
+	points:=make([]Point,0)
+	for _, sid := range matchSids {
+		b, _ := ms.Segment.Load(sid)
+		series := b.(*memorySeries)
+
+		point := series.GetNewPoint()
+		points=append(points,point)
+	}
+	return points,nil
+}
 func (ms *MemorySegment) QueryRange(tms TagMatcherSet, start, end int64) ([]MetricRet, error) {
 	matchSids := ms.IndexMap.MatchSids(ms.TagVs, tms)
 	ret := make([]MetricRet, 0, len(matchSids))
@@ -305,6 +318,6 @@ func writeToDisk(segment *MemorySegment) error {
 	if err := writeFile(path.Join(dn, "meta.json"), descBytes); err != nil {
 		return err
 	}
-
+	log.Println("write to disk")
 	return nil
 }

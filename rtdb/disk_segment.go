@@ -30,6 +30,10 @@ type diskSegment struct {
 	dataPointsCount int64
 }
 
+func (ds *diskSegment) GetNewPoint(tms TagMatcherSet) ([]Point, error) {
+	panic("implement me")
+}
+
 type tocReader struct {
 	reader *bytes.Reader
 }

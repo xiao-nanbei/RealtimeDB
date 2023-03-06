@@ -5,11 +5,13 @@ import (
 	"RealtimeDB/rtdb"
 	"context"
 	"encoding/json"
+	"google.golang.org/grpc/peer"
 )
 type Server struct {
 	rpc.UnimplementedGreeterServer
 }
 func (s *Server) WritePoints(ctx context.Context, in *rpc.WritePointsRequest) (*rpc.WritePointsResponse, error){
+	p, _ := peer.FromContext(ctx)
 	var slice map[string]interface{}
 	err := json.Unmarshal([]byte(in.Row), &slice)
 	if err != nil {
@@ -29,7 +31,7 @@ func (s *Server) WritePoints(ctx context.Context, in *rpc.WritePointsRequest) (*
 		row.Tags=append(row.Tags,rtdb.Tag{Name: k,Value: v.(string)})
 	}
 	rows := []*rtdb.Row{row}
-	err = Store.InsertRows(rows)
+	err = Store[Aps[p.Addr.String()]].InsertRows(rows)
 	if err!=nil{
 		return &rpc.WritePointsResponse{Reply: "error"}, nil
 	}else{

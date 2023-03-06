@@ -27,6 +27,7 @@ type GreeterClient interface {
 	Config(ctx context.Context, in *ConfigRequest, opts ...grpc.CallOption) (*ConfigResponse, error)
 	QueryRange(ctx context.Context, in *QueryRangeRequest, opts ...grpc.CallOption) (*QueryRangeResponse, error)
 	QueryTagValues(ctx context.Context, in *QueryTagValuesRequest, opts ...grpc.CallOption) (*QueryTagValuesResponse, error)
+	QueryNewPoint(ctx context.Context, in *QueryNewPointRequest, opts ...grpc.CallOption) (*QueryNewPointResponse, error)
 }
 
 type greeterClient struct {
@@ -82,6 +83,15 @@ func (c *greeterClient) QueryTagValues(ctx context.Context, in *QueryTagValuesRe
 	return out, nil
 }
 
+func (c *greeterClient) QueryNewPoint(ctx context.Context, in *QueryNewPointRequest, opts ...grpc.CallOption) (*QueryNewPointResponse, error) {
+	out := new(QueryNewPointResponse)
+	err := c.cc.Invoke(ctx, "/rpc.Greeter/QueryNewPoint", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServer is the server API for Greeter service.
 // All implementations must embed UnimplementedGreeterServer
 // for forward compatibility
@@ -91,6 +101,7 @@ type GreeterServer interface {
 	Config(context.Context, *ConfigRequest) (*ConfigResponse, error)
 	QueryRange(context.Context, *QueryRangeRequest) (*QueryRangeResponse, error)
 	QueryTagValues(context.Context, *QueryTagValuesRequest) (*QueryTagValuesResponse, error)
+	QueryNewPoint(context.Context, *QueryNewPointRequest) (*QueryNewPointResponse, error)
 	mustEmbedUnimplementedGreeterServer()
 }
 
@@ -112,6 +123,9 @@ func (UnimplementedGreeterServer) QueryRange(context.Context, *QueryRangeRequest
 }
 func (UnimplementedGreeterServer) QueryTagValues(context.Context, *QueryTagValuesRequest) (*QueryTagValuesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryTagValues not implemented")
+}
+func (UnimplementedGreeterServer) QueryNewPoint(context.Context, *QueryNewPointRequest) (*QueryNewPointResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryNewPoint not implemented")
 }
 func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
 
@@ -216,6 +230,24 @@ func _Greeter_QueryTagValues_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greeter_QueryNewPoint_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryNewPointRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).QueryNewPoint(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.Greeter/QueryNewPoint",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).QueryNewPoint(ctx, req.(*QueryNewPointRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -242,6 +274,10 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "QueryTagValues",
 			Handler:    _Greeter_QueryTagValues_Handler,
+		},
+		{
+			MethodName: "QueryNewPoint",
+			Handler:    _Greeter_QueryNewPoint_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

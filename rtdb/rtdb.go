@@ -174,6 +174,16 @@ func (rtdb *RTDB) QueryRange(metric string, tms TagMatcherSet, start, end int64)
 
 	return rtdb.mergeQueryRangeResult(tmp...), nil
 }
+func (rtdb *RTDB) QueryNewPoint(metric string, tms TagMatcherSet) ([]Point, error){
+	tms = tms.AddMetricName(metric)
+	segment:=rtdb.segs.Head
+	segment = segment.Load()
+	data, err := segment.GetNewPoint(tms)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
 
 func (rtdb *RTDB) mergeQueryRangeResult(ret ...MetricRet) []MetricRet {
 	metrics := make(map[uint64]*MetricRet)
@@ -258,6 +268,9 @@ func (rtdb *RTDB) Close() {
 
 	it := rtdb.segs.Lst.All()
 	for it.Next() {
+		if it.Value()==nil{
+			break
+		}
 		it.Value().(Segment).Close()
 	}
 
@@ -265,6 +278,7 @@ func (rtdb *RTDB) Close() {
 }
 
 func (rtdb *RTDB) removeExpires() {
+
 	tick := time.Tick(5 * time.Minute)
 	for {
 		select {
@@ -276,6 +290,9 @@ func (rtdb *RTDB) removeExpires() {
 			var removed []Segment
 			it := rtdb.segs.Lst.All()
 			for it.Next() {
+				if it.Value()==nil{
+					break
+				}
 				if now-it.Value().(Segment).MaxTs() > int64(GlobalOpts.Retention.Milliseconds()) {
 					removed = append(removed, it.Value().(Segment))
 				}

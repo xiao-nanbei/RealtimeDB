@@ -39,6 +39,12 @@ func (store *TszStore) Append(point *Point) *Point {
 	return nil
 }
 
+func (store *TszStore) GetNewPoint() Point{
+
+	t,val:=store.block.GetNewT()
+
+	return Point{TimeStamp: int64(t),Value: val}
+}
 func (store *TszStore) Get(start, end int64) []Point {
 	points := make([]Point, 0)
 
