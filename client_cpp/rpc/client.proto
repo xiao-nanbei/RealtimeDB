@@ -1,6 +1,9 @@
 syntax = "proto3"; // 版本声明，使用Protocol Buffers v3版本
 
-//option go_package = "./rpc";  // 指定生成的Go代码在你项目中的导入路径
+option java_multiple_files=true;
+option java_package="grpc.ex";
+option java_outer_classname="ClientProto";
+option objc_class_prefix="RPC";
 
 package rpc; // 包名
 
