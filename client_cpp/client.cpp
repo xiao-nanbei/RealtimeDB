@@ -15,13 +15,18 @@ public:
     std::shared_ptr<rpc::Greeter::Stub> stub_;
     // create stub
     TestClientConfig(std::shared_ptr<grpc::Channel> channel):stub_(rpc::Greeter::NewStub(channel)){}
-    void Config()
+    bool Config(std::string path,std::string name)
     {
         rpc::ConfigRequest configRequest;
         rpc::ConfigResponse configResponse;
-        configRequest.set_path("./testdata");
-        configRequest.set_name("test");
-        GetOneData(configRequest,&configResponse);
+        configRequest.set_path(path);
+        configRequest.set_name(name);
+        if (GetOneData(configRequest,&configResponse)){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
 private:
@@ -49,12 +54,16 @@ private:
 class TestClientWritePoints{
 public:
     std::shared_ptr<rpc::Greeter::Stub> stub_;
-    void WritePoints(std::string row)
+    bool WritePoints(std::string row)
     {
         rpc::WritePointsRequest writePointsRequest;
         rpc::WritePointsResponse writePointsResponse;
         writePointsRequest.set_row(row);
-        GetOneData(writePointsRequest,&writePointsResponse);
+        if (GetOneData(writePointsRequest,&writePointsResponse)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 private:
@@ -84,12 +93,16 @@ private:
 class TestClientQuerySeries{
 public:
     std::shared_ptr<rpc::Greeter::Stub> stub_;
-    void QuerySeries(std::string tags)
+    bool QuerySeries(std::string tags)
     {
         rpc::QuerySeriesRequest querySeriesRequest;
         rpc::QuerySeriesResponse querySeriesResponse;
         querySeriesRequest.set_tags(tags);
-        GetOneData(querySeriesRequest,&querySeriesResponse);
+        if(GetOneData(querySeriesRequest,&querySeriesResponse)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 private:
@@ -118,12 +131,16 @@ private:
 class TestClientQueryNewPoint{
 public:
     std::shared_ptr<rpc::Greeter::Stub> stub_;
-    void QueryNewPoint(std::string tags)
+    bool QueryNewPoint(std::string tags)
     {
         rpc::QueryNewPointRequest queryNewPointRequest;
         rpc::QueryNewPointResponse queryNewPointResponse;
         queryNewPointRequest.set_tag(tags);
-        GetOneData(queryNewPointRequest,&queryNewPointResponse);
+        if(GetOneData(queryNewPointRequest,&queryNewPointResponse)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 private:
@@ -153,12 +170,16 @@ private:
 class TestClientQueryRange{
 public:
     std::shared_ptr<rpc::Greeter::Stub> stub_;
-    void QueryRange(std::string tags)
+    bool QueryRange(std::string tags)
     {
         rpc::QueryRangeRequest queryRangeRequest;
         rpc::QueryRangeResponse queryRangeResponse;
         queryRangeRequest.set_metric_tags(tags);
-        GetOneData(queryRangeRequest,&queryRangeResponse);
+        if (GetOneData(queryRangeRequest,&queryRangeResponse)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 private:
@@ -188,12 +209,16 @@ private:
 class TestClientQueryTagValues{
 public:
     std::shared_ptr<rpc::Greeter::Stub> stub_;
-    void QueryTagValues(std::string tags)
+    bool QueryTagValues(std::string tags)
     {
         rpc::QueryTagValuesRequest queryTagValuesRequest;
         rpc::QueryTagValuesResponse queryTagValuesResponse;
         queryTagValuesRequest.set_tag(tags);
-        GetOneData(queryTagValuesRequest,&queryTagValuesResponse);
+        if (GetOneData(queryTagValuesRequest,&queryTagValuesResponse)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 private:

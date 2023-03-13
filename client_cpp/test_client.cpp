@@ -15,7 +15,9 @@
 
 int main(){
     TestClientConfig client(grpc::CreateChannel("localhost:8086",grpc::InsecureChannelCredentials()));
-    client.Config();
+    std::string path = "./testdata";
+    std::string name = "test";
+    client.Config(path,name);
     TestClientWritePoints writePoints;
     writePoints.stub_=client.stub_;
     std::vector<std::string> metrics={"cpu.busy", "cpu.load1", "cpu.load5", "cpu.load15", "cpu.iowait","disk.write.ops", "disk.read.ops", "disk.used","net.in.bytes", "net.out.bytes", "net.in.packages", "net.out.packages","mem.used", "mem.idle", "mem.used.bytes", "mem.total.bytes"};
