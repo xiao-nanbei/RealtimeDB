@@ -12,17 +12,24 @@ import (
 var localhostPort string
 
 func main() {
-	defer func() {
-		for _,v:=range openapi.Store{
-			v.Close()
-		}
-	}()
 	file, err := os.ReadFile("start.txt")
 	if err != nil {
 		return
 	}
 	log.Println(string(file))
 	log.Println("please enter the address and port:")
+	go func() {
+		var quit string
+		for{
+			fmt.Scanf("%s",&quit)
+			if quit=="quit"{
+				for _,v:=range openapi.Store{
+					v.Close()
+				}
+				os.Exit(0)
+			}
+		}
+	}()
 	_, err = fmt.Scanf("%s", &localhostPort)
 	if err != nil {
 		return

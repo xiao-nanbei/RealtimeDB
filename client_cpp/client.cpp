@@ -15,11 +15,10 @@ public:
     std::shared_ptr<rpc::Greeter::Stub> stub_;
     // create stub
     TestClientConfig(std::shared_ptr<grpc::Channel> channel):stub_(rpc::Greeter::NewStub(channel)){}
-    bool Config(std::string path,std::string name)
+    bool Config(std::string name)
     {
         rpc::ConfigRequest configRequest;
         rpc::ConfigResponse configResponse;
-        configRequest.set_path(path);
         configRequest.set_name(name);
         if (GetOneData(configRequest,&configResponse)){
             return true;
@@ -36,17 +35,17 @@ private:
         grpc::Status status=stub_->Config(&context,configRequest,configResponse);
         if(!status.ok())
         {
-            std::cout<<"GetData rpc failed."<<std::endl;
+            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
         }
         if(configResponse->reply().empty())
         {
-            std::cout<<"message empty."<<std::endl;
+            //std::cout<<"message empty."<<std::endl;
             return false;
         }
         else
         {
-            std::cout<<"MsgReply:"<<configResponse->reply()<<std::endl;
+            //std::cout<<"MsgReply:"<<configResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -73,17 +72,17 @@ private:
         grpc::Status status=stub_->WritePoints(&context,writePointsRequest,writePointsResponse);
         if(!status.ok())
         {
-            std::cout<<"GetData rpc failed."<<std::endl;
+           // std::cout<<"GetData rpc failed."<<std::endl;
             return false;
         }
         if(writePointsResponse->reply().empty())
         {
-            std::cout<<"message empty."<<std::endl;
+            //std::cout<<"message empty."<<std::endl;
             return false;
         }
         else
         {
-            std::cout<<"MsgReply:"<<writePointsResponse->reply()<<std::endl;
+            //std::cout<<"MsgReply:"<<writePointsResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -112,17 +111,17 @@ private:
         grpc::Status status=stub_->QuerySeries(&context,querySeriesRequest,querySeriesResponse);
         if(!status.ok())
         {
-            std::cout<<"GetData rpc failed."<<std::endl;
+            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
         }
         if(querySeriesResponse->reply().empty())
         {
-            std::cout<<"message empty."<<std::endl;
+            //std::cout<<"message empty."<<std::endl;
             return false;
         }
         else
         {
-            std::cout<<"MsgReply:"<<querySeriesResponse->reply()<<std::endl;
+            //std::cout<<"MsgReply:"<<querySeriesResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -150,17 +149,17 @@ private:
         grpc::Status status=stub_->QueryNewPoint(&context,queryNewPointRequest,queryNewPointResponse);
         if(!status.ok())
         {
-            std::cout<<"GetData rpc failed."<<std::endl;
+            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
         }
         if(queryNewPointResponse->reply().empty())
         {
-            std::cout<<"message empty."<<std::endl;
+            //std::cout<<"message empty."<<std::endl;
             return false;
         }
         else
         {
-            std::cout<<"MsgReply:"<<queryNewPointResponse->reply()<<std::endl;
+            //std::cout<<"MsgReply:"<<queryNewPointResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -189,17 +188,17 @@ private:
         grpc::Status status=stub_->QueryRange(&context,queryRangeRequest,queryRangeResponse);
         if(!status.ok())
         {
-            std::cout<<"GetData rpc failed."<<std::endl;
+            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
         }
         if(queryRangeResponse->reply().empty())
         {
-            std::cout<<"message empty."<<std::endl;
+            //std::cout<<"message empty."<<std::endl;
             return false;
         }
         else
         {
-            std::cout<<"MsgReply:"<<queryRangeResponse->reply()<<std::endl;
+            //std::cout<<"MsgReply:"<<queryRangeResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -228,17 +227,17 @@ private:
         grpc::Status status=stub_->QueryTagValues(&context,queryTagValuesRequest,queryTagValuesResponse);
         if(!status.ok())
         {
-            std::cout<<"GetData rpc failed."<<std::endl;
+            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
         }
         if(queryTagValuesResponse->reply().empty())
         {
-            std::cout<<"message empty."<<std::endl;
+            //std::cout<<"message empty."<<std::endl;
             return false;
         }
         else
         {
-            std::cout<<"MsgReply:"<<queryTagValuesResponse->reply()<<std::endl;
+            //std::cout<<"MsgReply:"<<queryTagValuesResponse->reply()<<std::endl;
         }
         return true;
     }

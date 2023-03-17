@@ -112,6 +112,7 @@ func (rtdb *RTDB) ingestRows(ctx context.Context) {
 				continue
 			}
 			head.InsertRows(rs)
+			//log.Println("enter")
 		}
 	}
 }
@@ -132,7 +133,7 @@ func (rtdb *RTDB) GetHeadPartition() (Segment, error) {
 			t0 := time.Now()
 			dn := Dirname(head.MinTs(), head.MaxTs())
 
-			if err := writeToDisk(head.(*MemorySegment)); err != nil {
+			if err := WriteToDisk(head.(*MemorySegment)); err != nil {
 				logger.Errorf("failed to flush data to disk, %v", err)
 				return
 			}
@@ -158,6 +159,40 @@ type MetricRet struct {
 	Points []Point
 }
 
+/*
+func (rtdb *RTDB) LoadAllDataToFiles(){
+	rtdb.segs.Mut.Lock()
+	defer rtdb.segs.Mut.Unlock()
+	segs := make([]Segment, 0)
+	iter := rtdb.segs.Lst.All()
+	for iter.Next() {
+		if iter.Value()==nil{
+			break
+		}
+		seg := iter.Value().(Segment)
+		segs = append(segs, seg)
+
+	}
+	segs = append(segs, rtdb.segs.Head)
+	for _,seg:=range segs{
+		seg = seg.Load()
+		seg.QuerySeries()
+	}
+}
+*/
+
+func (rtdb *RTDB) QuerySeries(tms TagMatcherSet, start, end int64) ([]map[string]string, error) {
+	tmp := make([]TagSet, 0)
+	for _, segment := range rtdb.segs.Get(start, end) {
+		segment = segment.Load()
+		data, err := segment.QuerySeries(tms)
+		if err != nil {
+			return nil, err
+		}
+		tmp = append(tmp, data...)
+	}
+	return rtdb.mergeQuerySeriesResult(tmp...), nil
+}
 func (rtdb *RTDB) QueryRange(metric string, tms TagMatcherSet, start, end int64) ([]MetricRet, error) {
 	tms = tms.AddMetricName(metric)
 
@@ -213,19 +248,7 @@ func (rtdb *RTDB) mergeQueryRangeResult(ret ...MetricRet) []MetricRet {
 	return items
 }
 
-func (rtdb *RTDB) QuerySeries(tms TagMatcherSet, start, end int64) ([]map[string]string, error) {
-	tmp := make([]TagSet, 0)
-	for _, segment := range rtdb.segs.Get(start, end) {
-		segment = segment.Load()
-		data, err := segment.QuerySeries(tms)
-		if err != nil {
-			return nil, err
-		}
-		tmp = append(tmp, data...)
-	}
 
-	return rtdb.mergeQuerySeriesResult(tmp...), nil
-}
 
 func (rtdb *RTDB) mergeQuerySeriesResult(ret ...TagSet) []map[string]string {
 	lbs := make(map[uint64]TagSet)
