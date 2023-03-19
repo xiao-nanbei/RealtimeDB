@@ -6,8 +6,10 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/chenjiandongx/logger"
+	"log"
 	"os"
 	"testing"
+	"time"
 )
 
 func Test_Write(t *testing.T){
@@ -24,9 +26,9 @@ func Test_Write(t *testing.T){
 	defer f.Close()
 
 	br := bufio.NewReader(f)
+	log.Println(time.Now())
 	for {
 		a, _, _ := br.ReadLine()
-
 		openapi.WritePoints(string(a))
 	}
 }

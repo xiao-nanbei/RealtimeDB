@@ -4,6 +4,76 @@ import (
 	"testing"
 	"time"
 )
+
+func TestMarshalBinary(t *testing.T) {
+	s1 := New(TwoHoursData[0].T)
+	for _, p := range TwoHoursData {
+		s1.Push(p.T, p.V)
+	}
+	it1 := s1.Iter()
+	it1.Next()
+	b, err := s1.MarshalBinary()
+	if err != nil {
+		t.Error(err)
+	}
+	s2 := New(s1.T0)
+	err = s2.UnmarshalBinary(b)
+	if err != nil {
+		t.Error(err)
+	}
+	it := s2.Iter()
+	for _, w := range TwoHoursData {
+		if !it.Next() {
+			t.Fatalf("Next()=false, want true")
+		}
+		tt, vv := it.Values()
+		// t.Logf("it.Values()=(%+v, %+v)\n", time.Unix(int64(tt), 0), vv)
+		if w.T != tt || w.V != vv {
+			t.Errorf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.T, w.V)
+		}
+	}
+}
+
+func BenchmarkMarshalBinary(b *testing.B) {
+	var err error
+	b.StopTimer()
+	s1 := New(TwoHoursData[0].T)
+	for _, p := range TwoHoursData {
+		s1.Push(p.T, p.V)
+	}
+	s1.Finish()
+	b.ReportAllocs()
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		_, err = s1.MarshalBinary()
+	}
+	if err != nil {
+		b.Errorf("Unexpected error: %v\n", err)
+	}
+}
+
+func BenchmarkUnmarshalBinary(b *testing.B) {
+	var err error
+	b.StopTimer()
+	s1 := New(TwoHoursData[0].T)
+	for _, p := range TwoHoursData {
+		s1.Push(p.T, p.V)
+	}
+	s1.Finish()
+	buf, err := s1.MarshalBinary()
+	if err != nil {
+		b.Error(err)
+	}
+	b.ReportAllocs()
+	s2 := New(s1.T0)
+	b.StartTimer()
+	for i := 0; i < b.N; i++ {
+		err = s2.UnmarshalBinary(buf)
+	}
+	if err != nil {
+		b.Errorf("Unexpected error: %v\n", err)
+	}
+}
 func TestExampleEncoding(t *testing.T) {
 
 	// Example from the paper
@@ -83,7 +153,7 @@ func TestRoundtrip(t *testing.T) {
 		}
 		tt, vv := it.Values()
 		// t.Logf("it.Values()=(%+v, %+v)\n", time.Unix(int64(tt), 0), vv)
-		if w.T != uint32(tt) || w.V != vv {
+		if w.T != tt || w.V != vv {
 			t.Errorf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.T, w.V)
 		}
 	}
@@ -214,7 +284,7 @@ func BenchmarkDecodeByteSlice(b *testing.B) {
 
 	for i := 0; i < b.N; i++ {
 		copy(buf, bytes)
-		it, _ := NewIterator(buf,buf)//
+		it, _ := NewIterator(buf)//
 		var j int
 		for it.Next() {
 			j++
@@ -263,8 +333,7 @@ func TestEncodeSimilarFloats(t *testing.T) {
 
 func TestBstreamIteratorError(t *testing.T) {
 	bts := newBReader([]byte(""))
-	bv := newBReader([]byte(""))
-	_, err := bstreamIterator(bts,bv)
+	_, err := bstreamIterator(bts)
 	if err == nil {
 		t.Errorf("An error was expected")
 	}

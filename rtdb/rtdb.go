@@ -9,6 +9,7 @@ import (
 	"github.com/chenjiandongx/logger"
 	"github.com/chenjiandongx/mandodb/pkg/mmap"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -112,7 +113,8 @@ func (rtdb *RTDB) ingestRows(ctx context.Context) {
 				continue
 			}
 			head.InsertRows(rs)
-			//log.Println("enter")
+		case <-time.After(1*time.Second):
+			log.Println(time.Now())
 		}
 	}
 }

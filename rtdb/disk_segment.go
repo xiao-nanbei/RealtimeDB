@@ -1,7 +1,7 @@
 package rtdb
 
 import (
-	"RealtimeDB/gorilla"
+	"RealtimeDB/simple8b"
 	"bytes"
 	"github.com/chenjiandongx/logger"
 	"github.com/chenjiandongx/mandodb/pkg/mmap"
@@ -195,7 +195,7 @@ func (ds *diskSegment) QueryRange(tms TagMatcherSet, start, end int64) ([]Metric
 			return nil, err
 		}
 
-		iter, err := gorilla.NewIterator(dataBytes)
+		iter, err := simple8b.NewIterator(dataBytes)
 		if err != nil {
 			return nil, err
 		}
