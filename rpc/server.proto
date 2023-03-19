@@ -34,7 +34,6 @@ message QuerySeriesResponse {
 }
 message ConfigRequest {
     string name = 11;
-    string path = 5;
 }
 message ConfigResponse {
     string reply =6;

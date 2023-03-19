@@ -69,8 +69,9 @@ func TestRTDB_QueryRange(t *testing.T) {
 
 	ret[0].Tags.Sorted()
 	labels := rtdb.TagSet{
-		{"__name__", "cpu.busy"},
+
 		{"dc", "0"},
+		{"metric", "cpu.busy"},
 		{"node", "vm1"},
 	}
 	assert.Equal(t, ret[0].Tags, labels)
@@ -112,7 +113,7 @@ func TestRTDB_QuerySeries(t *testing.T) {
 	time.Sleep(time.Millisecond * 20)
 
 	ret, err := store.QuerySeries(rtdb.TagMatcherSet{
-		{Name: "__name__", Value: "disk.*", IsRegx: true},
+		{Name: "metric", Value: "disk.*", IsRegx: true},
 		{Name: "node", Value: "vm1"},
 		{Name: "dc", Value: "0"},
 	}, start,start+120)

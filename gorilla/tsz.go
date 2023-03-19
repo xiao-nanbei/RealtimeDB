@@ -215,7 +215,6 @@ func (it *Iter) Next() bool {
 		}
 
 		it.val = math.Float64frombits(v)
-
 		return true
 	}
 

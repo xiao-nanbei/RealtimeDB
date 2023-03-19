@@ -34,7 +34,7 @@ func (s *Server) WritePoints(ctx context.Context, in *rpc.WritePointsRequest) (*
 	rows := []*rtdb.Row{row}
 	if _,ok:=Store[Aps[p.Addr.String()]];!ok{
 		Aps[p.Addr.String()]="testing"
-		Store["testing"] = rtdb.OpenRTDB(rtdb.WithDataPath("./testing"), rtdb.WithLoggerConfig(&logger.Options{
+		Store["testing"] = rtdb.OpenRTDB(rtdb.WithDataPath("./data/testing"), rtdb.WithLoggerConfig(&logger.Options{
 			Stdout:      true,
 			ConsoleMode: true,
 			Level:       logger.ErrorLevel,

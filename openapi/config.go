@@ -15,11 +15,13 @@ func (s *Server)Config(ctx context.Context, in *rpc.ConfigRequest) (*rpc.ConfigR
 	Aps[p.Addr.String()]=in.Name
 	if _,ok:=Store[in.Name];ok{
 		return &rpc.ConfigResponse{Reply: "success"}, nil
+	}else{
+		Store[in.Name] = rtdb.OpenRTDB(rtdb.WithDataPath("./data/"+in.Name), rtdb.WithLoggerConfig(&logger.Options{
+			Stdout:      true,
+			ConsoleMode: true,
+			Level:       logger.ErrorLevel,
+		}))
+
 	}
-	Store[in.Name] = rtdb.OpenRTDB(rtdb.WithDataPath(in.Name), rtdb.WithLoggerConfig(&logger.Options{
-		Stdout:      true,
-		ConsoleMode: true,
-		Level:       logger.ErrorLevel,
-	}))
 	return &rpc.ConfigResponse{Reply: "success"}, nil
 }
