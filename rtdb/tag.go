@@ -163,16 +163,13 @@ func (tvs *TagValueSet) Match(matcher TagMatcher) []string {
 		if err != nil {
 			return []string{matcher.Value}
 		}
-
 		for _, v := range tvs.Get(matcher.Name) {
 			if pattern.MatchString(v) {
 				ret = append(ret, v)
 			}
 		}
-
 		return ret
 	}
-
 	return []string{matcher.Value}
 }
 

@@ -76,8 +76,7 @@ func (ms *MemorySegment) Close() error {
 	if ms.DataPointsCount == 0 || GlobalOpts.OnlyMemoryMode {
 		return nil
 	}
-
-	return writeToDisk(ms)
+	return WriteToDisk(ms)
 }
 
 func (ms *MemorySegment) Cleanup() error {
@@ -126,6 +125,7 @@ func (ms *MemorySegment) QueryTagValues(tag string) []string {
 }
 
 func (ms *MemorySegment) QuerySeries(tms TagMatcherSet) ([]TagSet, error) {
+
 	matchSids := ms.IndexMap.MatchSids(ms.TagVs, tms)
 	ret := make([]TagSet, 0)
 	for _, sid := range matchSids {
@@ -286,7 +286,7 @@ func mkdir(d string) {
 	}
 }
 
-func writeToDisk(segment *MemorySegment) error {
+func WriteToDisk(segment *MemorySegment) error {
 	dataBytes, descBytes, err := segment.Marshal()
 	if err != nil {
 		return fmt.Errorf("failed to marshal segment: %s", err.Error())

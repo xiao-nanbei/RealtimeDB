@@ -2,9 +2,9 @@ package rtdb
 
 
 import (
-	"RealtimeDB/gorilla"
+	"RealtimeDB/simple8b"
+	//"RealtimeDB/gorilla"
 	"github.com/chenjiandongx/mandodb/pkg/sortedlist"
-
 	"math"
 	"sort"
 	"sync"
@@ -12,7 +12,7 @@ import (
 )
 
 type TszStore struct {
-	block *gorilla.Series
+	block *simple8b.Series
 	lock  sync.Mutex
 	maxTs int64
 	count int64
@@ -29,7 +29,7 @@ func (store *TszStore) Append(point *Point) *Point {
 
 	// 懒加载的方式初始化
 	if store.count <= 0 {
-		store.block = gorilla.New(uint64(point.TimeStamp))
+		store.block = simple8b.New(uint64(point.TimeStamp))
 	}
 
 	store.block.Push(uint64(point.TimeStamp), point.Value)

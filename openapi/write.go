@@ -2,9 +2,7 @@ package openapi
 
 import (
 	"RealtimeDB/rpc"
-	"RealtimeDB/rtdb"
 	"context"
-	"encoding/json"
 	"google.golang.org/grpc/peer"
 )
 type Server struct {
@@ -12,26 +10,8 @@ type Server struct {
 }
 func (s *Server) WritePoints(ctx context.Context, in *rpc.WritePointsRequest) (*rpc.WritePointsResponse, error){
 	p, _ := peer.FromContext(ctx)
-	var slice map[string]interface{}
-	err := json.Unmarshal([]byte(in.Row), &slice)
-	if err != nil {
-		return nil, err
-	}
-	row:=&rtdb.Row{
-		Metric: slice["metric"].(string),
-		Point: rtdb.Point{
-			TimeStamp: int64(slice["timestamp"].(float64)),
-			Value: slice["value"].(float64),
-		},
-	}
-	delete(slice,"metric")
-	delete(slice,"timestamp")
-	delete(slice,"value")
-	for k,v:=range slice{
-		row.Tags=append(row.Tags,rtdb.Tag{Name: k,Value: v.(string)})
-	}
-	rows := []*rtdb.Row{row}
-	err = Store[Aps[p.Addr.String()]].InsertRows(rows)
+
+	err := Store[Aps[p.Addr.String()]].WritePoints(in.Row)
 	if err!=nil{
 		return &rpc.WritePointsResponse{Reply: "error"}, nil
 	}else{

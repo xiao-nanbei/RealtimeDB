@@ -127,7 +127,7 @@ func (sl *SegmentList) Replace(pre, nxt Segment) error {
 	return nil
 }
 
-const metricName = "__name__"
+const metricName = "metric"
 
 func isFileExist(path string) bool {
 	_, err := os.Stat(path)

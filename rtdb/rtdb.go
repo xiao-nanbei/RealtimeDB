@@ -9,6 +9,7 @@ import (
 	"github.com/chenjiandongx/logger"
 	"github.com/chenjiandongx/mandodb/pkg/mmap"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -36,7 +37,8 @@ type Row struct {
 	Tags TagSet
 	Point Point
 }
-
+var count = 0
+var mut sync.Mutex
 const (
 	separator    = "/-/"
 	defaultQSize = 128
@@ -112,6 +114,13 @@ func (rtdb *RTDB) ingestRows(ctx context.Context) {
 				continue
 			}
 			head.InsertRows(rs)
+			//log.Println("enter")
+			mut.Lock()
+			count++
+			if count==1600000{
+				log.Println(time.Now())
+			}
+			mut.Unlock()
 		}
 	}
 }
@@ -132,7 +141,7 @@ func (rtdb *RTDB) GetHeadPartition() (Segment, error) {
 			t0 := time.Now()
 			dn := Dirname(head.MinTs(), head.MaxTs())
 
-			if err := writeToDisk(head.(*MemorySegment)); err != nil {
+			if err := WriteToDisk(head.(*MemorySegment)); err != nil {
 				logger.Errorf("failed to flush data to disk, %v", err)
 				return
 			}
@@ -158,6 +167,40 @@ type MetricRet struct {
 	Points []Point
 }
 
+/*
+func (rtdb *RTDB) LoadAllDataToFiles(){
+	rtdb.segs.Mut.Lock()
+	defer rtdb.segs.Mut.Unlock()
+	segs := make([]Segment, 0)
+	iter := rtdb.segs.Lst.All()
+	for iter.Next() {
+		if iter.Value()==nil{
+			break
+		}
+		seg := iter.Value().(Segment)
+		segs = append(segs, seg)
+
+	}
+	segs = append(segs, rtdb.segs.Head)
+	for _,seg:=range segs{
+		seg = seg.Load()
+		seg.QuerySeries()
+	}
+}
+*/
+
+func (rtdb *RTDB) QuerySeries(tms TagMatcherSet, start, end int64) ([]map[string]string, error) {
+	tmp := make([]TagSet, 0)
+	for _, segment := range rtdb.segs.Get(start, end) {
+		segment = segment.Load()
+		data, err := segment.QuerySeries(tms)
+		if err != nil {
+			return nil, err
+		}
+		tmp = append(tmp, data...)
+	}
+	return rtdb.mergeQuerySeriesResult(tmp...), nil
+}
 func (rtdb *RTDB) QueryRange(metric string, tms TagMatcherSet, start, end int64) ([]MetricRet, error) {
 	tms = tms.AddMetricName(metric)
 
@@ -213,19 +256,7 @@ func (rtdb *RTDB) mergeQueryRangeResult(ret ...MetricRet) []MetricRet {
 	return items
 }
 
-func (rtdb *RTDB) QuerySeries(tms TagMatcherSet, start, end int64) ([]map[string]string, error) {
-	tmp := make([]TagSet, 0)
-	for _, segment := range rtdb.segs.Get(start, end) {
-		segment = segment.Load()
-		data, err := segment.QuerySeries(tms)
-		if err != nil {
-			return nil, err
-		}
-		tmp = append(tmp, data...)
-	}
 
-	return rtdb.mergeQuerySeriesResult(tmp...), nil
-}
 
 func (rtdb *RTDB) mergeQuerySeriesResult(ret ...TagSet) []map[string]string {
 	lbs := make(map[uint64]TagSet)
@@ -383,4 +414,27 @@ func OpenRTDB(opts ...Option) *RTDB {
 	go rtdb.removeExpires()
 
 	return rtdb
+}
+func (rtdb *RTDB)WritePoints(r string)error{
+	var slice map[string]interface{}
+	err := json.Unmarshal([]byte(r), &slice)
+	if err != nil {
+		return err
+	}
+	row:=&Row{
+		Metric: slice["metric"].(string),
+		Point: Point{
+			TimeStamp: int64(slice["timestamp"].(float64)),
+			Value: slice["value"].(float64),
+		},
+	}
+	delete(slice,"metric")
+	delete(slice,"timestamp")
+	delete(slice,"value")
+	for k,v:=range slice{
+		row.Tags=append(row.Tags,Tag{Name: k,Value: v.(string)})
+	}
+	rows := []*Row{row}
+	err = rtdb.InsertRows(rows)
+	return nil
 }

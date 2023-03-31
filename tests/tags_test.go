@@ -103,46 +103,46 @@ func TestTags_WithoutEmpty(t *testing.T) {
 		},
 		{
 			input: rtdb.TagSet{
-				{Name: "__name__", Value: "test"},
+				{Name: "metric", Value: "test"},
 				{Name: "hostname", Value: "localhost"},
 				{Name: "job", Value: "check"},
 			},
 			expected: rtdb.TagSet{
-				{Name: "__name__", Value: "test"},
+				{Name: "metric", Value: "test"},
 				{Name: "hostname", Value: "localhost"},
 				{Name: "job", Value: "check"},
 			},
 		},
 		{
 			input: rtdb.TagSet{
-				{Name: "__name__", Value: "test"},
+				{Name: "metric", Value: "test"},
 				{Name: "hostname", Value: "localhost"},
 				{Name: "bar"},
 				{Name: "job", Value: "check"},
 			},
 			expected: rtdb.TagSet{
-				{Name: "__name__", Value: "test"},
+				{Name: "metric", Value: "test"},
 				{Name: "hostname", Value: "localhost"},
 				{Name: "job", Value: "check"},
 			},
 		},
 		{
 			input: rtdb.TagSet{
-				{Name: "__name__", Value: "test"},
+				{Name: "metric", Value: "test"},
 				{Name: "foo"},
 				{Name: "hostname", Value: "localhost"},
 				{Name: "bar"},
 				{Name: "job", Value: "check"},
 			},
 			expected: rtdb.TagSet{
-				{Name: "__name__", Value: "test"},
+				{Name: "metric", Value: "test"},
 				{Name: "hostname", Value: "localhost"},
 				{Name: "job", Value: "check"},
 			},
 		},
 		{
 			input: rtdb.TagSet{
-				{Name: "__name__", Value: "test"},
+				{Name: "metric", Value: "test"},
 				{Name: "foo"},
 				{Name: "baz"},
 				{Name: "hostname", Value: "localhost"},
@@ -150,7 +150,7 @@ func TestTags_WithoutEmpty(t *testing.T) {
 				{Name: "job", Value: "check"},
 			},
 			expected: rtdb.TagSet{
-				{Name: "__name__", Value: "test"},
+				{Name: "metric", Value: "test"},
 				{Name: "hostname", Value: "localhost"},
 				{Name: "job", Value: "check"},
 			},

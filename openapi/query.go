@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"google.golang.org/grpc/peer"
+	"log"
 )
 func (s *Server) QueryNewPoint(ctx context.Context,in *rpc.QueryNewPointRequest)(*rpc.QueryNewPointResponse,error){
 	p, _ := peer.FromContext(ctx)
@@ -40,7 +41,8 @@ func (s *Server) QuerySeries(ctx context.Context, in *rpc.QuerySeriesRequest)(*r
 	delete(slice,"end")
 	var tags rtdb.TagMatcherSet
 	for k,v:=range slice{
-		tags=append(tags,rtdb.TagMatcher{Name: k,Value: v.(string)})
+		tags=append(tags,rtdb.TagMatcher{Name: k,Value: v.(string),IsRegx: true})
+		log.Println(k,v)
 	}
 	ret, err := Store[Aps[p.Addr.String()]].QuerySeries(tags, start,end)
 	if err != nil {

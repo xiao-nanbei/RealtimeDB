@@ -833,23 +833,8 @@ class ConfigRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPathFieldNumber = 5,
     kNameFieldNumber = 11,
   };
-  // string path = 5;
-  void clear_path();
-  const std::string& path() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_path(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_path();
-  PROTOBUF_NODISCARD std::string* release_path();
-  void set_allocated_path(std::string* path);
-  private:
-  const std::string& _internal_path() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_path(const std::string& value);
-  std::string* _internal_mutable_path();
-  public:
-
   // string name = 11;
   void clear_name();
   const std::string& name() const;
@@ -872,7 +857,6 @@ class ConfigRequest final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr path_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -2225,56 +2209,6 @@ inline void ConfigRequest::set_allocated_name(std::string* name) {
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:rpc.ConfigRequest.name)
-}
-
-// string path = 5;
-inline void ConfigRequest::clear_path() {
-  _impl_.path_.ClearToEmpty();
-}
-inline const std::string& ConfigRequest::path() const {
-  // @@protoc_insertion_point(field_get:rpc.ConfigRequest.path)
-  return _internal_path();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void ConfigRequest::set_path(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.path_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:rpc.ConfigRequest.path)
-}
-inline std::string* ConfigRequest::mutable_path() {
-  std::string* _s = _internal_mutable_path();
-  // @@protoc_insertion_point(field_mutable:rpc.ConfigRequest.path)
-  return _s;
-}
-inline const std::string& ConfigRequest::_internal_path() const {
-  return _impl_.path_.Get();
-}
-inline void ConfigRequest::_internal_set_path(const std::string& value) {
-  
-  _impl_.path_.Set(value, GetArenaForAllocation());
-}
-inline std::string* ConfigRequest::_internal_mutable_path() {
-  
-  return _impl_.path_.Mutable(GetArenaForAllocation());
-}
-inline std::string* ConfigRequest::release_path() {
-  // @@protoc_insertion_point(field_release:rpc.ConfigRequest.path)
-  return _impl_.path_.Release();
-}
-inline void ConfigRequest::set_allocated_path(std::string* path) {
-  if (path != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.path_.SetAllocated(path, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.path_.IsDefault()) {
-    _impl_.path_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:rpc.ConfigRequest.path)
 }
 
 // -------------------------------------------------------------------

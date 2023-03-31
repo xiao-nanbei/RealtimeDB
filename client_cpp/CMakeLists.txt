@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.25)
 project(client_cc)
 
 find_package(Threads REQUIRED)
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
 find_package(Protobuf CONFIG REQUIRED)
 set(_PROTOBUF_LIBPROTOBUF protobuf::libprotobuf)
 set(_REFLECTION gRPC::grpc++_reflection)
@@ -33,5 +35,8 @@ foreach(_target
             rpc_grpc_proto
             ${_REFLECTION}
             ${_GRPC_GRPCPP}
-            ${_PROTOBUF_LIBPROTOBUF})
+            ${_PROTOBUF_LIBPROTOBUF}
+            ${GTEST_BOTH_LIBRARIES}
+            )
+    gtest_discover_tests(${_target})
 endforeach()

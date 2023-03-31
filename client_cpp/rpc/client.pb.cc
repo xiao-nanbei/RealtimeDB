@@ -75,8 +75,7 @@ struct QuerySeriesResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 QuerySeriesResponseDefaultTypeInternal _QuerySeriesResponse_default_instance_;
 PROTOBUF_CONSTEXPR ConfigRequest::ConfigRequest(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.path_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct ConfigRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ConfigRequestDefaultTypeInternal()
@@ -219,7 +218,6 @@ const uint32_t TableStruct_client_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::rpc::ConfigRequest, _impl_.name_),
-  PROTOBUF_FIELD_OFFSET(::rpc::ConfigRequest, _impl_.path_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::rpc::ConfigResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -276,13 +274,13 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 14, -1, -1, sizeof(::rpc::QuerySeriesRequest)},
   { 21, -1, -1, sizeof(::rpc::QuerySeriesResponse)},
   { 28, -1, -1, sizeof(::rpc::ConfigRequest)},
-  { 36, -1, -1, sizeof(::rpc::ConfigResponse)},
-  { 43, -1, -1, sizeof(::rpc::QueryRangeRequest)},
-  { 50, -1, -1, sizeof(::rpc::QueryRangeResponse)},
-  { 57, -1, -1, sizeof(::rpc::QueryTagValuesRequest)},
-  { 64, -1, -1, sizeof(::rpc::QueryTagValuesResponse)},
-  { 71, -1, -1, sizeof(::rpc::QueryNewPointRequest)},
-  { 78, -1, -1, sizeof(::rpc::QueryNewPointResponse)},
+  { 35, -1, -1, sizeof(::rpc::ConfigResponse)},
+  { 42, -1, -1, sizeof(::rpc::QueryRangeRequest)},
+  { 49, -1, -1, sizeof(::rpc::QueryRangeResponse)},
+  { 56, -1, -1, sizeof(::rpc::QueryTagValuesRequest)},
+  { 63, -1, -1, sizeof(::rpc::QueryTagValuesResponse)},
+  { 70, -1, -1, sizeof(::rpc::QueryNewPointRequest)},
+  { 77, -1, -1, sizeof(::rpc::QueryNewPointResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -305,30 +303,30 @@ const char descriptor_table_protodef_client_2eproto[] PROTOBUF_SECTION_VARIABLE(
   "t\022\013\n\003row\030\001 \001(\t\"$\n\023WritePointsResponse\022\r\n"
   "\005reply\030\002 \001(\t\"\"\n\022QuerySeriesRequest\022\014\n\004ta"
   "gs\030\003 \001(\t\"$\n\023QuerySeriesResponse\022\r\n\005reply"
-  "\030\004 \001(\t\"+\n\rConfigRequest\022\014\n\004name\030\013 \001(\t\022\014\n"
-  "\004path\030\005 \001(\t\"\037\n\016ConfigResponse\022\r\n\005reply\030\006"
-  " \001(\t\"(\n\021QueryRangeRequest\022\023\n\013metric_tags"
-  "\030\007 \001(\t\"#\n\022QueryRangeResponse\022\r\n\005reply\030\010 "
-  "\001(\t\"$\n\025QueryTagValuesRequest\022\013\n\003tag\030\t \001("
-  "\t\"\'\n\026QueryTagValuesResponse\022\r\n\005reply\030\n \001"
-  "(\t\"#\n\024QueryNewPointRequest\022\013\n\003tag\030\013 \001(\t\""
-  "&\n\025QueryNewPointResponse\022\r\n\005reply\030\014 \001(\t2"
-  "\236\003\n\007Greeter\022B\n\013WritePoints\022\027.rpc.WritePo"
-  "intsRequest\032\030.rpc.WritePointsResponse\"\000\022"
-  "B\n\013QuerySeries\022\027.rpc.QuerySeriesRequest\032"
-  "\030.rpc.QuerySeriesResponse\"\000\0223\n\006Config\022\022."
-  "rpc.ConfigRequest\032\023.rpc.ConfigResponse\"\000"
-  "\022\?\n\nQueryRange\022\026.rpc.QueryRangeRequest\032\027"
-  ".rpc.QueryRangeResponse\"\000\022K\n\016QueryTagVal"
-  "ues\022\032.rpc.QueryTagValuesRequest\032\033.rpc.Qu"
-  "eryTagValuesResponse\"\000\022H\n\rQueryNewPoint\022"
-  "\031.rpc.QueryNewPointRequest\032\032.rpc.QueryNe"
-  "wPointResponse\"\000B\036\n\007grpc.exB\013ClientProto"
-  "P\001\242\002\003RPCb\006proto3"
+  "\030\004 \001(\t\"\035\n\rConfigRequest\022\014\n\004name\030\013 \001(\t\"\037\n"
+  "\016ConfigResponse\022\r\n\005reply\030\006 \001(\t\"(\n\021QueryR"
+  "angeRequest\022\023\n\013metric_tags\030\007 \001(\t\"#\n\022Quer"
+  "yRangeResponse\022\r\n\005reply\030\010 \001(\t\"$\n\025QueryTa"
+  "gValuesRequest\022\013\n\003tag\030\t \001(\t\"\'\n\026QueryTagV"
+  "aluesResponse\022\r\n\005reply\030\n \001(\t\"#\n\024QueryNew"
+  "PointRequest\022\013\n\003tag\030\013 \001(\t\"&\n\025QueryNewPoi"
+  "ntResponse\022\r\n\005reply\030\014 \001(\t2\236\003\n\007Greeter\022B\n"
+  "\013WritePoints\022\027.rpc.WritePointsRequest\032\030."
+  "rpc.WritePointsResponse\"\000\022B\n\013QuerySeries"
+  "\022\027.rpc.QuerySeriesRequest\032\030.rpc.QuerySer"
+  "iesResponse\"\000\0223\n\006Config\022\022.rpc.ConfigRequ"
+  "est\032\023.rpc.ConfigResponse\"\000\022\?\n\nQueryRange"
+  "\022\026.rpc.QueryRangeRequest\032\027.rpc.QueryRang"
+  "eResponse\"\000\022K\n\016QueryTagValues\022\032.rpc.Quer"
+  "yTagValuesRequest\032\033.rpc.QueryTagValuesRe"
+  "sponse\"\000\022H\n\rQueryNewPoint\022\031.rpc.QueryNew"
+  "PointRequest\032\032.rpc.QueryNewPointResponse"
+  "\"\000B\036\n\007grpc.exB\013ClientProtoP\001\242\002\003RPCb\006prot"
+  "o3"
   ;
 static ::_pbi::once_flag descriptor_table_client_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_client_2eproto = {
-    false, false, 936, descriptor_table_protodef_client_2eproto,
+    false, false, 922, descriptor_table_protodef_client_2eproto,
     "client.proto",
     &descriptor_table_client_2eproto_once, nullptr, 0, 12,
     schemas, file_default_instances, TableStruct_client_2eproto::offsets,
@@ -1171,19 +1169,10 @@ ConfigRequest::ConfigRequest(const ConfigRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ConfigRequest* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.path_){}
-    , decltype(_impl_.name_){}
+      decltype(_impl_.name_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.path_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.path_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_path().empty()) {
-    _this->_impl_.path_.Set(from._internal_path(), 
-      _this->GetArenaForAllocation());
-  }
   _impl_.name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.name_.Set("", GetArenaForAllocation());
@@ -1200,14 +1189,9 @@ inline void ConfigRequest::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.path_){}
-    , decltype(_impl_.name_){}
+      decltype(_impl_.name_){}
     , /*decltype(_impl_._cached_size_)*/{}
   };
-  _impl_.path_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.path_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.name_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.name_.Set("", GetArenaForAllocation());
@@ -1225,7 +1209,6 @@ ConfigRequest::~ConfigRequest() {
 
 inline void ConfigRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.path_.Destroy();
   _impl_.name_.Destroy();
 }
 
@@ -1239,7 +1222,6 @@ void ConfigRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.path_.ClearToEmpty();
   _impl_.name_.ClearToEmpty();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -1250,16 +1232,6 @@ const char* ConfigRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext*
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string path = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
-          auto str = _internal_mutable_path();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "rpc.ConfigRequest.path"));
-        } else
-          goto handle_unusual;
-        continue;
       // string name = 11;
       case 11:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
@@ -1299,16 +1271,6 @@ uint8_t* ConfigRequest::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string path = 5;
-  if (!this->_internal_path().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_path().data(), static_cast<int>(this->_internal_path().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "rpc.ConfigRequest.path");
-    target = stream->WriteStringMaybeAliased(
-        5, this->_internal_path(), target);
-  }
-
   // string name = 11;
   if (!this->_internal_name().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
@@ -1335,13 +1297,6 @@ size_t ConfigRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string path = 5;
-  if (!this->_internal_path().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_path());
-  }
-
   // string name = 11;
   if (!this->_internal_name().empty()) {
     total_size += 1 +
@@ -1367,9 +1322,6 @@ void ConfigRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_path().empty()) {
-    _this->_internal_set_path(from._internal_path());
-  }
   if (!from._internal_name().empty()) {
     _this->_internal_set_name(from._internal_name());
   }
@@ -1392,10 +1344,6 @@ void ConfigRequest::InternalSwap(ConfigRequest* other) {
   auto* lhs_arena = GetArenaForAllocation();
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.path_, lhs_arena,
-      &other->_impl_.path_, rhs_arena
-  );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.name_, lhs_arena,
       &other->_impl_.name_, rhs_arena
