@@ -11,11 +11,11 @@ find_package(gRPC CONFIG REQUIRED)
 set(_GRPC_GRPCPP gRPC::grpc++)
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories("${CMAKE_CURRENT_BINARY_DIR}/../client_cc/rpc")
-set(rpc_proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/../client_cc/rpc/client.pb.cc")
-set(rpc_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/../client_cc/rpc/client.pb.h")
-set(rpc_grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/../client_cc/rpc/client.grpc.pb.cc")
-set(rpc_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/../client_cc/rpc/client.grpc.pb.h" client.cpp)
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/../rpc")
+set(rpc_proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/../rpc/client.pb.cc")
+set(rpc_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/../rpc/client.pb.h")
+set(rpc_grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/../rpc/client.grpc.pb.cc")
+set(rpc_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/../rpc/client.grpc.pb.h" client.cpp)
 
 add_library(rpc_grpc_proto
         ${rpc_grpc_srcs}

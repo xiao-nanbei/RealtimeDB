@@ -8,7 +8,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"sync"
 )
 var localhostPort string
 
