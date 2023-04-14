@@ -78,6 +78,20 @@ class Greeter final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryNewPointResponse>> PrepareAsyncQueryNewPoint(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryNewPointResponse>>(PrepareAsyncQueryNewPointRaw(context, request, cq));
     }
+    virtual ::grpc::Status QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::rpc::QuerySeriesAllDataResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QuerySeriesAllDataResponse>> AsyncQuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QuerySeriesAllDataResponse>>(AsyncQuerySeriesAllDataRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QuerySeriesAllDataResponse>> PrepareAsyncQuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QuerySeriesAllDataResponse>>(PrepareAsyncQuerySeriesAllDataRaw(context, request, cq));
+    }
+    virtual ::grpc::Status QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::rpc::QueryAllDataResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryAllDataResponse>> AsyncQueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryAllDataResponse>>(AsyncQueryAllDataRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryAllDataResponse>> PrepareAsyncQueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryAllDataResponse>>(PrepareAsyncQueryAllDataRaw(context, request, cq));
+    }
     class async_interface {
      public:
       virtual ~async_interface() {}
@@ -93,6 +107,10 @@ class Greeter final {
       virtual void QueryTagValues(::grpc::ClientContext* context, const ::rpc::QueryTagValuesRequest* request, ::rpc::QueryTagValuesResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void QueryNewPoint(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest* request, ::rpc::QueryNewPointResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void QueryNewPoint(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest* request, ::rpc::QueryNewPointResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
@@ -110,6 +128,10 @@ class Greeter final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryTagValuesResponse>* PrepareAsyncQueryTagValuesRaw(::grpc::ClientContext* context, const ::rpc::QueryTagValuesRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryNewPointResponse>* AsyncQueryNewPointRaw(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryNewPointResponse>* PrepareAsyncQueryNewPointRaw(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QuerySeriesAllDataResponse>* AsyncQuerySeriesAllDataRaw(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QuerySeriesAllDataResponse>* PrepareAsyncQuerySeriesAllDataRaw(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryAllDataResponse>* AsyncQueryAllDataRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::rpc::QueryAllDataResponse>* PrepareAsyncQueryAllDataRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -156,6 +178,20 @@ class Greeter final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QueryNewPointResponse>> PrepareAsyncQueryNewPoint(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QueryNewPointResponse>>(PrepareAsyncQueryNewPointRaw(context, request, cq));
     }
+    ::grpc::Status QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::rpc::QuerySeriesAllDataResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QuerySeriesAllDataResponse>> AsyncQuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QuerySeriesAllDataResponse>>(AsyncQuerySeriesAllDataRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QuerySeriesAllDataResponse>> PrepareAsyncQuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QuerySeriesAllDataResponse>>(PrepareAsyncQuerySeriesAllDataRaw(context, request, cq));
+    }
+    ::grpc::Status QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::rpc::QueryAllDataResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QueryAllDataResponse>> AsyncQueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QueryAllDataResponse>>(AsyncQueryAllDataRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QueryAllDataResponse>> PrepareAsyncQueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::rpc::QueryAllDataResponse>>(PrepareAsyncQueryAllDataRaw(context, request, cq));
+    }
     class async final :
       public StubInterface::async_interface {
      public:
@@ -171,6 +207,10 @@ class Greeter final {
       void QueryTagValues(::grpc::ClientContext* context, const ::rpc::QueryTagValuesRequest* request, ::rpc::QueryTagValuesResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void QueryNewPoint(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest* request, ::rpc::QueryNewPointResponse* response, std::function<void(::grpc::Status)>) override;
       void QueryNewPoint(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest* request, ::rpc::QueryNewPointResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response, std::function<void(::grpc::Status)>) override;
+      void QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response, std::function<void(::grpc::Status)>) override;
+      void QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -194,12 +234,18 @@ class Greeter final {
     ::grpc::ClientAsyncResponseReader< ::rpc::QueryTagValuesResponse>* PrepareAsyncQueryTagValuesRaw(::grpc::ClientContext* context, const ::rpc::QueryTagValuesRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::rpc::QueryNewPointResponse>* AsyncQueryNewPointRaw(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::rpc::QueryNewPointResponse>* PrepareAsyncQueryNewPointRaw(::grpc::ClientContext* context, const ::rpc::QueryNewPointRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::rpc::QuerySeriesAllDataResponse>* AsyncQuerySeriesAllDataRaw(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::rpc::QuerySeriesAllDataResponse>* PrepareAsyncQuerySeriesAllDataRaw(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::rpc::QueryAllDataResponse>* AsyncQueryAllDataRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::rpc::QueryAllDataResponse>* PrepareAsyncQueryAllDataRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_WritePoints_;
     const ::grpc::internal::RpcMethod rpcmethod_QuerySeries_;
     const ::grpc::internal::RpcMethod rpcmethod_Config_;
     const ::grpc::internal::RpcMethod rpcmethod_QueryRange_;
     const ::grpc::internal::RpcMethod rpcmethod_QueryTagValues_;
     const ::grpc::internal::RpcMethod rpcmethod_QueryNewPoint_;
+    const ::grpc::internal::RpcMethod rpcmethod_QuerySeriesAllData_;
+    const ::grpc::internal::RpcMethod rpcmethod_QueryAllData_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -213,6 +259,8 @@ class Greeter final {
     virtual ::grpc::Status QueryRange(::grpc::ServerContext* context, const ::rpc::QueryRangeRequest* request, ::rpc::QueryRangeResponse* response);
     virtual ::grpc::Status QueryTagValues(::grpc::ServerContext* context, const ::rpc::QueryTagValuesRequest* request, ::rpc::QueryTagValuesResponse* response);
     virtual ::grpc::Status QueryNewPoint(::grpc::ServerContext* context, const ::rpc::QueryNewPointRequest* request, ::rpc::QueryNewPointResponse* response);
+    virtual ::grpc::Status QuerySeriesAllData(::grpc::ServerContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response);
+    virtual ::grpc::Status QueryAllData(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_WritePoints : public BaseClass {
@@ -334,7 +382,47 @@ class Greeter final {
       ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_WritePoints<WithAsyncMethod_QuerySeries<WithAsyncMethod_Config<WithAsyncMethod_QueryRange<WithAsyncMethod_QueryTagValues<WithAsyncMethod_QueryNewPoint<Service > > > > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_QuerySeriesAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_QuerySeriesAllData() {
+      ::grpc::Service::MarkMethodAsync(6);
+    }
+    ~WithAsyncMethod_QuerySeriesAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QuerySeriesAllData(::grpc::ServerContext* /*context*/, const ::rpc::QuerySeriesAllDataRequest* /*request*/, ::rpc::QuerySeriesAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestQuerySeriesAllData(::grpc::ServerContext* context, ::rpc::QuerySeriesAllDataRequest* request, ::grpc::ServerAsyncResponseWriter< ::rpc::QuerySeriesAllDataResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_QueryAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_QueryAllData() {
+      ::grpc::Service::MarkMethodAsync(7);
+    }
+    ~WithAsyncMethod_QueryAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QueryAllData(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::rpc::QueryAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestQueryAllData(::grpc::ServerContext* context, ::google::protobuf::Empty* request, ::grpc::ServerAsyncResponseWriter< ::rpc::QueryAllDataResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_WritePoints<WithAsyncMethod_QuerySeries<WithAsyncMethod_Config<WithAsyncMethod_QueryRange<WithAsyncMethod_QueryTagValues<WithAsyncMethod_QueryNewPoint<WithAsyncMethod_QuerySeriesAllData<WithAsyncMethod_QueryAllData<Service > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_WritePoints : public BaseClass {
    private:
@@ -497,7 +585,61 @@ class Greeter final {
     virtual ::grpc::ServerUnaryReactor* QueryNewPoint(
       ::grpc::CallbackServerContext* /*context*/, const ::rpc::QueryNewPointRequest* /*request*/, ::rpc::QueryNewPointResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_WritePoints<WithCallbackMethod_QuerySeries<WithCallbackMethod_Config<WithCallbackMethod_QueryRange<WithCallbackMethod_QueryTagValues<WithCallbackMethod_QueryNewPoint<Service > > > > > > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_QuerySeriesAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_QuerySeriesAllData() {
+      ::grpc::Service::MarkMethodCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::rpc::QuerySeriesAllDataRequest, ::rpc::QuerySeriesAllDataResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response) { return this->QuerySeriesAllData(context, request, response); }));}
+    void SetMessageAllocatorFor_QuerySeriesAllData(
+        ::grpc::MessageAllocator< ::rpc::QuerySeriesAllDataRequest, ::rpc::QuerySeriesAllDataResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::rpc::QuerySeriesAllDataRequest, ::rpc::QuerySeriesAllDataResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_QuerySeriesAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QuerySeriesAllData(::grpc::ServerContext* /*context*/, const ::rpc::QuerySeriesAllDataRequest* /*request*/, ::rpc::QuerySeriesAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* QuerySeriesAllData(
+      ::grpc::CallbackServerContext* /*context*/, const ::rpc::QuerySeriesAllDataRequest* /*request*/, ::rpc::QuerySeriesAllDataResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_QueryAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_QueryAllData() {
+      ::grpc::Service::MarkMethodCallback(7,
+          new ::grpc::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::rpc::QueryAllDataResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response) { return this->QueryAllData(context, request, response); }));}
+    void SetMessageAllocatorFor_QueryAllData(
+        ::grpc::MessageAllocator< ::google::protobuf::Empty, ::rpc::QueryAllDataResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::google::protobuf::Empty, ::rpc::QueryAllDataResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_QueryAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QueryAllData(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::rpc::QueryAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* QueryAllData(
+      ::grpc::CallbackServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::rpc::QueryAllDataResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_WritePoints<WithCallbackMethod_QuerySeries<WithCallbackMethod_Config<WithCallbackMethod_QueryRange<WithCallbackMethod_QueryTagValues<WithCallbackMethod_QueryNewPoint<WithCallbackMethod_QuerySeriesAllData<WithCallbackMethod_QueryAllData<Service > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_WritePoints : public BaseClass {
@@ -597,6 +739,40 @@ class Greeter final {
     }
     // disable synchronous version of this method
     ::grpc::Status QueryNewPoint(::grpc::ServerContext* /*context*/, const ::rpc::QueryNewPointRequest* /*request*/, ::rpc::QueryNewPointResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_QuerySeriesAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_QuerySeriesAllData() {
+      ::grpc::Service::MarkMethodGeneric(6);
+    }
+    ~WithGenericMethod_QuerySeriesAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QuerySeriesAllData(::grpc::ServerContext* /*context*/, const ::rpc::QuerySeriesAllDataRequest* /*request*/, ::rpc::QuerySeriesAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_QueryAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_QueryAllData() {
+      ::grpc::Service::MarkMethodGeneric(7);
+    }
+    ~WithGenericMethod_QueryAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QueryAllData(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::rpc::QueryAllDataResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -719,6 +895,46 @@ class Greeter final {
     }
     void RequestQueryNewPoint(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_QuerySeriesAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_QuerySeriesAllData() {
+      ::grpc::Service::MarkMethodRaw(6);
+    }
+    ~WithRawMethod_QuerySeriesAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QuerySeriesAllData(::grpc::ServerContext* /*context*/, const ::rpc::QuerySeriesAllDataRequest* /*request*/, ::rpc::QuerySeriesAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestQuerySeriesAllData(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_QueryAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_QueryAllData() {
+      ::grpc::Service::MarkMethodRaw(7);
+    }
+    ~WithRawMethod_QueryAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QueryAllData(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::rpc::QueryAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestQueryAllData(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -851,6 +1067,50 @@ class Greeter final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* QueryNewPoint(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_QuerySeriesAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_QuerySeriesAllData() {
+      ::grpc::Service::MarkMethodRawCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->QuerySeriesAllData(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_QuerySeriesAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QuerySeriesAllData(::grpc::ServerContext* /*context*/, const ::rpc::QuerySeriesAllDataRequest* /*request*/, ::rpc::QuerySeriesAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* QuerySeriesAllData(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_QueryAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_QueryAllData() {
+      ::grpc::Service::MarkMethodRawCallback(7,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->QueryAllData(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_QueryAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status QueryAllData(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::rpc::QueryAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* QueryAllData(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -1015,9 +1275,63 @@ class Greeter final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedQueryNewPoint(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::rpc::QueryNewPointRequest,::rpc::QueryNewPointResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_WritePoints<WithStreamedUnaryMethod_QuerySeries<WithStreamedUnaryMethod_Config<WithStreamedUnaryMethod_QueryRange<WithStreamedUnaryMethod_QueryTagValues<WithStreamedUnaryMethod_QueryNewPoint<Service > > > > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_QuerySeriesAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_QuerySeriesAllData() {
+      ::grpc::Service::MarkMethodStreamed(6,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::rpc::QuerySeriesAllDataRequest, ::rpc::QuerySeriesAllDataResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::rpc::QuerySeriesAllDataRequest, ::rpc::QuerySeriesAllDataResponse>* streamer) {
+                       return this->StreamedQuerySeriesAllData(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_QuerySeriesAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status QuerySeriesAllData(::grpc::ServerContext* /*context*/, const ::rpc::QuerySeriesAllDataRequest* /*request*/, ::rpc::QuerySeriesAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedQuerySeriesAllData(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::rpc::QuerySeriesAllDataRequest,::rpc::QuerySeriesAllDataResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_QueryAllData : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_QueryAllData() {
+      ::grpc::Service::MarkMethodStreamed(7,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::google::protobuf::Empty, ::rpc::QueryAllDataResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::google::protobuf::Empty, ::rpc::QueryAllDataResponse>* streamer) {
+                       return this->StreamedQueryAllData(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_QueryAllData() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status QueryAllData(::grpc::ServerContext* /*context*/, const ::google::protobuf::Empty* /*request*/, ::rpc::QueryAllDataResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedQueryAllData(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::google::protobuf::Empty,::rpc::QueryAllDataResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_WritePoints<WithStreamedUnaryMethod_QuerySeries<WithStreamedUnaryMethod_Config<WithStreamedUnaryMethod_QueryRange<WithStreamedUnaryMethod_QueryTagValues<WithStreamedUnaryMethod_QueryNewPoint<WithStreamedUnaryMethod_QuerySeriesAllData<WithStreamedUnaryMethod_QueryAllData<Service > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_WritePoints<WithStreamedUnaryMethod_QuerySeries<WithStreamedUnaryMethod_Config<WithStreamedUnaryMethod_QueryRange<WithStreamedUnaryMethod_QueryTagValues<WithStreamedUnaryMethod_QueryNewPoint<Service > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_WritePoints<WithStreamedUnaryMethod_QuerySeries<WithStreamedUnaryMethod_Config<WithStreamedUnaryMethod_QueryRange<WithStreamedUnaryMethod_QueryTagValues<WithStreamedUnaryMethod_QueryNewPoint<WithStreamedUnaryMethod_QuerySeriesAllData<WithStreamedUnaryMethod_QueryAllData<Service > > > > > > > > StreamedService;
 };
 
 }  // namespace rpc

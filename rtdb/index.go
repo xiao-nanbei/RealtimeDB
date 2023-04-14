@@ -105,17 +105,17 @@ func (mim *memoryIndexMap) UpdateIndex(sid string, tags TagSet) {
 	}
 }
 
-func (mim *memoryIndexMap) MatchSids(tvs *TagValueSet, lms TagMatcherSet) []string {
+func (mim *memoryIndexMap) MatchSids(tvs *TagValueSet, tms TagMatcherSet) []string {
 	mim.mut.Lock()
 	defer mim.mut.Unlock()
 
 	sids := newMemorySidSet()
 	var got bool
-	for i := len(lms) - 1; i >= 0; i-- {
+	for i := len(tms) - 1; i >= 0; i-- {
 		tmp := newMemorySidSet()
-		vs := tvs.Match(lms[i])
+		vs := tvs.Match(tms[i])
 		for _, v := range vs {
-			midx := mim.idx[JoinSeparator(lms[i].Name, v)]
+			midx := mim.idx[JoinSeparator(tms[i].Name, v)]
 			if midx == nil || midx.Size() <= 0 {
 				continue
 			}

@@ -6,6 +6,10 @@
 series1: {"metric": "cpu.busy", "host": "localhost", "iface": "eth0"}
 series2: {"metric": "cpu.busy", "host": "localhost", "iface": "eth1"}
 ```
+## API
+```
+
+```
 ## 优化
 ### 压缩算法优化
 #### 磁盘压缩（二次压缩）优化
@@ -20,6 +24,15 @@ series2: {"metric": "cpu.busy", "host": "localhost", "iface": "eth1"}
 3. delta&simple8b算法
 ##### 压缩算法比较
 为什么
+##### 自适应压缩算法
+avgFre = dataPointsCount/SeriesCount/Duration
+if avgFre>=0.7{
+    bitmap()
+}else if avgFre>=0.3{
+    simple8b()
+}else {
+    gorilla()
+}
 ##### 性能比较
 
 ### 索引优化
@@ -49,4 +62,34 @@ cd grpc/third_party/protobuf/
 make
 sudo make install
 ```
-3.
+
+### API调用
+```
+service Greeter {
+    rpc WritePoints (WritePointsRequest) returns (WritePointsResponse) {}
+    rpc QuerySeries (QuerySeriesRequest) returns (QuerySeriesResponse) {}
+    rpc Config (ConfigRequest) returns (ConfigResponse) {}
+    rpc QueryRange (QueryRangeRequest) returns (QueryRangeResponse) {}
+    rpc QueryTagValues (QueryTagValuesRequest) returns (QueryTagValuesResponse) {}
+    rpc QueryNewPoint (QueryNewPointRequest) returns (QueryNewPointResponse) {}
+}
+```
+#### Config
+每一台client试图连接server的时候，会先调用config函数来进行配置，每一个客户端配置一个数据库实例。
+```
+//在client中设定了localhost:8086
+ClientConfig client(grpc::CreateChannel("localhost:8086",grpc::InsecureChannelCredentials()));
+//向server发送请求，绑定“example”数据库实例
+client.Config("example");
+```
+#### WritePoints
+```
+//绑定client配置存根
+writePoints.stub_=client.stub_;
+//写入一行数据
+writePoints.WritePoints(row);
+```
+#### Query
+```
+
+```

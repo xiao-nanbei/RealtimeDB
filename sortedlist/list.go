@@ -15,10 +15,13 @@ type List interface {
 
 	// All 迭代所有对象
 	All() Iter
+
+	PreAll() Iter
 }
 
 // Iter 迭代器对象
 type Iter interface {
+	Pre() bool
 	Next() bool
 	Value() interface{}
 }
@@ -27,6 +30,7 @@ type iter struct {
 	cursor int
 	data   []interface{}
 }
+
 
 // Next 推进迭代器
 func (it *iter) Next() bool {
@@ -37,7 +41,14 @@ func (it *iter) Next() bool {
 
 	return false
 }
-
+// Next 推进迭代器
+func (it *iter) Pre() bool {
+	it.cursor--
+	if it.cursor>=0 {
+		return true
+	}
+	return false
+}
 // Value 返回迭代器当前 value
 func (it *iter) Value() interface{} {
 	return it.data[it.cursor]
@@ -102,7 +113,9 @@ func (tree *redblackTree) Remove(k int64) bool {
 func (tree *redblackTree) All() Iter {
 	return tree.root.values(0, math.MaxInt64)
 }
-
+func (tree *redblackTree) PreAll() Iter{
+	return tree.root.prevalues(0, math.MaxInt64)
+}
 func (tree *redblackTree) Range(lower, upper int64) Iter {
 	return tree.root.values(lower, upper)
 }
@@ -287,3 +300,10 @@ func (node *Node) values(lower, upper int64) Iter {
 
 	return it
 }
+func (node *Node) prevalues(lower, upper int64) Iter {
+	it := &iter{data: []interface{}{nil}}
+	it.data = appendValue(it.data, lower, upper, node)
+	it.cursor=len(it.data)-1
+	return it
+}
+

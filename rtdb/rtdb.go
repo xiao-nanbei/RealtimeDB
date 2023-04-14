@@ -9,7 +9,6 @@ import (
 	"github.com/chenjiandongx/logger"
 	"github.com/chenjiandongx/mandodb/pkg/mmap"
 	"io/ioutil"
-	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -37,8 +36,6 @@ type Row struct {
 	Tags TagSet
 	Point Point
 }
-var count = 0
-var mut sync.Mutex
 const (
 	separator    = "/-/"
 	defaultQSize = 128
@@ -114,13 +111,6 @@ func (rtdb *RTDB) ingestRows(ctx context.Context) {
 				continue
 			}
 			head.InsertRows(rs)
-			//log.Println("enter")
-			mut.Lock()
-			count++
-			if count==1600000{
-				log.Println(time.Now())
-			}
-			mut.Unlock()
 		}
 	}
 }
@@ -167,27 +157,6 @@ type MetricRet struct {
 	Points []Point
 }
 
-/*
-func (rtdb *RTDB) LoadAllDataToFiles(){
-	rtdb.segs.Mut.Lock()
-	defer rtdb.segs.Mut.Unlock()
-	segs := make([]Segment, 0)
-	iter := rtdb.segs.Lst.All()
-	for iter.Next() {
-		if iter.Value()==nil{
-			break
-		}
-		seg := iter.Value().(Segment)
-		segs = append(segs, seg)
-
-	}
-	segs = append(segs, rtdb.segs.Head)
-	for _,seg:=range segs{
-		seg = seg.Load()
-		seg.QuerySeries()
-	}
-}
-*/
 
 func (rtdb *RTDB) QuerySeries(tms TagMatcherSet, start, end int64) ([]map[string]string, error) {
 	tmp := make([]TagSet, 0)
@@ -217,15 +186,52 @@ func (rtdb *RTDB) QueryRange(metric string, tms TagMatcherSet, start, end int64)
 
 	return rtdb.mergeQueryRangeResult(tmp...), nil
 }
-func (rtdb *RTDB) QueryNewPoint(metric string, tms TagMatcherSet) ([]Point, error){
+func (rtdb *RTDB) QueryNewPoint(metric string, tms TagMatcherSet) (Point, error){
+	point:=Point{TimeStamp: -1,Value: -1}
 	tms = tms.AddMetricName(metric)
-	segment:=rtdb.segs.Head
-	segment = segment.Load()
-	data, err := segment.GetNewPoint(tms)
+	seg:=rtdb.segs.Head
+	seg = seg.Load()
+	data, err := seg.GetNewPoint(tms)
 	if err != nil {
-		return nil, err
+		return point, err
 	}
-	return data, nil
+	if data.TimeStamp!=-1{
+		return data, nil
+	}
+	iter:=rtdb.segs.Lst.PreAll()
+	for {
+		if iter.Value()==nil{
+			break
+		}
+		seg := iter.Value().(Segment)
+		seg = seg.Load()
+		data, err := seg.GetNewPoint(tms)
+		if err != nil {
+			return point, err
+		}
+		if data.TimeStamp!=-1{
+			return data, nil
+		}
+		flag:=iter.Pre()
+		if flag==false{
+			break
+		}
+	}
+/*
+
+	segments:=rtdb.segs.Get(0, 3200000000000)
+	for i:=len(segments)-1;i>=0;i--{
+		seg:=segments[i].Load()
+		data, err := seg.GetNewPoint(tms)
+		if err != nil {
+			return point, err
+		}
+		if data.TimeStamp!=-1{
+			return data, nil
+		}
+	}
+*/
+	return point,nil
 }
 
 func (rtdb *RTDB) mergeQueryRangeResult(ret ...MetricRet) []MetricRet {

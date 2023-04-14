@@ -177,8 +177,47 @@ struct QueryNewPointResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 QueryNewPointResponseDefaultTypeInternal _QueryNewPointResponse_default_instance_;
+PROTOBUF_CONSTEXPR QuerySeriesAllDataRequest::QuerySeriesAllDataRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.metric_tags_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct QuerySeriesAllDataRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR QuerySeriesAllDataRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~QuerySeriesAllDataRequestDefaultTypeInternal() {}
+  union {
+    QuerySeriesAllDataRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 QuerySeriesAllDataRequestDefaultTypeInternal _QuerySeriesAllDataRequest_default_instance_;
+PROTOBUF_CONSTEXPR QuerySeriesAllDataResponse::QuerySeriesAllDataResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.reply_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct QuerySeriesAllDataResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR QuerySeriesAllDataResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~QuerySeriesAllDataResponseDefaultTypeInternal() {}
+  union {
+    QuerySeriesAllDataResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 QuerySeriesAllDataResponseDefaultTypeInternal _QuerySeriesAllDataResponse_default_instance_;
+PROTOBUF_CONSTEXPR QueryAllDataResponse::QueryAllDataResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.reply_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct QueryAllDataResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR QueryAllDataResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~QueryAllDataResponseDefaultTypeInternal() {}
+  union {
+    QueryAllDataResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 QueryAllDataResponseDefaultTypeInternal _QueryAllDataResponse_default_instance_;
 }  // namespace rpc
-static ::_pb::Metadata file_level_metadata_client_2eproto[12];
+static ::_pb::Metadata file_level_metadata_client_2eproto[15];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_client_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_client_2eproto = nullptr;
 
@@ -267,6 +306,27 @@ const uint32_t TableStruct_client_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(p
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::rpc::QueryNewPointResponse, _impl_.reply_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::rpc::QuerySeriesAllDataRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::rpc::QuerySeriesAllDataRequest, _impl_.metric_tags_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::rpc::QuerySeriesAllDataResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::rpc::QuerySeriesAllDataResponse, _impl_.reply_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::rpc::QueryAllDataResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::rpc::QueryAllDataResponse, _impl_.reply_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::rpc::WritePointsRequest)},
@@ -281,6 +341,9 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 63, -1, -1, sizeof(::rpc::QueryTagValuesResponse)},
   { 70, -1, -1, sizeof(::rpc::QueryNewPointRequest)},
   { 77, -1, -1, sizeof(::rpc::QueryNewPointResponse)},
+  { 84, -1, -1, sizeof(::rpc::QuerySeriesAllDataRequest)},
+  { 91, -1, -1, sizeof(::rpc::QuerySeriesAllDataResponse)},
+  { 98, -1, -1, sizeof(::rpc::QueryAllDataResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -296,39 +359,52 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::rpc::_QueryTagValuesResponse_default_instance_._instance,
   &::rpc::_QueryNewPointRequest_default_instance_._instance,
   &::rpc::_QueryNewPointResponse_default_instance_._instance,
+  &::rpc::_QuerySeriesAllDataRequest_default_instance_._instance,
+  &::rpc::_QuerySeriesAllDataResponse_default_instance_._instance,
+  &::rpc::_QueryAllDataResponse_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_client_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\014client.proto\022\003rpc\"!\n\022WritePointsReques"
-  "t\022\013\n\003row\030\001 \001(\t\"$\n\023WritePointsResponse\022\r\n"
-  "\005reply\030\002 \001(\t\"\"\n\022QuerySeriesRequest\022\014\n\004ta"
-  "gs\030\003 \001(\t\"$\n\023QuerySeriesResponse\022\r\n\005reply"
-  "\030\004 \001(\t\"\035\n\rConfigRequest\022\014\n\004name\030\013 \001(\t\"\037\n"
-  "\016ConfigResponse\022\r\n\005reply\030\006 \001(\t\"(\n\021QueryR"
-  "angeRequest\022\023\n\013metric_tags\030\007 \001(\t\"#\n\022Quer"
-  "yRangeResponse\022\r\n\005reply\030\010 \001(\t\"$\n\025QueryTa"
-  "gValuesRequest\022\013\n\003tag\030\t \001(\t\"\'\n\026QueryTagV"
-  "aluesResponse\022\r\n\005reply\030\n \001(\t\"#\n\024QueryNew"
-  "PointRequest\022\013\n\003tag\030\013 \001(\t\"&\n\025QueryNewPoi"
-  "ntResponse\022\r\n\005reply\030\014 \001(\t2\236\003\n\007Greeter\022B\n"
-  "\013WritePoints\022\027.rpc.WritePointsRequest\032\030."
-  "rpc.WritePointsResponse\"\000\022B\n\013QuerySeries"
-  "\022\027.rpc.QuerySeriesRequest\032\030.rpc.QuerySer"
-  "iesResponse\"\000\0223\n\006Config\022\022.rpc.ConfigRequ"
-  "est\032\023.rpc.ConfigResponse\"\000\022\?\n\nQueryRange"
-  "\022\026.rpc.QueryRangeRequest\032\027.rpc.QueryRang"
-  "eResponse\"\000\022K\n\016QueryTagValues\022\032.rpc.Quer"
-  "yTagValuesRequest\032\033.rpc.QueryTagValuesRe"
-  "sponse\"\000\022H\n\rQueryNewPoint\022\031.rpc.QueryNew"
-  "PointRequest\032\032.rpc.QueryNewPointResponse"
-  "\"\000B\036\n\007grpc.exB\013ClientProtoP\001\242\002\003RPCb\006prot"
-  "o3"
+  "\n\014client.proto\022\003rpc\032\033google/protobuf/emp"
+  "ty.proto\"!\n\022WritePointsRequest\022\013\n\003row\030\001 "
+  "\001(\t\"$\n\023WritePointsResponse\022\r\n\005reply\030\002 \001("
+  "\t\"\"\n\022QuerySeriesRequest\022\014\n\004tags\030\003 \001(\t\"$\n"
+  "\023QuerySeriesResponse\022\r\n\005reply\030\004 \001(\t\"\035\n\rC"
+  "onfigRequest\022\014\n\004name\030\013 \001(\t\"\037\n\016ConfigResp"
+  "onse\022\r\n\005reply\030\006 \001(\t\"(\n\021QueryRangeRequest"
+  "\022\023\n\013metric_tags\030\007 \001(\t\"#\n\022QueryRangeRespo"
+  "nse\022\r\n\005reply\030\010 \001(\t\"$\n\025QueryTagValuesRequ"
+  "est\022\013\n\003tag\030\t \001(\t\"\'\n\026QueryTagValuesRespon"
+  "se\022\r\n\005reply\030\n \001(\t\"#\n\024QueryNewPointReques"
+  "t\022\013\n\003tag\030\t \001(\t\"&\n\025QueryNewPointResponse\022"
+  "\r\n\005reply\030\n \001(\t\"0\n\031QuerySeriesAllDataRequ"
+  "est\022\023\n\013metric_tags\030\007 \001(\t\"+\n\032QuerySeriesA"
+  "llDataResponse\022\r\n\005reply\030\002 \001(\t\"%\n\024QueryAl"
+  "lDataResponse\022\r\n\005reply\030\014 \001(\t2\274\004\n\007Greeter"
+  "\022B\n\013WritePoints\022\027.rpc.WritePointsRequest"
+  "\032\030.rpc.WritePointsResponse\"\000\022B\n\013QuerySer"
+  "ies\022\027.rpc.QuerySeriesRequest\032\030.rpc.Query"
+  "SeriesResponse\"\000\0223\n\006Config\022\022.rpc.ConfigR"
+  "equest\032\023.rpc.ConfigResponse\"\000\022\?\n\nQueryRa"
+  "nge\022\026.rpc.QueryRangeRequest\032\027.rpc.QueryR"
+  "angeResponse\"\000\022K\n\016QueryTagValues\022\032.rpc.Q"
+  "ueryTagValuesRequest\032\033.rpc.QueryTagValue"
+  "sResponse\"\000\022H\n\rQueryNewPoint\022\031.rpc.Query"
+  "NewPointRequest\032\032.rpc.QueryNewPointRespo"
+  "nse\"\000\022W\n\022QuerySeriesAllData\022\036.rpc.QueryS"
+  "eriesAllDataRequest\032\037.rpc.QuerySeriesAll"
+  "DataResponse\"\000\022C\n\014QueryAllData\022\026.google."
+  "protobuf.Empty\032\031.rpc.QueryAllDataRespons"
+  "e\"\000B\007Z\005./rpcb\006proto3"
   ;
+static const ::_pbi::DescriptorTable* const descriptor_table_client_2eproto_deps[1] = {
+  &::descriptor_table_google_2fprotobuf_2fempty_2eproto,
+};
 static ::_pbi::once_flag descriptor_table_client_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_client_2eproto = {
-    false, false, 922, descriptor_table_protodef_client_2eproto,
+    false, false, 1220, descriptor_table_protodef_client_2eproto,
     "client.proto",
-    &descriptor_table_client_2eproto_once, nullptr, 0, 12,
+    &descriptor_table_client_2eproto_once, descriptor_table_client_2eproto_deps, 1, 15,
     schemas, file_default_instances, TableStruct_client_2eproto::offsets,
     file_level_metadata_client_2eproto, file_level_enum_descriptors_client_2eproto,
     file_level_service_descriptors_client_2eproto,
@@ -2450,9 +2526,9 @@ const char* QueryNewPointRequest::_InternalParse(const char* ptr, ::_pbi::ParseC
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string tag = 11;
-      case 11:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+      // string tag = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
           auto str = _internal_mutable_tag();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -2489,14 +2565,14 @@ uint8_t* QueryNewPointRequest::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string tag = 11;
+  // string tag = 9;
   if (!this->_internal_tag().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "rpc.QueryNewPointRequest.tag");
     target = stream->WriteStringMaybeAliased(
-        11, this->_internal_tag(), target);
+        9, this->_internal_tag(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2515,7 +2591,7 @@ size_t QueryNewPointRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string tag = 11;
+  // string tag = 9;
   if (!this->_internal_tag().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -2653,9 +2729,9 @@ const char* QueryNewPointResponse::_InternalParse(const char* ptr, ::_pbi::Parse
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string reply = 12;
-      case 12:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+      // string reply = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
           auto str = _internal_mutable_reply();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -2692,14 +2768,14 @@ uint8_t* QueryNewPointResponse::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string reply = 12;
+  // string reply = 10;
   if (!this->_internal_reply().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_reply().data(), static_cast<int>(this->_internal_reply().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "rpc.QueryNewPointResponse.reply");
     target = stream->WriteStringMaybeAliased(
-        12, this->_internal_reply(), target);
+        10, this->_internal_reply(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2718,7 +2794,7 @@ size_t QueryNewPointResponse::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string reply = 12;
+  // string reply = 10;
   if (!this->_internal_reply().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -2777,6 +2853,615 @@ void QueryNewPointResponse::InternalSwap(QueryNewPointResponse* other) {
       file_level_metadata_client_2eproto[11]);
 }
 
+// ===================================================================
+
+class QuerySeriesAllDataRequest::_Internal {
+ public:
+};
+
+QuerySeriesAllDataRequest::QuerySeriesAllDataRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:rpc.QuerySeriesAllDataRequest)
+}
+QuerySeriesAllDataRequest::QuerySeriesAllDataRequest(const QuerySeriesAllDataRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  QuerySeriesAllDataRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.metric_tags_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.metric_tags_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.metric_tags_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_metric_tags().empty()) {
+    _this->_impl_.metric_tags_.Set(from._internal_metric_tags(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:rpc.QuerySeriesAllDataRequest)
+}
+
+inline void QuerySeriesAllDataRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.metric_tags_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.metric_tags_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.metric_tags_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+QuerySeriesAllDataRequest::~QuerySeriesAllDataRequest() {
+  // @@protoc_insertion_point(destructor:rpc.QuerySeriesAllDataRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void QuerySeriesAllDataRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.metric_tags_.Destroy();
+}
+
+void QuerySeriesAllDataRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void QuerySeriesAllDataRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:rpc.QuerySeriesAllDataRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.metric_tags_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* QuerySeriesAllDataRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string metric_tags = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
+          auto str = _internal_mutable_metric_tags();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "rpc.QuerySeriesAllDataRequest.metric_tags"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* QuerySeriesAllDataRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rpc.QuerySeriesAllDataRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string metric_tags = 7;
+  if (!this->_internal_metric_tags().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_metric_tags().data(), static_cast<int>(this->_internal_metric_tags().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "rpc.QuerySeriesAllDataRequest.metric_tags");
+    target = stream->WriteStringMaybeAliased(
+        7, this->_internal_metric_tags(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rpc.QuerySeriesAllDataRequest)
+  return target;
+}
+
+size_t QuerySeriesAllDataRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rpc.QuerySeriesAllDataRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string metric_tags = 7;
+  if (!this->_internal_metric_tags().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_metric_tags());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData QuerySeriesAllDataRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    QuerySeriesAllDataRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*QuerySeriesAllDataRequest::GetClassData() const { return &_class_data_; }
+
+
+void QuerySeriesAllDataRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<QuerySeriesAllDataRequest*>(&to_msg);
+  auto& from = static_cast<const QuerySeriesAllDataRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rpc.QuerySeriesAllDataRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_metric_tags().empty()) {
+    _this->_internal_set_metric_tags(from._internal_metric_tags());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void QuerySeriesAllDataRequest::CopyFrom(const QuerySeriesAllDataRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rpc.QuerySeriesAllDataRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool QuerySeriesAllDataRequest::IsInitialized() const {
+  return true;
+}
+
+void QuerySeriesAllDataRequest::InternalSwap(QuerySeriesAllDataRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.metric_tags_, lhs_arena,
+      &other->_impl_.metric_tags_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata QuerySeriesAllDataRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_client_2eproto_getter, &descriptor_table_client_2eproto_once,
+      file_level_metadata_client_2eproto[12]);
+}
+
+// ===================================================================
+
+class QuerySeriesAllDataResponse::_Internal {
+ public:
+};
+
+QuerySeriesAllDataResponse::QuerySeriesAllDataResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:rpc.QuerySeriesAllDataResponse)
+}
+QuerySeriesAllDataResponse::QuerySeriesAllDataResponse(const QuerySeriesAllDataResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  QuerySeriesAllDataResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.reply_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.reply_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.reply_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_reply().empty()) {
+    _this->_impl_.reply_.Set(from._internal_reply(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:rpc.QuerySeriesAllDataResponse)
+}
+
+inline void QuerySeriesAllDataResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.reply_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.reply_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.reply_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+QuerySeriesAllDataResponse::~QuerySeriesAllDataResponse() {
+  // @@protoc_insertion_point(destructor:rpc.QuerySeriesAllDataResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void QuerySeriesAllDataResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.reply_.Destroy();
+}
+
+void QuerySeriesAllDataResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void QuerySeriesAllDataResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:rpc.QuerySeriesAllDataResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.reply_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* QuerySeriesAllDataResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string reply = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_reply();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "rpc.QuerySeriesAllDataResponse.reply"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* QuerySeriesAllDataResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rpc.QuerySeriesAllDataResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string reply = 2;
+  if (!this->_internal_reply().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_reply().data(), static_cast<int>(this->_internal_reply().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "rpc.QuerySeriesAllDataResponse.reply");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_reply(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rpc.QuerySeriesAllDataResponse)
+  return target;
+}
+
+size_t QuerySeriesAllDataResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rpc.QuerySeriesAllDataResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string reply = 2;
+  if (!this->_internal_reply().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_reply());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData QuerySeriesAllDataResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    QuerySeriesAllDataResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*QuerySeriesAllDataResponse::GetClassData() const { return &_class_data_; }
+
+
+void QuerySeriesAllDataResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<QuerySeriesAllDataResponse*>(&to_msg);
+  auto& from = static_cast<const QuerySeriesAllDataResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rpc.QuerySeriesAllDataResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_reply().empty()) {
+    _this->_internal_set_reply(from._internal_reply());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void QuerySeriesAllDataResponse::CopyFrom(const QuerySeriesAllDataResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rpc.QuerySeriesAllDataResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool QuerySeriesAllDataResponse::IsInitialized() const {
+  return true;
+}
+
+void QuerySeriesAllDataResponse::InternalSwap(QuerySeriesAllDataResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.reply_, lhs_arena,
+      &other->_impl_.reply_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata QuerySeriesAllDataResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_client_2eproto_getter, &descriptor_table_client_2eproto_once,
+      file_level_metadata_client_2eproto[13]);
+}
+
+// ===================================================================
+
+class QueryAllDataResponse::_Internal {
+ public:
+};
+
+QueryAllDataResponse::QueryAllDataResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:rpc.QueryAllDataResponse)
+}
+QueryAllDataResponse::QueryAllDataResponse(const QueryAllDataResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  QueryAllDataResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.reply_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.reply_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.reply_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_reply().empty()) {
+    _this->_impl_.reply_.Set(from._internal_reply(), 
+      _this->GetArenaForAllocation());
+  }
+  // @@protoc_insertion_point(copy_constructor:rpc.QueryAllDataResponse)
+}
+
+inline void QueryAllDataResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.reply_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.reply_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.reply_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+QueryAllDataResponse::~QueryAllDataResponse() {
+  // @@protoc_insertion_point(destructor:rpc.QueryAllDataResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void QueryAllDataResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.reply_.Destroy();
+}
+
+void QueryAllDataResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void QueryAllDataResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:rpc.QueryAllDataResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.reply_.ClearToEmpty();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* QueryAllDataResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string reply = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 98)) {
+          auto str = _internal_mutable_reply();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "rpc.QueryAllDataResponse.reply"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* QueryAllDataResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:rpc.QueryAllDataResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string reply = 12;
+  if (!this->_internal_reply().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_reply().data(), static_cast<int>(this->_internal_reply().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "rpc.QueryAllDataResponse.reply");
+    target = stream->WriteStringMaybeAliased(
+        12, this->_internal_reply(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:rpc.QueryAllDataResponse)
+  return target;
+}
+
+size_t QueryAllDataResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:rpc.QueryAllDataResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string reply = 12;
+  if (!this->_internal_reply().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_reply());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData QueryAllDataResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    QueryAllDataResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*QueryAllDataResponse::GetClassData() const { return &_class_data_; }
+
+
+void QueryAllDataResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<QueryAllDataResponse*>(&to_msg);
+  auto& from = static_cast<const QueryAllDataResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:rpc.QueryAllDataResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_reply().empty()) {
+    _this->_internal_set_reply(from._internal_reply());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void QueryAllDataResponse::CopyFrom(const QueryAllDataResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:rpc.QueryAllDataResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool QueryAllDataResponse::IsInitialized() const {
+  return true;
+}
+
+void QueryAllDataResponse::InternalSwap(QueryAllDataResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.reply_, lhs_arena,
+      &other->_impl_.reply_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata QueryAllDataResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_client_2eproto_getter, &descriptor_table_client_2eproto_once,
+      file_level_metadata_client_2eproto[14]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace rpc
 PROTOBUF_NAMESPACE_OPEN
@@ -2827,6 +3512,18 @@ Arena::CreateMaybeMessage< ::rpc::QueryNewPointRequest >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::rpc::QueryNewPointResponse*
 Arena::CreateMaybeMessage< ::rpc::QueryNewPointResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::rpc::QueryNewPointResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::rpc::QuerySeriesAllDataRequest*
+Arena::CreateMaybeMessage< ::rpc::QuerySeriesAllDataRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::rpc::QuerySeriesAllDataRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::rpc::QuerySeriesAllDataResponse*
+Arena::CreateMaybeMessage< ::rpc::QuerySeriesAllDataResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::rpc::QuerySeriesAllDataResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::rpc::QueryAllDataResponse*
+Arena::CreateMaybeMessage< ::rpc::QueryAllDataResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::rpc::QueryAllDataResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

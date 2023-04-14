@@ -30,6 +30,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/empty.pb.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_client_2eproto
@@ -51,6 +52,9 @@ extern ConfigRequestDefaultTypeInternal _ConfigRequest_default_instance_;
 class ConfigResponse;
 struct ConfigResponseDefaultTypeInternal;
 extern ConfigResponseDefaultTypeInternal _ConfigResponse_default_instance_;
+class QueryAllDataResponse;
+struct QueryAllDataResponseDefaultTypeInternal;
+extern QueryAllDataResponseDefaultTypeInternal _QueryAllDataResponse_default_instance_;
 class QueryNewPointRequest;
 struct QueryNewPointRequestDefaultTypeInternal;
 extern QueryNewPointRequestDefaultTypeInternal _QueryNewPointRequest_default_instance_;
@@ -63,6 +67,12 @@ extern QueryRangeRequestDefaultTypeInternal _QueryRangeRequest_default_instance_
 class QueryRangeResponse;
 struct QueryRangeResponseDefaultTypeInternal;
 extern QueryRangeResponseDefaultTypeInternal _QueryRangeResponse_default_instance_;
+class QuerySeriesAllDataRequest;
+struct QuerySeriesAllDataRequestDefaultTypeInternal;
+extern QuerySeriesAllDataRequestDefaultTypeInternal _QuerySeriesAllDataRequest_default_instance_;
+class QuerySeriesAllDataResponse;
+struct QuerySeriesAllDataResponseDefaultTypeInternal;
+extern QuerySeriesAllDataResponseDefaultTypeInternal _QuerySeriesAllDataResponse_default_instance_;
 class QuerySeriesRequest;
 struct QuerySeriesRequestDefaultTypeInternal;
 extern QuerySeriesRequestDefaultTypeInternal _QuerySeriesRequest_default_instance_;
@@ -85,10 +95,13 @@ extern WritePointsResponseDefaultTypeInternal _WritePointsResponse_default_insta
 PROTOBUF_NAMESPACE_OPEN
 template<> ::rpc::ConfigRequest* Arena::CreateMaybeMessage<::rpc::ConfigRequest>(Arena*);
 template<> ::rpc::ConfigResponse* Arena::CreateMaybeMessage<::rpc::ConfigResponse>(Arena*);
+template<> ::rpc::QueryAllDataResponse* Arena::CreateMaybeMessage<::rpc::QueryAllDataResponse>(Arena*);
 template<> ::rpc::QueryNewPointRequest* Arena::CreateMaybeMessage<::rpc::QueryNewPointRequest>(Arena*);
 template<> ::rpc::QueryNewPointResponse* Arena::CreateMaybeMessage<::rpc::QueryNewPointResponse>(Arena*);
 template<> ::rpc::QueryRangeRequest* Arena::CreateMaybeMessage<::rpc::QueryRangeRequest>(Arena*);
 template<> ::rpc::QueryRangeResponse* Arena::CreateMaybeMessage<::rpc::QueryRangeResponse>(Arena*);
+template<> ::rpc::QuerySeriesAllDataRequest* Arena::CreateMaybeMessage<::rpc::QuerySeriesAllDataRequest>(Arena*);
+template<> ::rpc::QuerySeriesAllDataResponse* Arena::CreateMaybeMessage<::rpc::QuerySeriesAllDataResponse>(Arena*);
 template<> ::rpc::QuerySeriesRequest* Arena::CreateMaybeMessage<::rpc::QuerySeriesRequest>(Arena*);
 template<> ::rpc::QuerySeriesResponse* Arena::CreateMaybeMessage<::rpc::QuerySeriesResponse>(Arena*);
 template<> ::rpc::QueryTagValuesRequest* Arena::CreateMaybeMessage<::rpc::QueryTagValuesRequest>(Arena*);
@@ -1751,9 +1764,9 @@ class QueryNewPointRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kTagFieldNumber = 11,
+    kTagFieldNumber = 9,
   };
-  // string tag = 11;
+  // string tag = 9;
   void clear_tag();
   const std::string& tag() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -1904,6 +1917,465 @@ class QueryNewPointResponse final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kReplyFieldNumber = 10,
+  };
+  // string reply = 10;
+  void clear_reply();
+  const std::string& reply() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_reply(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_reply();
+  PROTOBUF_NODISCARD std::string* release_reply();
+  void set_allocated_reply(std::string* reply);
+  private:
+  const std::string& _internal_reply() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_reply(const std::string& value);
+  std::string* _internal_mutable_reply();
+  public:
+
+  // @@protoc_insertion_point(class_scope:rpc.QueryNewPointResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr reply_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_client_2eproto;
+};
+// -------------------------------------------------------------------
+
+class QuerySeriesAllDataRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rpc.QuerySeriesAllDataRequest) */ {
+ public:
+  inline QuerySeriesAllDataRequest() : QuerySeriesAllDataRequest(nullptr) {}
+  ~QuerySeriesAllDataRequest() override;
+  explicit PROTOBUF_CONSTEXPR QuerySeriesAllDataRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  QuerySeriesAllDataRequest(const QuerySeriesAllDataRequest& from);
+  QuerySeriesAllDataRequest(QuerySeriesAllDataRequest&& from) noexcept
+    : QuerySeriesAllDataRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline QuerySeriesAllDataRequest& operator=(const QuerySeriesAllDataRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline QuerySeriesAllDataRequest& operator=(QuerySeriesAllDataRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const QuerySeriesAllDataRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const QuerySeriesAllDataRequest* internal_default_instance() {
+    return reinterpret_cast<const QuerySeriesAllDataRequest*>(
+               &_QuerySeriesAllDataRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(QuerySeriesAllDataRequest& a, QuerySeriesAllDataRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(QuerySeriesAllDataRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(QuerySeriesAllDataRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  QuerySeriesAllDataRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<QuerySeriesAllDataRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const QuerySeriesAllDataRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const QuerySeriesAllDataRequest& from) {
+    QuerySeriesAllDataRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(QuerySeriesAllDataRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "rpc.QuerySeriesAllDataRequest";
+  }
+  protected:
+  explicit QuerySeriesAllDataRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMetricTagsFieldNumber = 7,
+  };
+  // string metric_tags = 7;
+  void clear_metric_tags();
+  const std::string& metric_tags() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_metric_tags(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_metric_tags();
+  PROTOBUF_NODISCARD std::string* release_metric_tags();
+  void set_allocated_metric_tags(std::string* metric_tags);
+  private:
+  const std::string& _internal_metric_tags() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_metric_tags(const std::string& value);
+  std::string* _internal_mutable_metric_tags();
+  public:
+
+  // @@protoc_insertion_point(class_scope:rpc.QuerySeriesAllDataRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr metric_tags_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_client_2eproto;
+};
+// -------------------------------------------------------------------
+
+class QuerySeriesAllDataResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rpc.QuerySeriesAllDataResponse) */ {
+ public:
+  inline QuerySeriesAllDataResponse() : QuerySeriesAllDataResponse(nullptr) {}
+  ~QuerySeriesAllDataResponse() override;
+  explicit PROTOBUF_CONSTEXPR QuerySeriesAllDataResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  QuerySeriesAllDataResponse(const QuerySeriesAllDataResponse& from);
+  QuerySeriesAllDataResponse(QuerySeriesAllDataResponse&& from) noexcept
+    : QuerySeriesAllDataResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline QuerySeriesAllDataResponse& operator=(const QuerySeriesAllDataResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline QuerySeriesAllDataResponse& operator=(QuerySeriesAllDataResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const QuerySeriesAllDataResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const QuerySeriesAllDataResponse* internal_default_instance() {
+    return reinterpret_cast<const QuerySeriesAllDataResponse*>(
+               &_QuerySeriesAllDataResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    13;
+
+  friend void swap(QuerySeriesAllDataResponse& a, QuerySeriesAllDataResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(QuerySeriesAllDataResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(QuerySeriesAllDataResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  QuerySeriesAllDataResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<QuerySeriesAllDataResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const QuerySeriesAllDataResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const QuerySeriesAllDataResponse& from) {
+    QuerySeriesAllDataResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(QuerySeriesAllDataResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "rpc.QuerySeriesAllDataResponse";
+  }
+  protected:
+  explicit QuerySeriesAllDataResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kReplyFieldNumber = 2,
+  };
+  // string reply = 2;
+  void clear_reply();
+  const std::string& reply() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_reply(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_reply();
+  PROTOBUF_NODISCARD std::string* release_reply();
+  void set_allocated_reply(std::string* reply);
+  private:
+  const std::string& _internal_reply() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_reply(const std::string& value);
+  std::string* _internal_mutable_reply();
+  public:
+
+  // @@protoc_insertion_point(class_scope:rpc.QuerySeriesAllDataResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr reply_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_client_2eproto;
+};
+// -------------------------------------------------------------------
+
+class QueryAllDataResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rpc.QueryAllDataResponse) */ {
+ public:
+  inline QueryAllDataResponse() : QueryAllDataResponse(nullptr) {}
+  ~QueryAllDataResponse() override;
+  explicit PROTOBUF_CONSTEXPR QueryAllDataResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  QueryAllDataResponse(const QueryAllDataResponse& from);
+  QueryAllDataResponse(QueryAllDataResponse&& from) noexcept
+    : QueryAllDataResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline QueryAllDataResponse& operator=(const QueryAllDataResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline QueryAllDataResponse& operator=(QueryAllDataResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const QueryAllDataResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const QueryAllDataResponse* internal_default_instance() {
+    return reinterpret_cast<const QueryAllDataResponse*>(
+               &_QueryAllDataResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    14;
+
+  friend void swap(QueryAllDataResponse& a, QueryAllDataResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(QueryAllDataResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(QueryAllDataResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  QueryAllDataResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<QueryAllDataResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const QueryAllDataResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const QueryAllDataResponse& from) {
+    QueryAllDataResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(QueryAllDataResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "rpc.QueryAllDataResponse";
+  }
+  protected:
+  explicit QueryAllDataResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
     kReplyFieldNumber = 12,
   };
   // string reply = 12;
@@ -1920,7 +2392,7 @@ class QueryNewPointResponse final :
   std::string* _internal_mutable_reply();
   public:
 
-  // @@protoc_insertion_point(class_scope:rpc.QueryNewPointResponse)
+  // @@protoc_insertion_point(class_scope:rpc.QueryAllDataResponse)
  private:
   class _Internal;
 
@@ -2485,7 +2957,7 @@ inline void QueryTagValuesResponse::set_allocated_reply(std::string* reply) {
 
 // QueryNewPointRequest
 
-// string tag = 11;
+// string tag = 9;
 inline void QueryNewPointRequest::clear_tag() {
   _impl_.tag_.ClearToEmpty();
 }
@@ -2539,7 +3011,7 @@ inline void QueryNewPointRequest::set_allocated_tag(std::string* tag) {
 
 // QueryNewPointResponse
 
-// string reply = 12;
+// string reply = 10;
 inline void QueryNewPointResponse::clear_reply() {
   _impl_.reply_.ClearToEmpty();
 }
@@ -2589,9 +3061,177 @@ inline void QueryNewPointResponse::set_allocated_reply(std::string* reply) {
   // @@protoc_insertion_point(field_set_allocated:rpc.QueryNewPointResponse.reply)
 }
 
+// -------------------------------------------------------------------
+
+// QuerySeriesAllDataRequest
+
+// string metric_tags = 7;
+inline void QuerySeriesAllDataRequest::clear_metric_tags() {
+  _impl_.metric_tags_.ClearToEmpty();
+}
+inline const std::string& QuerySeriesAllDataRequest::metric_tags() const {
+  // @@protoc_insertion_point(field_get:rpc.QuerySeriesAllDataRequest.metric_tags)
+  return _internal_metric_tags();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void QuerySeriesAllDataRequest::set_metric_tags(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.metric_tags_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:rpc.QuerySeriesAllDataRequest.metric_tags)
+}
+inline std::string* QuerySeriesAllDataRequest::mutable_metric_tags() {
+  std::string* _s = _internal_mutable_metric_tags();
+  // @@protoc_insertion_point(field_mutable:rpc.QuerySeriesAllDataRequest.metric_tags)
+  return _s;
+}
+inline const std::string& QuerySeriesAllDataRequest::_internal_metric_tags() const {
+  return _impl_.metric_tags_.Get();
+}
+inline void QuerySeriesAllDataRequest::_internal_set_metric_tags(const std::string& value) {
+  
+  _impl_.metric_tags_.Set(value, GetArenaForAllocation());
+}
+inline std::string* QuerySeriesAllDataRequest::_internal_mutable_metric_tags() {
+  
+  return _impl_.metric_tags_.Mutable(GetArenaForAllocation());
+}
+inline std::string* QuerySeriesAllDataRequest::release_metric_tags() {
+  // @@protoc_insertion_point(field_release:rpc.QuerySeriesAllDataRequest.metric_tags)
+  return _impl_.metric_tags_.Release();
+}
+inline void QuerySeriesAllDataRequest::set_allocated_metric_tags(std::string* metric_tags) {
+  if (metric_tags != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.metric_tags_.SetAllocated(metric_tags, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.metric_tags_.IsDefault()) {
+    _impl_.metric_tags_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rpc.QuerySeriesAllDataRequest.metric_tags)
+}
+
+// -------------------------------------------------------------------
+
+// QuerySeriesAllDataResponse
+
+// string reply = 2;
+inline void QuerySeriesAllDataResponse::clear_reply() {
+  _impl_.reply_.ClearToEmpty();
+}
+inline const std::string& QuerySeriesAllDataResponse::reply() const {
+  // @@protoc_insertion_point(field_get:rpc.QuerySeriesAllDataResponse.reply)
+  return _internal_reply();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void QuerySeriesAllDataResponse::set_reply(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.reply_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:rpc.QuerySeriesAllDataResponse.reply)
+}
+inline std::string* QuerySeriesAllDataResponse::mutable_reply() {
+  std::string* _s = _internal_mutable_reply();
+  // @@protoc_insertion_point(field_mutable:rpc.QuerySeriesAllDataResponse.reply)
+  return _s;
+}
+inline const std::string& QuerySeriesAllDataResponse::_internal_reply() const {
+  return _impl_.reply_.Get();
+}
+inline void QuerySeriesAllDataResponse::_internal_set_reply(const std::string& value) {
+  
+  _impl_.reply_.Set(value, GetArenaForAllocation());
+}
+inline std::string* QuerySeriesAllDataResponse::_internal_mutable_reply() {
+  
+  return _impl_.reply_.Mutable(GetArenaForAllocation());
+}
+inline std::string* QuerySeriesAllDataResponse::release_reply() {
+  // @@protoc_insertion_point(field_release:rpc.QuerySeriesAllDataResponse.reply)
+  return _impl_.reply_.Release();
+}
+inline void QuerySeriesAllDataResponse::set_allocated_reply(std::string* reply) {
+  if (reply != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.reply_.SetAllocated(reply, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.reply_.IsDefault()) {
+    _impl_.reply_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rpc.QuerySeriesAllDataResponse.reply)
+}
+
+// -------------------------------------------------------------------
+
+// QueryAllDataResponse
+
+// string reply = 12;
+inline void QueryAllDataResponse::clear_reply() {
+  _impl_.reply_.ClearToEmpty();
+}
+inline const std::string& QueryAllDataResponse::reply() const {
+  // @@protoc_insertion_point(field_get:rpc.QueryAllDataResponse.reply)
+  return _internal_reply();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void QueryAllDataResponse::set_reply(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.reply_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:rpc.QueryAllDataResponse.reply)
+}
+inline std::string* QueryAllDataResponse::mutable_reply() {
+  std::string* _s = _internal_mutable_reply();
+  // @@protoc_insertion_point(field_mutable:rpc.QueryAllDataResponse.reply)
+  return _s;
+}
+inline const std::string& QueryAllDataResponse::_internal_reply() const {
+  return _impl_.reply_.Get();
+}
+inline void QueryAllDataResponse::_internal_set_reply(const std::string& value) {
+  
+  _impl_.reply_.Set(value, GetArenaForAllocation());
+}
+inline std::string* QueryAllDataResponse::_internal_mutable_reply() {
+  
+  return _impl_.reply_.Mutable(GetArenaForAllocation());
+}
+inline std::string* QueryAllDataResponse::release_reply() {
+  // @@protoc_insertion_point(field_release:rpc.QueryAllDataResponse.reply)
+  return _impl_.reply_.Release();
+}
+inline void QueryAllDataResponse::set_allocated_reply(std::string* reply) {
+  if (reply != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.reply_.SetAllocated(reply, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.reply_.IsDefault()) {
+    _impl_.reply_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:rpc.QueryAllDataResponse.reply)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

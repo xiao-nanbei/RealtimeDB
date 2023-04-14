@@ -17,7 +17,7 @@ func (s *Server)Config(ctx context.Context, in *rpc.ConfigRequest) (*rpc.ConfigR
 	if _,ok:=Store[in.Name];ok{
 		return &rpc.ConfigResponse{Reply: "success"}, nil
 	}
-	Store[in.Name] = rtdb.OpenRTDB(rtdb.WithDataPath(in.Name), rtdb.WithLoggerConfig(&logger.Options{
+	Store[in.Name] = rtdb.OpenRTDB(rtdb.WithDataPath("./data/"+in.Name), rtdb.WithLoggerConfig(&logger.Options{
 		Stdout:      true,
 		ConsoleMode: true,
 		Level:       logger.ErrorLevel,

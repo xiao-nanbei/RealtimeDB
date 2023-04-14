@@ -28,6 +28,8 @@ static const char* Greeter_method_names[] = {
   "/rpc.Greeter/QueryRange",
   "/rpc.Greeter/QueryTagValues",
   "/rpc.Greeter/QueryNewPoint",
+  "/rpc.Greeter/QuerySeriesAllData",
+  "/rpc.Greeter/QueryAllData",
 };
 
 std::unique_ptr< Greeter::Stub> Greeter::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -43,6 +45,8 @@ Greeter::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, c
   , rpcmethod_QueryRange_(Greeter_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_QueryTagValues_(Greeter_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_QueryNewPoint_(Greeter_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_QuerySeriesAllData_(Greeter_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_QueryAllData_(Greeter_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status Greeter::Stub::WritePoints(::grpc::ClientContext* context, const ::rpc::WritePointsRequest& request, ::rpc::WritePointsResponse* response) {
@@ -183,6 +187,52 @@ void Greeter::Stub::async::QueryNewPoint(::grpc::ClientContext* context, const :
   return result;
 }
 
+::grpc::Status Greeter::Stub::QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::rpc::QuerySeriesAllDataResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::rpc::QuerySeriesAllDataRequest, ::rpc::QuerySeriesAllDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_QuerySeriesAllData_, context, request, response);
+}
+
+void Greeter::Stub::async::QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::rpc::QuerySeriesAllDataRequest, ::rpc::QuerySeriesAllDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_QuerySeriesAllData_, context, request, response, std::move(f));
+}
+
+void Greeter::Stub::async::QuerySeriesAllData(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_QuerySeriesAllData_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::rpc::QuerySeriesAllDataResponse>* Greeter::Stub::PrepareAsyncQuerySeriesAllDataRaw(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::rpc::QuerySeriesAllDataResponse, ::rpc::QuerySeriesAllDataRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_QuerySeriesAllData_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::rpc::QuerySeriesAllDataResponse>* Greeter::Stub::AsyncQuerySeriesAllDataRaw(::grpc::ClientContext* context, const ::rpc::QuerySeriesAllDataRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncQuerySeriesAllDataRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status Greeter::Stub::QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::rpc::QueryAllDataResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::google::protobuf::Empty, ::rpc::QueryAllDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_QueryAllData_, context, request, response);
+}
+
+void Greeter::Stub::async::QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::google::protobuf::Empty, ::rpc::QueryAllDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_QueryAllData_, context, request, response, std::move(f));
+}
+
+void Greeter::Stub::async::QueryAllData(::grpc::ClientContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_QueryAllData_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::rpc::QueryAllDataResponse>* Greeter::Stub::PrepareAsyncQueryAllDataRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::rpc::QueryAllDataResponse, ::google::protobuf::Empty, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_QueryAllData_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::rpc::QueryAllDataResponse>* Greeter::Stub::AsyncQueryAllDataRaw(::grpc::ClientContext* context, const ::google::protobuf::Empty& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncQueryAllDataRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
 Greeter::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       Greeter_method_names[0],
@@ -244,6 +294,26 @@ Greeter::Service::Service() {
              ::rpc::QueryNewPointResponse* resp) {
                return service->QueryNewPoint(ctx, req, resp);
              }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Greeter_method_names[6],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Greeter::Service, ::rpc::QuerySeriesAllDataRequest, ::rpc::QuerySeriesAllDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Greeter::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::rpc::QuerySeriesAllDataRequest* req,
+             ::rpc::QuerySeriesAllDataResponse* resp) {
+               return service->QuerySeriesAllData(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      Greeter_method_names[7],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< Greeter::Service, ::google::protobuf::Empty, ::rpc::QueryAllDataResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](Greeter::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::google::protobuf::Empty* req,
+             ::rpc::QueryAllDataResponse* resp) {
+               return service->QueryAllData(ctx, req, resp);
+             }, this)));
 }
 
 Greeter::Service::~Service() {
@@ -285,6 +355,20 @@ Greeter::Service::~Service() {
 }
 
 ::grpc::Status Greeter::Service::QueryNewPoint(::grpc::ServerContext* context, const ::rpc::QueryNewPointRequest* request, ::rpc::QueryNewPointResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Greeter::Service::QuerySeriesAllData(::grpc::ServerContext* context, const ::rpc::QuerySeriesAllDataRequest* request, ::rpc::QuerySeriesAllDataResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status Greeter::Service::QueryAllData(::grpc::ServerContext* context, const ::google::protobuf::Empty* request, ::rpc::QueryAllDataResponse* response) {
   (void) context;
   (void) request;
   (void) response;

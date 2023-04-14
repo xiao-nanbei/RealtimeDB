@@ -1,8 +1,10 @@
 package rtdb
 
 import (
-	//"RealtimeDB/gorilla"
-	"RealtimeDB/simple8b"
+	"RealtimeDB/gorilla"
+
+
+	//"RealtimeDB/simple8b"
 	"bytes"
 	"github.com/chenjiandongx/logger"
 	"github.com/chenjiandongx/mandodb/pkg/mmap"
@@ -31,8 +33,40 @@ type diskSegment struct {
 	dataPointsCount int64
 }
 
-func (ds *diskSegment) GetNewPoint(tms TagMatcherSet) ([]Point, error) {
-	panic("implement me")
+func (ds *diskSegment) GetNewPoint(tms TagMatcherSet) (Point, error) {
+	ds.wg.Add(1)
+	defer ds.wg.Done()
+	matchSids := ds.indexMap.MatchSids(ds.tagVs, tms)
+	point:=Point{TimeStamp: -1,Value: -1}
+	for _, sid := range matchSids {
+
+		startOffset := ds.series[sid].StartOffset + ds.shift()
+		endOffset := ds.series[sid].EndOffset + ds.shift()
+
+		reader := bytes.NewReader(ds.dataFd.Bytes())
+		dataBytes := make([]byte, endOffset-startOffset)
+		_, err := reader.ReadAt(dataBytes, int64(startOffset))
+		if err != nil {
+			return point, err
+		}
+
+		dataBytes, err = ByteDecompress(dataBytes)
+		if err != nil {
+			return point, err
+		}
+
+		iter, err := gorilla.NewIterator(dataBytes)
+		if err != nil {
+			return point, err
+		}
+
+		for iter.Next() {
+			ts, val := iter.Values()
+			point.TimeStamp=int64(ts)
+			point.Value=val
+		}
+	}
+	return point,nil
 }
 
 type tocReader struct {
@@ -196,7 +230,7 @@ func (ds *diskSegment) QueryRange(tms TagMatcherSet, start, end int64) ([]Metric
 			return nil, err
 		}
 
-		iter, err := simple8b.NewIterator(dataBytes)
+		iter, err := gorilla.NewIterator(dataBytes)
 		if err != nil {
 			return nil, err
 		}

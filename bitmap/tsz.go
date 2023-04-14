@@ -60,7 +60,7 @@ func (s *Series) Finish() {
 	s.Unlock()
 }
 
-func (s *Series) GetNewT()(uint64,float64){
+func (s *Series) GetNewPoint()(uint64,float64){
 	return s.t,s.val
 }
 

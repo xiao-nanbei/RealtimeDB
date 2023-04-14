@@ -1,9 +1,6 @@
 syntax = "proto3"; // 版本声明，使用Protocol Buffers v3版本
-
-option java_multiple_files=true;
-option java_package="grpc.ex";
-option java_outer_classname="ClientProto";
-option objc_class_prefix="RPC";
+import "google/protobuf/empty.proto";
+option go_package = "./rpc";  // 指定生成的Go代码在你项目中的导入路径
 
 package rpc; // 包名
 
@@ -16,18 +13,18 @@ service Greeter {
     rpc QueryRange (QueryRangeRequest) returns (QueryRangeResponse) {}
     rpc QueryTagValues (QueryTagValuesRequest) returns (QueryTagValuesResponse) {}
     rpc QueryNewPoint (QueryNewPointRequest) returns (QueryNewPointResponse) {}
+    rpc QuerySeriesAllData (QuerySeriesAllDataRequest) returns (QuerySeriesAllDataResponse) {}
+    rpc QueryAllData (google.protobuf.Empty) returns (QueryAllDataResponse) {}
 }
 
 // 请求消息
 message WritePointsRequest {
     string row = 1;
 }
-
 // 响应消息
 message WritePointsResponse {
     string reply = 2;
 }
-
 // 请求消息
 message QuerySeriesRequest {
     string tags = 3;
@@ -43,6 +40,7 @@ message ConfigRequest {
 message ConfigResponse {
     string reply =6;
 }
+
 
 // 请求消息
 message QueryRangeRequest {
@@ -63,11 +61,25 @@ message QueryTagValuesRequest {
 message QueryTagValuesResponse {
     string reply = 10;
 }
+// 请求消息
 message QueryNewPointRequest {
-    string tag = 11;
+    string tag = 9;
 }
 
 // 响应消息
 message QueryNewPointResponse {
+    string reply = 10;
+}
+
+// 请求消息
+message QuerySeriesAllDataRequest {
+    string metric_tags = 7;
+}
+// 响应消息
+message QuerySeriesAllDataResponse {
+    string reply = 2;
+}
+// 响应消息
+message QueryAllDataResponse {
     string reply = 12;
 }

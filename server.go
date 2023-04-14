@@ -17,7 +17,6 @@ func main() {
 		return
 	}
 	log.Println(string(file))
-	log.Println("please enter the port:")
 	go func() {
 		var quit string
 		for{
@@ -30,11 +29,10 @@ func main() {
 			}
 		}
 	}()
-	_, err = fmt.Scanf("%s", &localhostPort)
 	if err != nil {
 		return
 	}
-	lis, err := net.Listen("tcp", localhostPort)
+	lis, err := net.Listen("tcp", ":8086")
 	if err != nil {
 		fmt.Printf("failed to listen: %v", err)
 		return

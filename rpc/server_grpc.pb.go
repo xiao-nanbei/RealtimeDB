@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.21.6
-// source: server.proto
+// source: rpc/server.proto
 
 package rpc
 
@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -28,6 +29,8 @@ type GreeterClient interface {
 	QueryRange(ctx context.Context, in *QueryRangeRequest, opts ...grpc.CallOption) (*QueryRangeResponse, error)
 	QueryTagValues(ctx context.Context, in *QueryTagValuesRequest, opts ...grpc.CallOption) (*QueryTagValuesResponse, error)
 	QueryNewPoint(ctx context.Context, in *QueryNewPointRequest, opts ...grpc.CallOption) (*QueryNewPointResponse, error)
+	QuerySeriesAllData(ctx context.Context, in *QuerySeriesAllDataRequest, opts ...grpc.CallOption) (*QuerySeriesAllDataResponse, error)
+	QueryAllData(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*QueryAllDataResponse, error)
 }
 
 type greeterClient struct {
@@ -92,6 +95,24 @@ func (c *greeterClient) QueryNewPoint(ctx context.Context, in *QueryNewPointRequ
 	return out, nil
 }
 
+func (c *greeterClient) QuerySeriesAllData(ctx context.Context, in *QuerySeriesAllDataRequest, opts ...grpc.CallOption) (*QuerySeriesAllDataResponse, error) {
+	out := new(QuerySeriesAllDataResponse)
+	err := c.cc.Invoke(ctx, "/rpc.Greeter/QuerySeriesAllData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *greeterClient) QueryAllData(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*QueryAllDataResponse, error) {
+	out := new(QueryAllDataResponse)
+	err := c.cc.Invoke(ctx, "/rpc.Greeter/QueryAllData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GreeterServer is the server API for Greeter service.
 // All implementations must embed UnimplementedGreeterServer
 // for forward compatibility
@@ -102,6 +123,8 @@ type GreeterServer interface {
 	QueryRange(context.Context, *QueryRangeRequest) (*QueryRangeResponse, error)
 	QueryTagValues(context.Context, *QueryTagValuesRequest) (*QueryTagValuesResponse, error)
 	QueryNewPoint(context.Context, *QueryNewPointRequest) (*QueryNewPointResponse, error)
+	QuerySeriesAllData(context.Context, *QuerySeriesAllDataRequest) (*QuerySeriesAllDataResponse, error)
+	QueryAllData(context.Context, *emptypb.Empty) (*QueryAllDataResponse, error)
 	mustEmbedUnimplementedGreeterServer()
 }
 
@@ -126,6 +149,12 @@ func (UnimplementedGreeterServer) QueryTagValues(context.Context, *QueryTagValue
 }
 func (UnimplementedGreeterServer) QueryNewPoint(context.Context, *QueryNewPointRequest) (*QueryNewPointResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method QueryNewPoint not implemented")
+}
+func (UnimplementedGreeterServer) QuerySeriesAllData(context.Context, *QuerySeriesAllDataRequest) (*QuerySeriesAllDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QuerySeriesAllData not implemented")
+}
+func (UnimplementedGreeterServer) QueryAllData(context.Context, *emptypb.Empty) (*QueryAllDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryAllData not implemented")
 }
 func (UnimplementedGreeterServer) mustEmbedUnimplementedGreeterServer() {}
 
@@ -248,6 +277,42 @@ func _Greeter_QueryNewPoint_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Greeter_QuerySeriesAllData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QuerySeriesAllDataRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).QuerySeriesAllData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.Greeter/QuerySeriesAllData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).QuerySeriesAllData(ctx, req.(*QuerySeriesAllDataRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Greeter_QueryAllData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GreeterServer).QueryAllData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rpc.Greeter/QueryAllData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GreeterServer).QueryAllData(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Greeter_ServiceDesc is the grpc.ServiceDesc for Greeter service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -279,7 +344,15 @@ var Greeter_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "QueryNewPoint",
 			Handler:    _Greeter_QueryNewPoint_Handler,
 		},
+		{
+			MethodName: "QuerySeriesAllData",
+			Handler:    _Greeter_QuerySeriesAllData_Handler,
+		},
+		{
+			MethodName: "QueryAllData",
+			Handler:    _Greeter_QueryAllData_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "server.proto",
+	Metadata: "rpc/server.proto",
 }

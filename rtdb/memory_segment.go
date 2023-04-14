@@ -11,7 +11,7 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/chenjiandongx/mandodb/pkg/sortedlist"
+	"RealtimeDB/sortedlist"
 )
 
 type MemorySegment struct {
@@ -65,7 +65,7 @@ func (ms *MemorySegment) Frozen() bool {
 	if GlobalOpts.OnlyMemoryMode {
 		return false
 	}
-	return ms.MaxTs()-ms.MinTs() > GlobalOpts.SegmentDuration.Milliseconds()
+	return ms.MaxTs()-ms.MinTs() >= GlobalOpts.SegmentDuration.Milliseconds()-1
 }
 
 func (ms *MemorySegment) Type() SegmentType {
@@ -97,9 +97,7 @@ func (ms *MemorySegment) InsertRows(rows []*Row) {
 		row.Tags = row.Tags.AddMetricName(row.Metric)
 		row.Tags.Sorted()
 		series := ms.getOrCreateSeries(row)
-
 		dp := series.Append(&row.Point)
-
 		if dp != nil {
 			ms.OutdatedMut.Lock()
 			if _, ok := ms.Outdated[row.ID()]; !ok {
@@ -138,17 +136,16 @@ func (ms *MemorySegment) QuerySeries(tms TagMatcherSet) ([]TagSet, error) {
 	return ret, nil
 }
 
-func (ms *MemorySegment) GetNewPoint(tms TagMatcherSet) ([]Point, error){
+func (ms *MemorySegment) GetNewPoint(tms TagMatcherSet) (Point, error){
 	matchSids := ms.IndexMap.MatchSids(ms.TagVs, tms)
-	points:=make([]Point,0)
+	point:=Point{TimeStamp: -1,Value: -1}
 	for _, sid := range matchSids {
 		b, _ := ms.Segment.Load(sid)
 		series := b.(*memorySeries)
 
-		point := series.GetNewPoint()
-		points=append(points,point)
+		point = series.GetNewPoint()
 	}
-	return points,nil
+	return point,nil
 }
 func (ms *MemorySegment) QueryRange(tms TagMatcherSet, start, end int64) ([]MetricRet, error) {
 	matchSids := ms.IndexMap.MatchSids(ms.TagVs, tms)

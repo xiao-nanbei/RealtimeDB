@@ -16,6 +16,7 @@ type RtdbOptions struct {
 	MaxRowsPerSegment int64
 	DataPath          string
 	LoggerConfig      *logger.Options
+	MemCompress		  string
 }
 
 type Option func(c *RtdbOptions)

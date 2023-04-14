@@ -10,11 +10,11 @@
 #include <memory>
 #include <string>
 
-class TestClientConfig{
+class ClientConfig{
 public:
-    std::shared_ptr<rpc::Greeter::Stub> stub_;
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
     // create stub
-    TestClientConfig(std::shared_ptr<grpc::Channel> channel):stub_(rpc::Greeter::NewStub(channel)){}
+    ClientConfig(std::shared_ptr<grpc::Channel> channel):stub_(rpc::Greeter::NewStub(channel)){}
     bool Config(std::string name)
     {
         rpc::ConfigRequest configRequest;
@@ -50,15 +50,66 @@ private:
         return true;
     }
 };
-class TestClientWritePoints{
+/*
+class ClientWritePoints{
 public:
-    std::shared_ptr<rpc::Greeter::Stub> stub_;
-    bool WritePoints(std::string row)
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
+    bool WritePoints(std::string row){
+        rpc::WritePointsRequest writePointsRequest;
+        writePointsRequest.set_row(row);
+        AsyncClientCall* call = new AsyncClientCall;
+        call->response_reader = stub_->AsyncWritePoints(&call->context, writePointsRequest, &cq_);
+        call->response_reader->Finish(&call->reply, &call->status, (void*)call);
+        return true;
+    }
+    void AsyncCompleteRpc() {
+        void* got_tag;
+        bool ok = false;
+
+        // Block until the next result is available in the completion queue "cq".
+        while (cq_.Next(&got_tag, &ok)) {
+            // The tag in this example is the memory location of the call object
+            AsyncClientCall* call = static_cast<AsyncClientCall*>(got_tag);
+
+            // Verify that the request was completed successfully. Note that "ok"
+            // corresponds solely to the request for updates introduced by Finish().
+            GPR_ASSERT(ok);
+            if (call->status.ok())
+                std::cout << "Greeter received: " << call->reply.reply() << std::endl;
+            else
+                std::cout << "RPC failed" << std::endl;
+            // Once we're complete, deallocate the call object.
+            delete call;
+        }
+    }
+private:
+    struct AsyncClientCall {
+        rpc::WritePointsResponse reply;
+
+        // Context for the client. It could be used to convey extra information to
+        // the server and/or tweak certain RPC behaviors.
+        grpc::ClientContext context;
+
+        // Storage for the status of the RPC upon completion.
+        grpc::Status status;
+
+
+        std::unique_ptr<grpc::ClientAsyncResponseReader<rpc::WritePointsResponse>> response_reader;
+    };
+
+    grpc::CompletionQueue cq_;
+
+};
+*/
+class ClientWritePoints{
+public:
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
+    bool WritePoints(std::string tags)
     {
         rpc::WritePointsRequest writePointsRequest;
         rpc::WritePointsResponse writePointsResponse;
-        writePointsRequest.set_row(row);
-        if (GetOneData(writePointsRequest,&writePointsResponse)){
+        writePointsRequest.set_row(tags);
+        if(GetOneData(writePointsRequest,&writePointsResponse)){
             return true;
         }else{
             return false;
@@ -72,7 +123,7 @@ private:
         grpc::Status status=stub_->WritePoints(&context,writePointsRequest,writePointsResponse);
         if(!status.ok())
         {
-           // std::cout<<"GetData rpc failed."<<std::endl;
+            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
         }
         if(writePointsResponse->reply().empty())
@@ -82,16 +133,15 @@ private:
         }
         else
         {
-            //std::cout<<"MsgReply:"<<writePointsResponse->reply()<<std::endl;
+            //std::cout<<"MsgReply:"<<querySeriesResponse->reply()<<std::endl;
         }
         return true;
     }
 
 };
-
-class TestClientQuerySeries{
+class ClientQuerySeries{
 public:
-    std::shared_ptr<rpc::Greeter::Stub> stub_;
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
     bool QuerySeries(std::string tags)
     {
         rpc::QuerySeriesRequest querySeriesRequest;
@@ -127,9 +177,9 @@ private:
     }
 
 };
-class TestClientQueryNewPoint{
+class ClientQueryNewPoint{
 public:
-    std::shared_ptr<rpc::Greeter::Stub> stub_;
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
     bool QueryNewPoint(std::string tags)
     {
         rpc::QueryNewPointRequest queryNewPointRequest;
@@ -166,9 +216,9 @@ private:
 
 };
 
-class TestClientQueryRange{
+class ClientQueryRange{
 public:
-    std::shared_ptr<rpc::Greeter::Stub> stub_;
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
     bool QueryRange(std::string tags)
     {
         rpc::QueryRangeRequest queryRangeRequest;
@@ -205,9 +255,9 @@ private:
 
 };
 
-class TestClientQueryTagValues{
+class ClientQueryTagValues{
 public:
-    std::shared_ptr<rpc::Greeter::Stub> stub_;
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
     bool QueryTagValues(std::string tags)
     {
         rpc::QueryTagValuesRequest queryTagValuesRequest;
@@ -231,6 +281,81 @@ private:
             return false;
         }
         if(queryTagValuesResponse->reply().empty())
+        {
+            //std::cout<<"message empty."<<std::endl;
+            return false;
+        }
+        else
+        {
+            //std::cout<<"MsgReply:"<<queryTagValuesResponse->reply()<<std::endl;
+        }
+        return true;
+    }
+
+};
+class ClientQuerySeriesAllData{
+public:
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
+    bool QuerySeriesAllData(std::string metric_tags)
+    {
+        rpc::QuerySeriesAllDataRequest querySeriesAllDataRequest;
+        rpc::QuerySeriesAllDataResponse querySeriesAllDataResponse;
+        querySeriesAllDataRequest.set_metric_tags(metric_tags);
+        if (GetOneData(querySeriesAllDataRequest,&querySeriesAllDataResponse)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+private:
+    bool GetOneData(const rpc::QuerySeriesAllDataRequest& querySeriesAllDataRequest,rpc::QuerySeriesAllDataResponse* querySeriesAllDataResponse)
+    {
+        grpc::ClientContext context;
+        grpc::Status status=stub_->QuerySeriesAllData(&context,querySeriesAllDataRequest,querySeriesAllDataResponse);
+        if(!status.ok())
+        {
+            //std::cout<<"GetData rpc failed."<<std::endl;
+            return false;
+        }
+        if(querySeriesAllDataResponse->reply().empty())
+        {
+            //std::cout<<"message empty."<<std::endl;
+            return false;
+        }
+        else
+        {
+            //std::cout<<"MsgReply:"<<queryTagValuesResponse->reply()<<std::endl;
+        }
+        return true;
+    }
+
+};
+class ClientQueryAllData{
+public:
+    std::unique_ptr<rpc::Greeter::Stub> stub_;
+    bool QueryQueryAllData(std::string metric_tags)
+    {
+        google::protobuf::Empty request;
+        rpc::QueryAllDataResponse queryAllDataResponse;
+        if (GetOneData(request,&queryAllDataResponse)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+private:
+    bool GetOneData(google::protobuf::Empty &request,rpc::QueryAllDataResponse* queryAllDataResponse)
+    {
+        grpc::ClientContext context;
+        grpc::Status status=stub_->QueryAllData(&context,request,queryAllDataResponse);
+        if(!status.ok())
+        {
+            //std::cout<<"GetData rpc failed."<<std::endl;
+            return false;
+        }
+        if(queryAllDataResponse->reply().empty())
         {
             //std::cout<<"message empty."<<std::endl;
             return false;

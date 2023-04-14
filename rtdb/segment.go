@@ -4,7 +4,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/chenjiandongx/mandodb/pkg/sortedlist"
+	"RealtimeDB/sortedlist"
 )
 
 type SegmentType string
@@ -16,7 +16,7 @@ const (
 
 type Segment interface {
 	InsertRows(row []*Row)
-	GetNewPoint(tms TagMatcherSet) ([]Point, error)
+	GetNewPoint(tms TagMatcherSet) (Point, error)
 	QueryRange(tms TagMatcherSet, start, end int64) ([]MetricRet, error)
 	QuerySeries(tms TagMatcherSet) ([]TagSet, error)
 	QueryTagValues(tag string) []string
