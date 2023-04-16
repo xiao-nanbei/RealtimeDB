@@ -33,19 +33,9 @@ private:
     {
         grpc::ClientContext context;
         grpc::Status status=stub_->Config(&context,configRequest,configResponse);
-        if(!status.ok())
+        if(!status.ok()||configResponse->reply().empty())
         {
-            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
-        }
-        if(configResponse->reply().empty())
-        {
-            //std::cout<<"message empty."<<std::endl;
-            return false;
-        }
-        else
-        {
-            //std::cout<<"MsgReply:"<<configResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -106,6 +96,7 @@ public:
     std::unique_ptr<rpc::Greeter::Stub> stub_;
     bool WritePoints(std::string tags)
     {
+
         rpc::WritePointsRequest writePointsRequest;
         rpc::WritePointsResponse writePointsResponse;
         writePointsRequest.set_row(tags);
@@ -121,19 +112,9 @@ private:
     {
         grpc::ClientContext context;
         grpc::Status status=stub_->WritePoints(&context,writePointsRequest,writePointsResponse);
-        if(!status.ok())
+        if(!status.ok()||writePointsResponse->reply().empty())
         {
-            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
-        }
-        if(writePointsResponse->reply().empty())
-        {
-            //std::cout<<"message empty."<<std::endl;
-            return false;
-        }
-        else
-        {
-            //std::cout<<"MsgReply:"<<querySeriesResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -142,12 +123,14 @@ private:
 class ClientQuerySeries{
 public:
     std::unique_ptr<rpc::Greeter::Stub> stub_;
+    rpc::QuerySeriesResponse qsr_;
     bool QuerySeries(std::string tags)
     {
         rpc::QuerySeriesRequest querySeriesRequest;
         rpc::QuerySeriesResponse querySeriesResponse;
         querySeriesRequest.set_tags(tags);
         if(GetOneData(querySeriesRequest,&querySeriesResponse)){
+            qsr_=querySeriesResponse;
             return true;
         }else{
             return false;
@@ -159,19 +142,9 @@ private:
     {
         grpc::ClientContext context;
         grpc::Status status=stub_->QuerySeries(&context,querySeriesRequest,querySeriesResponse);
-        if(!status.ok())
+        if(!status.ok()||querySeriesResponse->reply().empty())
         {
-            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
-        }
-        if(querySeriesResponse->reply().empty())
-        {
-            //std::cout<<"message empty."<<std::endl;
-            return false;
-        }
-        else
-        {
-            //std::cout<<"MsgReply:"<<querySeriesResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -180,12 +153,14 @@ private:
 class ClientQueryNewPoint{
 public:
     std::unique_ptr<rpc::Greeter::Stub> stub_;
+    rpc::QueryNewPointResponse qnpr_;
     bool QueryNewPoint(std::string tags)
     {
         rpc::QueryNewPointRequest queryNewPointRequest;
         rpc::QueryNewPointResponse queryNewPointResponse;
         queryNewPointRequest.set_tag(tags);
         if(GetOneData(queryNewPointRequest,&queryNewPointResponse)){
+            qnpr_=queryNewPointResponse
             return true;
         }else{
             return false;
@@ -197,19 +172,9 @@ private:
     {
         grpc::ClientContext context;
         grpc::Status status=stub_->QueryNewPoint(&context,queryNewPointRequest,queryNewPointResponse);
-        if(!status.ok())
+        if(!status.ok()||queryNewPointResponse->reply().empty())
         {
-            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
-        }
-        if(queryNewPointResponse->reply().empty())
-        {
-            //std::cout<<"message empty."<<std::endl;
-            return false;
-        }
-        else
-        {
-            //std::cout<<"MsgReply:"<<queryNewPointResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -219,12 +184,14 @@ private:
 class ClientQueryRange{
 public:
     std::unique_ptr<rpc::Greeter::Stub> stub_;
+    rpc::QueryRangeResponse qrr_;
     bool QueryRange(std::string tags)
     {
         rpc::QueryRangeRequest queryRangeRequest;
         rpc::QueryRangeResponse queryRangeResponse;
         queryRangeRequest.set_metric_tags(tags);
         if (GetOneData(queryRangeRequest,&queryRangeResponse)){
+            qrr_=queryRangeResponse;
             return true;
         }else{
             return false;
@@ -236,19 +203,9 @@ private:
     {
         grpc::ClientContext context;
         grpc::Status status=stub_->QueryRange(&context,queryRangeRequest,queryRangeResponse);
-        if(!status.ok())
+        if(!status.ok()||queryRangeResponse->reply().empty())
         {
-            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
-        }
-        if(queryRangeResponse->reply().empty())
-        {
-            //std::cout<<"message empty."<<std::endl;
-            return false;
-        }
-        else
-        {
-            //std::cout<<"MsgReply:"<<queryRangeResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -258,12 +215,14 @@ private:
 class ClientQueryTagValues{
 public:
     std::unique_ptr<rpc::Greeter::Stub> stub_;
+    rpc::QueryTagValuesResponse qtvr_;
     bool QueryTagValues(std::string tags)
     {
         rpc::QueryTagValuesRequest queryTagValuesRequest;
         rpc::QueryTagValuesResponse queryTagValuesResponse;
         queryTagValuesRequest.set_tag(tags);
         if (GetOneData(queryTagValuesRequest,&queryTagValuesResponse)){
+            qtvr_=queryTagValuesResponse;
             return true;
         }else{
             return false;
@@ -275,19 +234,9 @@ private:
     {
         grpc::ClientContext context;
         grpc::Status status=stub_->QueryTagValues(&context,queryTagValuesRequest,queryTagValuesResponse);
-        if(!status.ok())
+        if(!status.ok()||queryTagValuesResponse->reply().empty())
         {
-            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
-        }
-        if(queryTagValuesResponse->reply().empty())
-        {
-            //std::cout<<"message empty."<<std::endl;
-            return false;
-        }
-        else
-        {
-            //std::cout<<"MsgReply:"<<queryTagValuesResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -296,12 +245,14 @@ private:
 class ClientQuerySeriesAllData{
 public:
     std::unique_ptr<rpc::Greeter::Stub> stub_;
+    rpc::QuerySeriesAllDataResponse qsde_;
     bool QuerySeriesAllData(std::string metric_tags)
     {
         rpc::QuerySeriesAllDataRequest querySeriesAllDataRequest;
         rpc::QuerySeriesAllDataResponse querySeriesAllDataResponse;
         querySeriesAllDataRequest.set_metric_tags(metric_tags);
-        if (GetOneData(querySeriesAllDataRequest,&querySeriesAllDataResponse)){
+        if(GetOneData(querySeriesAllDataRequest,&querySeriesAllDataResponse)){
+            qsde_=querySeriesAllDataResponse;
             return true;
         }else{
             return false;
@@ -313,19 +264,9 @@ private:
     {
         grpc::ClientContext context;
         grpc::Status status=stub_->QuerySeriesAllData(&context,querySeriesAllDataRequest,querySeriesAllDataResponse);
-        if(!status.ok())
+        if(!status.ok()||querySeriesAllDataResponse->reply().empty())
         {
-            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
-        }
-        if(querySeriesAllDataResponse->reply().empty())
-        {
-            //std::cout<<"message empty."<<std::endl;
-            return false;
-        }
-        else
-        {
-            //std::cout<<"MsgReply:"<<queryTagValuesResponse->reply()<<std::endl;
         }
         return true;
     }
@@ -333,36 +274,27 @@ private:
 };
 class ClientQueryAllData{
 public:
+    rpc::QueryAllDataResponse qdr_;
     std::unique_ptr<rpc::Greeter::Stub> stub_;
     bool QueryQueryAllData(std::string metric_tags)
     {
         google::protobuf::Empty request;
         rpc::QueryAllDataResponse queryAllDataResponse;
         if (GetOneData(request,&queryAllDataResponse)){
+            qdr_=queryAllDataResponse;
             return true;
         }else{
             return false;
         }
     }
-
 private:
     bool GetOneData(google::protobuf::Empty &request,rpc::QueryAllDataResponse* queryAllDataResponse)
     {
         grpc::ClientContext context;
         grpc::Status status=stub_->QueryAllData(&context,request,queryAllDataResponse);
-        if(!status.ok())
+        if(!status.ok()||queryAllDataResponse->reply().empty())
         {
-            //std::cout<<"GetData rpc failed."<<std::endl;
             return false;
-        }
-        if(queryAllDataResponse->reply().empty())
-        {
-            //std::cout<<"message empty."<<std::endl;
-            return false;
-        }
-        else
-        {
-            //std::cout<<"MsgReply:"<<queryTagValuesResponse->reply()<<std::endl;
         }
         return true;
     }
