@@ -1,5 +1,6 @@
 package gorilla
 import (
+	"fmt"
 	"testing"
 	"time"
 	// "github.com/pidb/gorilla-time-series-compression/testdata"
@@ -75,7 +76,7 @@ func BenchmarkUnmarshalBinary(b *testing.B) {
 	}
 }
 
-func TestExampleEncoding(t *testing.T) {
+func TestExampleEncoding_Decoding(t *testing.T) {
 
 	// Example from the paper
 	t0, _ := time.ParseInLocation("Jan _2 2006 15:04:05", "Mar 24 2015 02:00:00", time.Local)
@@ -137,6 +138,7 @@ func TestExampleEncoding(t *testing.T) {
 		if w.t != tt || w.v != vv {
 			t.Errorf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.t, w.v)
 		}
+		fmt.Printf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.t, w.v)
 	}
 
 	if it.Next() {

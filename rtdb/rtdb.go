@@ -9,6 +9,7 @@ import (
 	"github.com/chenjiandongx/logger"
 	"github.com/chenjiandongx/mandodb/pkg/mmap"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -36,6 +37,8 @@ type Row struct {
 	Tags TagSet
 	Point Point
 }
+var count = 0
+var mut sync.Mutex
 const (
 	separator    = "/-/"
 	defaultQSize = 128
@@ -111,6 +114,15 @@ func (rtdb *RTDB) ingestRows(ctx context.Context) {
 				continue
 			}
 			head.InsertRows(rs)
+			mut.Lock()
+			if count==0{
+				log.Println(time.Now(),"insert start")
+			}
+			count++
+			if count==160000{
+				log.Println(time.Now(),"insert end")
+			}
+			mut.Unlock()
 		}
 	}
 }

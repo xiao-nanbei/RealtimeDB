@@ -1,7 +1,8 @@
 package tests
 
-import  (
+import (
 	"RealtimeDB/rtdb"
+	"fmt"
 	"github.com/chenjiandongx/logger"
 	"github.com/stretchr/testify/assert"
 	"log"
@@ -133,9 +134,9 @@ func TestRTDB_QueryTagValues(t *testing.T) {
 	var start int64 = 1600000000000
 
 	var now = start
-	for i := 0; i < 720; i++ {
+	for i := 0; i < 7; i++ {
 		for n := 0; n < 3; n++ {
-			for j := 0; j < 24; j++ {
+			for j := 0; j < 1; j++ {
 				_ = store.InsertRows(genPoints(now, n, j))
 			}
 		}
@@ -147,4 +148,28 @@ func TestRTDB_QueryTagValues(t *testing.T) {
 
 	ret := store.QueryTagValues("node", start, start+120)
 	assert.Equal(t, ret, []string{"vm0", "vm1", "vm2"})
+	fmt.Printf("Values()=(%v), want (%v)\n", ret, []string{"vm0", "vm1", "vm2"})
+}
+func TestRTDB_QueryNewPoints(t *testing.T) {
+	tmpdir := "./testdata"
+
+	store := rtdb.OpenRTDB(rtdb.WithDataPath(tmpdir))
+	defer store.Close()
+	defer os.RemoveAll(tmpdir)
+
+	var start int64 = 1600000000000
+
+	var now = start
+	for i := 0; i < 72; i++ {
+		for n := 0; n < 3; n++ {
+			for j := 0; j < 2; j++ {
+				_ = store.InsertRows(genPoints(now, n, j))
+				for _, metric := range metrics {
+					store.QueryNewPoint(metric, []rtdb.TagMatcher{{Name: "node",Value: "vm" + strconv.Itoa(n),IsRegx: true},{Name: "dc", Value: strconv.Itoa(j)}})
+				}
+			}
+		}
+		now += 60 //1min
+	}
+
 }

@@ -61,12 +61,13 @@ func finish(w *bstream) {
 
 // Finish the series by writing an end-of-stream record
 func (s *Series) Finish() {
-	s.Lock()
+
 	if !s.finished {
+		s.End()
 		finish(&s.br)
 		s.finished = true
 	}
-	s.Unlock()
+
 }
 func (s *Series) End(){
 	s.Lock()
@@ -133,7 +134,7 @@ func (s *Series) Push(t uint64, v float64) {
 	//dod: Next tDelta minus previous tDelta
 	s.srcts=append(s.srcts,tDelta)
 	s.srcv=append(s.srcv,v)
-	if len(s.srcts)>=60 {
+	if len(s.srcts)>=240 {
 		simple8bTs, n, _ := simple8b.Encode(s.srcts)
 		s.srcts = s.srcts[n:]
 		s.br.writeBits(simple8bTs, 64)
@@ -178,9 +179,8 @@ func (s *Series) Push(t uint64, v float64) {
 }
 
 // Iter lets you iterate over a series.  It is not concurrency-safe.
-func (s *Series) Iter() (*Iter) {
+func (s *Series) Iter() *Iter {
 	s.Lock()
-	s.End()
 	br := s.br.clone()
 	s.Unlock()
 	finish(br)

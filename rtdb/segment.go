@@ -30,6 +30,7 @@ type Segment interface {
 }
 
 type Desc struct {
+	DataLens		int64 `json:"DataLens"`
 	SeriesCount     int64 `json:"seriesCount"`
 	DataPointsCount int64 `json:"dataPointsCount"`
 	MaxT            int64 `json:"maxRt"`

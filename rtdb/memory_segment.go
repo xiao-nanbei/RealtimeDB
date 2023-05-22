@@ -174,7 +174,7 @@ func (ms *MemorySegment) QueryRange(tms TagMatcherSet, start, end int64) ([]Metr
 
 	return ret, nil
 }
-
+var cap int64 = 0
 func (ms *MemorySegment) Marshal() ([]byte, []byte, error) {
 	sids := make(map[string]uint32)
 
@@ -189,7 +189,7 @@ func (ms *MemorySegment) Marshal() ([]byte, []byte, error) {
 
 	// key: sid
 	// value: series entity
-	ms.Segment.Range(func(key, value interface{}) bool {
+	ms.Segment.Range(func(key, value interface{}) (bool) {
 		sid := key.(string)
 		sids[sid] = uint32(size)
 		size++
@@ -210,6 +210,7 @@ func (ms *MemorySegment) Marshal() ([]byte, []byte, error) {
 
 		dataBuf = append(dataBuf, dataBytes...)
 		endOffset := startOffset + len(dataBytes)
+		cap+=int64(len(dataBytes))
 		meta.Series = append(meta.Series, MetaSeries{
 			Sid:         key.(string),
 			StartOffset: uint64(startOffset),
@@ -244,12 +245,13 @@ func (ms *MemorySegment) Marshal() ([]byte, []byte, error) {
 	metalen := len(metaBytes)
 
 	desc := &Desc{
+		DataLens:cap,
 		SeriesCount:     ms.SeriesCount,
 		DataPointsCount: ms.DataPointsCount,
 		MaxT:           ms.MaxT,
 		MinT:           ms.MinT,
 	}
-
+	cap=0
 	descBytes, _ := json.MarshalIndent(desc, "", "    ")
 
 	dataLen := len(dataBuf) - (uint64Size * 2)

@@ -1,6 +1,7 @@
 package bitmap
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -75,7 +76,7 @@ func BenchmarkUnmarshalBinary(b *testing.B) {
 	}
 }
 
-func TestExampleEncoding(t *testing.T) {
+func TestExampleEncoding_Decoding(t *testing.T) {
 
 	// Example from the paper
 	t0, _ := time.ParseInLocation("Jan _2 2006 15:04:05", "Mar 24 2015 02:00:00", time.Local)
@@ -83,10 +84,10 @@ func TestExampleEncoding(t *testing.T) {
 	tunixUint64 :=uint64(tunix)
 	s := New(tunixUint64)
 
-	tunix += 62
+
 	s.Push(uint64(tunix), 12)
 
-	tunix += 60
+	tunix += 122
 	s.Push(uint64(tunix), 12)
 
 	tunix += 60
@@ -117,7 +118,7 @@ func TestExampleEncoding(t *testing.T) {
 		t uint64
 		v float64
 	}{
-		{tunixUint64 + 62, 12},
+		{tunixUint64, 12},
 		{tunixUint64 + 122, 12},
 		{tunixUint64 + 182, 24},
 
@@ -137,6 +138,7 @@ func TestExampleEncoding(t *testing.T) {
 		if w.t != tt || w.v != vv {
 			t.Errorf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.t, w.v)
 		}
+		fmt.Printf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.t, w.v)
 	}
 
 	if it.Next() {
@@ -331,6 +333,7 @@ func TestEncodeSimilarFloats(t *testing.T) {
 		if w.t != tt || w.v != vv {
 			t.Errorf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.t, w.v)
 		}
+		fmt.Printf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.t, w.v)
 	}
 
 	if it.Next() {

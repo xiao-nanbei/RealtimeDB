@@ -1,12 +1,13 @@
 package sortedlist
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestAVLTree(t *testing.T) {
+func TestRBTree(t *testing.T) {
 	tree := NewTree()
 	tree.Add(5, "e")
 	tree.Add(6, "f")
@@ -39,6 +40,7 @@ func TestAVLTree(t *testing.T) {
 	idx = 0
 	for iter.Next() {
 		assert.Equal(t, digs[idx], iter.Value().(string))
+		fmt.Printf("Values()=(%v), want (%v)\n", digs[idx], iter.Value().(string))
 		idx += 1
 	}
 }

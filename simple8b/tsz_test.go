@@ -1,6 +1,7 @@
 package simple8b
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -74,7 +75,7 @@ func BenchmarkUnmarshalBinary(b *testing.B) {
 		b.Errorf("Unexpected error: %v\n", err)
 	}
 }
-func TestExampleEncoding(t *testing.T) {
+func TestExampleEncoding_Decoding(t *testing.T) {
 
 	// Example from the paper
 	t0, _ := time.ParseInLocation("Jan _2 2006 15:04:05", "Mar 24 2015 02:00:00", time.Local)
@@ -102,6 +103,7 @@ func TestExampleEncoding(t *testing.T) {
 	s.Push(uint64(tunix), 24)
 	tunix += 900 + 2050 // == delta-of-delta of 600
 	s.Push(uint64(tunix), 24)
+	s.Finish()
 	it := s.Iter()
 
 	want := []struct {
@@ -128,6 +130,7 @@ func TestExampleEncoding(t *testing.T) {
 		if w.t != tt || w.v != vv {
 			t.Errorf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.t, w.v)
 		}
+		fmt.Printf("Values()=(%v,%v), want (%v,%v)\n", tt, vv, w.t, w.v)
 	}
 
 	if it.Next() {

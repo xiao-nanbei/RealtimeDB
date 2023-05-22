@@ -23,6 +23,7 @@ type Series struct {
 	leading  uint8
 	trailing uint8
 	finished bool
+	isWrite  bool
 }
 
 // New series
@@ -68,23 +69,26 @@ func (s *Series) GetNewPoint()(uint64,float64){
 func (s *Series) Push(t uint64, v float64) {
 	s.Lock()
 	defer s.Unlock()
-	if s.t == 0 {
+	if s.isWrite ==false {
 		// first point
 		s.t = t
 		s.val = v
 		tDelta := t - s.T0
+		if tDelta ==0{
+			s.bw.writeBit(zero)
+		}else{
+			s.bw.writeBit(one)
+		}
 		s.bw.writeBits(math.Float64bits(v), 64)
 		var i uint64=0
-		for i<tDelta{
+		for int64(i)<int64(tDelta)-1{
 			s.bw.writeBit(zero)
 			i++
 		}
 		s.bw.writeBit(one)
+		s.isWrite = true
 		return
 	}
-
-
-
 	vDelta := math.Float64bits(v) ^ math.Float64bits(s.val)
 
 	if vDelta == 0 {
@@ -120,7 +124,7 @@ func (s *Series) Push(t uint64, v float64) {
 	}
 	tDelta := t - s.t
 	var i uint64=0
-	for i<tDelta{
+	for int64(i)<int64(tDelta)-1{
 		s.bw.writeBit(zero)
 		i++
 	}
@@ -144,11 +148,11 @@ func (s *Series) Iter() *Iter {
 // Iter lets you iterate over a series.  It is not concurrency-safe.
 type Iter struct {
 	T0 uint64
-
+	flag bit
 	t   uint64
-	val float64
-
-	br       bstream
+	val    float64
+	isRead bool
+	br     bstream
 	leading  uint8
 	trailing uint8
 
@@ -161,13 +165,14 @@ func bstreamIterator(br *bstream) (*Iter, error) {
 	br.count = 8
 
 	t0, err := br.readBits(64)
+	f, _ :=br.readBit()
 	if err != nil {
 		return nil, err
 	}
-
 	return &Iter{
 		T0: t0,
 		br: *br,
+		flag: f,
 	}, nil
 }
 
@@ -183,7 +188,7 @@ func (it *Iter) Next() bool {
 		return false
 	}
 
-	if it.t == 0 {
+	if it.isRead ==false {
 		// read first t and v
 		it.t=it.T0
 		val, err := it.br.readBits(64)
@@ -192,6 +197,7 @@ func (it *Iter) Next() bool {
 			return false
 		}
 		it.val = math.Float64frombits(val)
+		it.isRead =true
 	}else{
 		// read compressed value
 		bit, err := it.br.readBit()
@@ -212,15 +218,15 @@ func (it *Iter) Next() bool {
 				// reuse leading/trailing zero bits
 				// it.leading, it.trailing = it.leading, it.trailing
 			} else {
-				flag_1:=false
-				flag_2:=false
+				flag1 :=false
+				flag2 :=false
 				bits, err := it.br.readBits(5)
 				if err != nil {
 					it.err = err
 					return false
 				}
 				if bits==31{
-					flag_1=true
+					flag1 =true
 				}
 				it.leading = uint8(bits)
 
@@ -230,9 +236,9 @@ func (it *Iter) Next() bool {
 					return false
 				}
 				if bits==63{
-					flag_2=true
+					flag2 =true
 				}
-				if flag_1&&flag_2{
+				if flag1 && flag2 {
 					it.finished=true
 					return false
 				}
@@ -251,11 +257,17 @@ func (it *Iter) Next() bool {
 				return false
 			}
 			vbits := math.Float64bits(it.val)
-			vbits ^= (bits << it.trailing)
+			vbits ^= bits << it.trailing
 			it.val = math.Float64frombits(vbits)
 		}
 	}
-	var count uint64=0
+	var count uint64 = 0
+	if it.flag ==zero{
+		count = 0
+		it.flag = one
+	}else{
+		count = 1
+	}
 	readBit, _ := it.br.readBit()
 	for readBit==zero{
 		count++
